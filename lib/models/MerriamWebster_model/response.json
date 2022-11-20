@@ -1,0 +1,60 @@
+[
+  {
+    "meta": {
+      "id": "earthquake"
+    },
+    "hwi": {
+      "hw": "earth*quake",
+      "prs": [
+        {
+          "mw": "ˈərth-ˌkwāk",
+          "sound": {
+            "audio": "earthq01",
+            "ref": "c",
+            "stat": "1"
+          }
+        }
+      ]
+    },
+    "fl": "noun",
+    "def": [
+      {
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "sn": "1",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}a shaking or trembling of the {a_link|earth} that is volcanic or tectonic in origin"
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "2",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}{sx|upheaval||2}"
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "date": "14th century{ds||1||}",
+    "shortdef": [
+      "a shaking or trembling of the earth that is volcanic or tectonic in origin",
+      "upheaval"
+    ]
+  }
+]

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="34" viewBox="0 0 60 34">
+  <g id="Logo" transform="translate(-182 -18.5)">
+    <path id="ic_school_24px" d="M5,13.18v4L12,21l7-3.82v-4L12,17ZM12,3,1,9l11,6,9-4.91V17h2V9Z" transform="translate(219 23)" fill="#3490dc"/>
+    <line id="Line_16" data-name="Line 16" y2="34" transform="translate(210.5 18.5)" fill="none" stroke="#3490dc" stroke-width="2"/>
+    <text id="H" transform="translate(182 45)" fill="#3490dc" font-size="26" font-family="BerlinSansFBDemi-Bold, Berlin Sans FB" font-weight="700" letter-spacing="0.5em"><tspan x="0" y="0">H</tspan></text>
+  </g>
+</svg>
