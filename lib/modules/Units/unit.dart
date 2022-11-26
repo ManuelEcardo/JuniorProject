@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/modules/Home/home.dart';
@@ -60,7 +61,69 @@ class Unit extends StatelessWidget {
           appBar: AppBar(
             actions:
             [
-              IconButton(onPressed: (){AppCubit.get(context).ChangeTheme();}, icon: const Icon(Icons.sunny)),
+              IconButton(
+                icon:const Icon(Icons.question_mark_rounded),
+                onPressed: ()
+                async {
+                  await showDialog(
+                      context: context,
+                      builder: (context)
+                      {
+                        return AlertDialog(
+                          title: Text(
+                            'Content of each Unit',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: HexColor('8AA76C'),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          content:  Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children:
+                            const[
+                              Text(
+                                'Each Unit contains 2 Lessons and 4 Videos and a Quiz to test your abilities',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
+                              ),
+
+                              Text(
+                                '-Each Lesson will contain mandatory information to pass the unit',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
+                              ),
+
+                              Text(
+                                '- The video will improve your listening as well as your vocabularies.',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
+                              ),
+
+                              Text(
+                                '- Quiz will contain a variety of questions, bypass them to get to the next unit.',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                  );
+                },
+              ),
+
+              IconButton(onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny)),
             ],
           ),
 

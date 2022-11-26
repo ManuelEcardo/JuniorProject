@@ -20,7 +20,7 @@ class Lesson extends StatelessWidget {
           appBar: AppBar(
             actions:
             [
-              IconButton(onPressed: (){AppCubit.get(context).ChangeTheme();}, icon: const Icon(Icons.sunny)),
+              IconButton(onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny)),
             ],
           ),
           body: SingleChildScrollView(

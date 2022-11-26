@@ -117,7 +117,81 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                 },),
               actions:
               [
-                IconButton(onPressed: (){AppCubit.get(context).ChangeTheme();}, icon: const Icon(Icons.sunny)),
+                IconButton(
+                  icon:const Icon(Icons.question_mark_rounded),
+                  onPressed: ()
+                  async {
+                    await showDialog(
+                        context: context,
+                        builder: (context)
+                        {
+                          return AlertDialog(
+                            title: Text(
+                              'Quiz Section',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: HexColor('8AA76C'),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            content:  Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children:
+                              const[
+                                Text(
+                                  'Variety of questions to be answered.',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
+                                ),
+
+                                Text(
+                                  '-Read the question and choose an answer',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
+                                ),
+
+                                Text(
+                                  '-Some questions may contain audio or video, listen or watch then answer.',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
+                                ),
+
+                                Text(
+                                  'Notice: You Can\'t change your answer once you\'ve chosen',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700
+                                  ),
+                                ),
+
+                                Center(
+                                  child: Text(
+                                    '-Best of Luck',
+                                    style: TextStyle(
+                                      color: Colors.redAccent,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                    );
+                  },
+                ),
+
+                IconButton(onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny)),
               ],
             ),
 

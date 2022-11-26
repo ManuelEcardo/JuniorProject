@@ -22,7 +22,7 @@ class UnitOverview extends StatelessWidget {
             actions:
             [
               IconButton(
-                  onPressed: (){AppCubit.get(context).ChangeTheme();}, icon: const Icon(Icons.sunny)),
+                  onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny)),
             ],
           ),
 

@@ -14,7 +14,7 @@ class ChewieListItem extends StatefulWidget {
    ChewieListItem({required this.videoPlayerController, required this.looping});
 }
 
-class _ChewieListItemState extends State<ChewieListItem> {
+class _ChewieListItemState extends State<ChewieListItem> with WidgetsBindingObserver {
 
   late ChewieController _chewieController;
 
@@ -39,10 +39,13 @@ class _ChewieListItemState extends State<ChewieListItem> {
         return Center(
           child: Text(
             errorMessage,
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           ),
         );
-      }
+      },
+
+      placeholder: const Center(child: CircularProgressIndicator(),),
+      showControlsOnInitialize: false,
 
     );
   }
@@ -59,10 +62,34 @@ class _ChewieListItemState extends State<ChewieListItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.all(8.0),
+      padding: const EdgeInsetsDirectional.all(8.0),
       child: Chewie(
         controller: _chewieController,
       ),
     );
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {  //If the user pressed home or moved to another app, then the video will be paused by implementing the callbacks.
+    super.didChangeAppLifecycleState(state);
+
+    // These are the callbacks
+    switch (state) {
+      case AppLifecycleState.resumed:
+      // widget is resumed
+        break;
+      case AppLifecycleState.inactive:
+        _chewieController.videoPlayerController.pause();
+        // widget is inactive
+        break;
+      case AppLifecycleState.paused:
+        _chewieController.videoPlayerController.pause();
+        // widget is paused
+        break;
+      case AppLifecycleState.detached:
+        _chewieController.videoPlayerController.pause();
+        // widget is detached
+        break;
+    }
   }
 }
