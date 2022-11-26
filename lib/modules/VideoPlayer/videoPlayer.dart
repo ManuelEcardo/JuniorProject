@@ -1,6 +1,7 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/modules/VideoPlayer/cubit/cubit.dart';
 import 'package:juniorproj/modules/VideoPlayer/cubit/states.dart';
@@ -30,7 +31,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
   final SelectableController selectableController= SelectableController(); //Controller for the selectable Widget.
 
-  final ScrollController scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController(); //Controller for scrollable objects if needed.
 
   var selectableKey=GlobalKey<FormState>();
 
@@ -39,7 +40,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
   VideoPlayerController get videoController  //Setting a getter for the videoController
   {
-    return VideoPlayerController.asset('assets/videos/bryan.mp4');
+    return VideoPlayerController.network('https://drive.google.com/u/0/uc?id=1bb9ZIltdgN-yBSnXfeJ9jTdb2FoQkiLk&export=download');
   }
 
   ChewieController get chewieController {  //Setting a getter for ChewieController which helps to manage the video and it's controls, initialize and fullscreen.
@@ -50,58 +51,63 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
       autoInitialize: true,
       allowFullScreen: true,
       zoomAndPan: true,
-        errorBuilder: (context,errorMessage)
+
+        errorBuilder: (context,errorMessage)  //Error Message to show.
         {
           return Center(
             child: Text(
               errorMessage,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           );
-        }
+        },
+
+      placeholder: const Center(child: CircularProgressIndicator(),),  //While loading, show Circular Progress
+      showControlsOnInitialize: false,  //Won't show options while loading
     );
 
   }
 
-  void updateSubtitleUrl({
-    ExampleSubtitleLanguage? subtitleLanguage,
-  }) {
-    String? subtitleUrl;
-    switch (subtitleLanguage) {
-      case ExampleSubtitleLanguage.english:
-        //  subtitleUrl = 'https://drive.google.com/u/0/uc?id=1gZ9pHKRoZYdE8C_FH2NbDHa6bLDf5bpt&export=download';
-        break;
-      default:
-    }
-    if (subtitleUrl != null) {
-      subtitleController.updateSubtitleUrl(
-        url: subtitleUrl,
-      );
-    }
-  }
+  // void updateSubtitleUrl({
+  //   ExampleSubtitleLanguage? subtitleLanguage,
+  // }) {
+  //   String? subtitleUrl;
+  //   switch (subtitleLanguage) {
+  //     case ExampleSubtitleLanguage.english:
+  //       //  subtitleUrl = 'https://drive.google.com/u/0/uc?id=1gZ9pHKRoZYdE8C_FH2NbDHa6bLDf5bpt&export=download';
+  //       break;
+  //     default:
+  //   }
+  //   if (subtitleUrl != null) {
+  //     subtitleController.updateSubtitleUrl(
+  //       url: subtitleUrl,
+  //     );
+  //   }
+  // }
 
   @override
   void initState()
   {
     super.initState();
-    selectableController
-      .addListener(_selectionChangedListener);
+    selectableController.addListener(_selectionChangedListener);
     WidgetsBinding.instance.addObserver(this); //In Order to implement the application life cycle.
   }
 
   @override
   void dispose()
   {
-    super.dispose(); //Called when this object is removed from the tree permanently.
 
-    if (videoController != null && chewieController != null)
-    {
+
+   // if (videoController != null && chewieController != null)
+    //{
       videoController.dispose(); //Discards any resources used by the object
       chewieController.dispose(); //Dispose the Chewie package.
-    }
+    //}
 
     selectableController..removeListener(_selectionChangedListener)..dispose();
     scrollController.dispose();
+
+    super.dispose(); //Called when this object is removed from the tree permanently.
 
   }
 
@@ -140,7 +146,61 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                   },),
               actions:
               [
-                IconButton(onPressed: (){AppCubit.get(context).ChangeTheme();}, icon: const Icon(Icons.sunny)),
+                IconButton(
+                  icon:const Icon(Icons.question_mark_rounded),
+                  onPressed: ()
+                  async {
+                    await showDialog(
+                        context: context,
+                        builder: (context)
+                        {
+                          return AlertDialog(
+                            title: Text(
+                              'Video Section',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: HexColor('8AA76C'),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            content:  Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children:
+                              const[
+                                Text(
+                                  'Videos can be stopped either through pressing the stop button, or pressing the box which contains the subtitles',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
+                                ),
+
+                                Text(
+                                  '-Select a word after pausing the video then press translate to check the translation of this word.',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
+                                ),
+
+                                Text(
+                                  '- Press the three dots in the video frame to change Playback Speed',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                    );
+                  },
+                ),
+
+                IconButton(onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny)),
               ],
             ),
 
@@ -159,6 +219,13 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                     ),
 
                     const SizedBox(height: 40,),
+
+                    //  Visibility(
+                    //     visible: !localChewieController.isPlaying,
+                    //     child: const LinearProgressIndicator()
+                    // ),
+                    //
+                    // const SizedBox(height: 20,),
 
                     Selectable(
                       key: selectableKey,
@@ -280,9 +347,9 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
 
 
-enum ExampleSubtitleLanguage {
-  english,
-  spanish,
-  arabic,
-}  //Choose Subtitle Language from here.
+// enum ExampleSubtitleLanguage {
+//   english,
+//   spanish,
+//   arabic,
+// }  //Choose Subtitle Language from here.
 

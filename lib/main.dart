@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       //Multi BlocProvider will be initialized in the main, so if there is more than one, all can be started here.
       providers: [
-        BlocProvider(create: (BuildContext context) => AppCubit()..ChangeTheme(ThemeFromState: isDark)),  //Main Cubit for the HomeLayout
+        BlocProvider(create: (BuildContext context) => AppCubit()..changeTheme(themeFromState: isDark)),  //Main Cubit for the HomeLayout
 
         BlocProvider(create: (BuildContext context) => WordCubit()),  //Getting the definition of words.
 

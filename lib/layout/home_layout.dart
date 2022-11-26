@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
+import 'package:juniorproj/modules/Languages/addLanguage.dart';
 import 'package:juniorproj/modules/Languages/languages.dart';
 import 'package:juniorproj/shared/components/components.dart';
+import 'package:juniorproj/shared/styles/colors.dart';
 
 class HomeLayout extends StatelessWidget {
    HomeLayout({Key? key}) : super(key: key);
@@ -29,26 +32,239 @@ class HomeLayout extends StatelessWidget {
                   },
                   child: SvgPicture.asset(
                     'assets/images/logo.svg',
-                    color: cubit.isDarkTheme? Colors.deepOrange : Colors.blue,
+                    color: cubit.isDarkTheme? defaultDarkColor : defaultColor,
                     fit: BoxFit.cover,
                     semanticsLabel: 'Logo',
-
                   ),
-
-                   //const Text(
-                //                   'HABLAR',
-                //                   style: TextStyle(letterSpacing: 3),
-                //                 ),
               ),
+
               actions:
               [
+                //If is Home => Question mark Icon will show.
+                Visibility(
+                  visible: cubit.isHome(),
+                  child: IconButton(
+                    icon: const Icon(Icons.question_mark_rounded),
+
+                    onPressed: ()
+                    async {
+                      await showDialog(
+                          context: context,
+                          builder: (context)
+                          {
+                            return AlertDialog(
+                              title: Text(
+                                'Ready to learn a new language?',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: HexColor('8AA76C'),
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              content:  Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children:
+                                const[
+                                  Text(
+                                    '-This is your home page, we will show you a recap here.',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+
+                                  Text(
+                                    '-If you would like to proceed then press Let\'s Go',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+
+                                  Text(
+                                    '-Check for challenges, each time you complete one you will earn points.',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+
+                                  Text(
+                                    '-Your Progress in the current active course will show here.',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                            );
+                          }
+                      );
+                    },
+                  ),
+                ),
+
+                //If is Language => Question mark Icon will show.
+                Visibility(
+                  visible: cubit.isLanguage(),
+                  child: IconButton(
+                    icon: const Icon(Icons.question_mark_rounded),
+
+                    onPressed: ()
+                    async {
+                      await showDialog(
+                          context: context,
+                          builder: (context)
+                          {
+                            return AlertDialog(
+                              title: Text(
+                                'Here You Can add new languages to learn !',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: HexColor('8AA76C'),
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              content:  Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children:
+                                const[
+                                  Text(
+                                    '-Press on a language to proceed.',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+
+                                  Text(
+                                    '-Feeling up to it?\nPress + to take on a new course.',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                            );
+                          }
+                      );
+                    },
+                  ),
+                ),
+
+                //If is Achievements => Question mark Icon will show.
+                Visibility(
+                  visible: cubit.isAchievement(),
+                  child: IconButton(
+                    icon: const Icon(Icons.question_mark_rounded),
+
+                    onPressed: ()
+                    async {
+                      await showDialog(
+                          context: context,
+                          builder: (context)
+                          {
+                            return AlertDialog(
+                              title: Text(
+                                'Play and Earn !',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: HexColor('8AA76C'),
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              content:  Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children:
+                                const[
+                                  Text(
+                                    '-Work hard and get paid !\nFor every achievement you get right you will score points.',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+
+                                  Text(
+                                    '-You can check the Leaderboards for the rivals with the highest points.',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                            );
+                          }
+                      );
+                    },
+                  ),
+                ),
+
                 //If is Profile => Question mark Icon will show.
                 Visibility(
                   visible: cubit.isProfile(),
-                  child: IconButton(onPressed: (){}, icon: const Icon(Icons.question_mark_rounded))
+                  child: IconButton(
+                    icon: const Icon(Icons.question_mark_rounded),
+
+                    onPressed: ()
+                    async {
+                       await showDialog(
+                          context: context,
+                          builder: (context)
+                      {
+                        return AlertDialog(
+                          title: Text(
+                            'You can change your personal info too !',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: HexColor('8AA76C'),
+                                fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          content:  Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children:
+                      const[
+                              Text(
+                                'If you\'d like to change your name, change the name box here, then click UPDATE.',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
+                              ),
+
+                              Text(
+                                'Same applies for all the other choices.',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        );
+                      }
+                      );
+                    },
+                  ),
                 ),
 
-                IconButton(onPressed: (){AppCubit.get(context).ChangeTheme();}, icon: const Icon(Icons.sunny)),
+                IconButton(onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny)),
               ],
             ),
 
@@ -82,7 +298,7 @@ class HomeLayout extends StatelessWidget {
               child: FloatingActionButton(
                 onPressed: ()
                 {
-
+                  navigateTo(context, const AddLanguage());
                 },
                 child: const Icon(Icons.add,),
 

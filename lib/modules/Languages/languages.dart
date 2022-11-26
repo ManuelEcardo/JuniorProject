@@ -6,6 +6,8 @@ import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/modules/Units/units.dart';
 import 'package:juniorproj/shared/components/components.dart';
 
+import '../../shared/styles/colors.dart';
+
 class LanguagesPage extends StatelessWidget {
   const LanguagesPage({Key? key}) : super(key: key);
 
@@ -34,43 +36,45 @@ class LanguagesPage extends StatelessWidget {
 
 Widget buildCatItem(String text, String path, BuildContext context) => Padding(
   padding: const EdgeInsets.all(20.0),
-  child: Row(
-    children:
-     [
-      Image(
-        image: AssetImage(path),
-        width: 80.0,
-        height: 80.0,
-        fit: BoxFit.contain,
-      ),
+  child: InkWell(
 
-      const SizedBox(
-        width: 20.0,
-      ),
+    highlightColor: defaultColor.withOpacity(0.2),
 
-      Text(
-        text,
-        style:const TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold
+    onTap: ()
+    {
+      navigateTo(
+        context,
+        const Units(),
+      );
+    },
+
+    child: Row(
+      children:
+       [
+        Image(
+          image: AssetImage(path),
+          width: 80.0,
+          height: 80.0,
+          fit: BoxFit.contain,
         ),
-      ),
 
-      const Spacer(),
-
-       IconButton(
-        icon: const Icon(
-          Icons.arrow_forward_sharp,
+        const SizedBox(
+          width: 20.0,
         ),
-        onPressed: ()
-        {
-          navigateTo(
-              context,
-              Units(),
-          );
-        },
-      ),
-    ],
+
+        Text(
+          text,
+          style:const TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold
+          ),
+        ),
+
+        const Spacer(),
+
+        const Icon(Icons.arrow_forward_sharp,),
+      ],
+    ),
   ),
 );
 

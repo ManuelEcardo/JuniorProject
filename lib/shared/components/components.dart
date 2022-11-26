@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:swipedetector_nullsafety/swipedetector_nullsafety.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../layout/cubit/cubit.dart';
+
 //Button Like LOGIN
 Widget defaultButton({
   double width = double.infinity,
@@ -54,6 +56,7 @@ Widget defaultTextButton({required void Function()? onPressed, required String t
 
 //--------------------------------------------------------------------------------------------------\\
 
+//Default Unit Button
 Widget defaultUnitButton({
   Color background =  Colors.grey,
   bool isUpper = true,
@@ -85,6 +88,55 @@ Widget defaultUnitButton({
 
 //--------------------------------------------------------------------------------------------------\\
 
+//Default Builder for new Languages to add
+
+Widget languageItemBuilder({
+  Color background =  Colors.grey,
+  bool isUpper = true,
+  double radius = 10.0,  //was 10
+  double width = 150.0,
+  double height = 150.0, // was 40
+  required void Function()? function,
+  required String text,
+  required AppCubit cubit,
+}) => Container(
+  clipBehavior: Clip.antiAliasWithSaveLayer,
+  decoration: BoxDecoration(
+
+    borderRadius: BorderRadius.circular(radius),
+    border: Border.all(
+      color: cubit.isDarkTheme ? Colors.white : Colors.black,
+    ),
+  ),
+  width: width,
+  height: height,
+  child: MaterialButton(
+    onPressed: function,
+    child: Column(
+
+      children:
+      [
+        const Image(
+          image: AssetImage('assets/images/english.png'),
+          height: 100,
+          width: 100,
+        ),
+
+        Text(
+          isUpper ? text.toUpperCase() : text,
+          style: const TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold
+          ),
+        ),
+      ],
+    ),
+  ),
+);
+
+
+
+//---------------------------------------------------------------------------------------------------\\
 //TextFormField like password..
 Widget defaultFormField({
   required TextEditingController controller,

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
+import 'package:juniorproj/modules/Achievements/leaderboards.dart';
 import 'package:juniorproj/shared/components/components.dart';
+import 'package:juniorproj/shared/styles/colors.dart';
 
 import '../../shared/styles/styles.dart';
 
@@ -25,6 +28,7 @@ class AchievementsPage extends StatelessWidget {
           '2. Start a Lesson',
           '3. Take a Quiz',
           '4. Complete a quiz with no mistakes',
+          '5. Change your picture'
         ];
         return Padding(
           padding: const EdgeInsets.all(24.0),
@@ -52,8 +56,40 @@ class AchievementsPage extends StatelessWidget {
                     separatorBuilder: (context,index)=> myDivider(),
                     itemCount: achieveList.length,
                 ),
-              )
-              ,
+              ),
+
+              const SizedBox(height: 10,),
+
+              TextButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/images/crown.svg',
+                      color: cubit.isDarkTheme? Colors.deepOrange : Colors.blue,
+                      fit: BoxFit.cover,
+                      width: 40,
+                      height: 40,
+                      semanticsLabel: 'Crown',
+
+                    ),
+
+                    const SizedBox(width:15,),
+
+                    const Text(
+                        'Leaderboards',
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
+                    ),
+                  ],
+                ),
+
+                onPressed: ()
+                {
+                  navigateTo(context, const Leaderboards());
+                },
+              ),
             ],
           ),
         );

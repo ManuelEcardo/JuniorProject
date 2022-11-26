@@ -68,11 +68,11 @@ class AppCubit extends Cubit<AppStates>
 
   bool isDarkTheme=false;
 
-  void ChangeTheme({bool? ThemeFromState})
+  void changeTheme({bool? themeFromState})
   {
-    if(ThemeFromState !=null)  //if a value is sent from main, then use it.. we didn't use CacheHelper because the value has already came from cache, then there is no need to..
+    if(themeFromState !=null)  //if a value is sent from main, then use it.. we didn't use CacheHelper because the value has already came from cache, then there is no need to..
         {
-      isDarkTheme=ThemeFromState;
+      isDarkTheme=themeFromState;
       emit(AppChangeThemeModeState());
     }
     else                      // else which means that the button of changing the theme has been pressed.
@@ -87,9 +87,33 @@ class AppCubit extends Cubit<AppStates>
   }
 
 
+  bool isHome() //If its Home, will return true
+  {
+    if(currentIndex==0)
+      {
+        return true;
+      }
+    else
+      {
+        return false;
+      }
+  }
+
   bool isLanguage()  //In order to show FloatingActionButton only in the Languages Page, a check will happen on the index, if 2 then it's languages page, will return true.
   {
     if(currentIndex==1)
+      {
+        return true;
+      }
+    else
+      {
+        return false;
+      }
+  }
+
+  bool isAchievement()
+  {
+    if(currentIndex==2)
       {
         return true;
       }
