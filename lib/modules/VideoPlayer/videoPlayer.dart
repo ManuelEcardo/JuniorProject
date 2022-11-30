@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
+import 'package:juniorproj/models/MerriamWebster_model/merriam_model.dart';
 import 'package:juniorproj/modules/VideoPlayer/cubit/cubit.dart';
 import 'package:juniorproj/modules/VideoPlayer/cubit/states.dart';
 import 'package:juniorproj/modules/VideoPlayer/defShow.dart';
 import 'package:juniorproj/shared/components/components.dart';
+import 'package:material_dialogs/material_dialogs.dart';
 import 'package:selectable/selectable.dart';
+import 'package:string_extensions/string_extensions.dart';
 import 'package:subtitle_wrapper_package/bloc/subtitle/subtitle_bloc.dart';
 import 'package:subtitle_wrapper_package/subtitle_wrapper_package.dart';
 import 'package:video_player/video_player.dart';
@@ -130,7 +133,25 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
     var subtitle;
     return BlocConsumer<WordCubit,WordStates>(
       listener: (context,state)
-      {},
+      {
+        if(state is WordsLoadingState)
+          {
+            DefaultToast(msg: 'Loading');
+          }
+
+        if(state is WordsErrorState)
+          {
+            DefaultToast(msg: 'Couldn\'t Get Data');
+          }
+        if(state is WordsSuccessState)
+          {
+
+            if(WordCubit.model !=null)
+              {
+                popupDialog(WordCubit.model);
+              }
+          }
+      },
       builder: (context,state)
       {
         var cubit= WordCubit.get(context);
@@ -220,13 +241,6 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
                     const SizedBox(height: 40,),
 
-                    //  Visibility(
-                    //     visible: !localChewieController.isPlaying,
-                    //     child: const LinearProgressIndicator()
-                    // ),
-                    //
-                    // const SizedBox(height: 20,),
-
                     Selectable(
                       key: selectableKey,
                       selectionController: selectableController,  //Controller for the selectable items.
@@ -235,7 +249,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                       selectWordOnDoubleTap: true,
                       popupMenuItems:
                       [
-                        SelectableMenuItem(
+                         SelectableMenuItem(
                             title: 'Translate',
                             type: SelectableMenuItemType.other,  //Type is other because it does something different than the available
                             isEnabled: (selectableController)=>selectableController!.isTextSelected,  //Will check if this item is enabled
@@ -247,7 +261,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
                               localChewieController.videoPlayerController.pause();  //Pausing the video
 
-                              navigateTo(context, DefinitionShow());          // Navigating to a new class to show the results.
+                             // navigateTo(context, DefinitionShow());          // Navigating to a new class to show the results.
 
                               selectableController.deselect();  //Deselect the word after searching for it.
 
@@ -317,6 +331,103 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
     );
 
   }
+
+  // Future<Widget> bb()
+  // async {
+  //   await showDialog(
+  //       context: context,
+  //       builder: (context)
+  //   {
+  //     return StatefulBuilder(
+  //       builder: (context,setBState)
+  //       {
+  //         MerriamModel? model;
+  //         setBState(()
+  //          {
+  //             model= WordCubit.model;
+  //             WordCubit.model=null;
+  //         });
+  //         return ConditionalBuilder(
+  //           condition: model !=null,
+  //           fallback: (context)
+  //           {
+  //             return const Center(
+  //               child:CircularProgressIndicator(),
+  //             );
+  //           },
+  //           builder: (context)
+  //           {
+  //             return AlertDialog(
+  //               title: Text(
+  //                 '${model?.fl}',
+  //                 textAlign: TextAlign.center,
+  //                 style: TextStyle(
+  //                   color: HexColor('8AA76C'),
+  //                   fontWeight: FontWeight.w700,
+  //                 ),
+  //               ),
+  //               content:  Column(
+  //                 mainAxisAlignment: MainAxisAlignment.start,
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 mainAxisSize: MainAxisSize.min,
+  //                 children:
+  //                 [
+  //                   Text(
+  //                     '${model?.shortdef?[0]}',
+  //                     style: const TextStyle(
+  //                       color: Colors.black,
+  //                       fontSize: 18,
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             );
+  //           },
+  //         );
+  //       },
+  //     );
+  //   }
+  //   );
+  //   return const CircularProgressIndicator();
+  // }
+
+  popupDialog(MerriamModel? model)
+  async {
+    await Dialogs.materialDialog(
+      context: context,
+      title: WordCubit.get(context).currentWord.capitalize,
+      msg: model?.shortdef?[0],
+      actions:
+      [
+        TextButton(
+
+          child:const Text(
+            'Full Definition',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+
+          onPressed: ()
+          {
+            navigateTo(context, DefinitionShow());
+          },
+        ),
+      ],
+
+      titleAlign: TextAlign.center,
+      titleStyle:const TextStyle(
+        fontSize: 24,
+        color: Colors.black,
+      ),
+
+      msgStyle: const TextStyle(
+        fontSize: 18,
+        color: Colors.black,
+      ),
+    );
+  }
+
 
 
   @override

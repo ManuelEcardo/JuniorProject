@@ -44,24 +44,23 @@ void main() async {
     {
       widget = HomeLayout(); //Straight to Home Page.
     }
-    else
+    else  //OnBoarding has been shown before but the token is empty => Login is required.
     {
       widget = LoginScreen();
     }
-  } else //Not shown onBoarding before
+  } else //Not shown onBoarding before, First lunch of app
   {
     widget = onBoardingScreen();
   }
 
-  runApp(MyApp(
-    isDark: isDark,
-    homeWidget: widget,
-  ));
+  runApp(
+      MyApp(isDark: isDark, homeWidget: widget,)
+  );
 }
 
 class MyApp extends StatelessWidget {
-  final bool isDark;
-  final Widget homeWidget;
+  final bool isDark;        //If the app last theme was dark or light
+  final Widget homeWidget;  // Passing the widget to be loaded.
 
   MyApp({required this.isDark, required this.homeWidget});
 
@@ -70,7 +69,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       //Multi BlocProvider will be initialized in the main, so if there is more than one, all can be started here.
       providers: [
-        BlocProvider(create: (BuildContext context) => AppCubit()..changeTheme(themeFromState: isDark)),  //Main Cubit for the HomeLayout
+        BlocProvider(create: (BuildContext context) => AppCubit()..changeTheme(themeFromState: isDark)),  //Main Cubit for the HomeLayout and most of the Views.
 
         BlocProvider(create: (BuildContext context) => WordCubit()),  //Getting the definition of words.
 
@@ -80,13 +79,13 @@ class MyApp extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme: lightTheme(context),
-              darkTheme: darkTheme(context),
-              themeMode: AppCubit.get(context).isDarkTheme
+              debugShowCheckedModeBanner: false,  //Won't show a check mode banner
+              theme: lightTheme(context),         //Setting the default LightTheme which is implemented in themes.dart
+              darkTheme: darkTheme(context),      //Setting the default DarkTheme which is implemented in themes.dart
+              themeMode: AppCubit.get(context).isDarkTheme   //If the boolean says last used is dark (from Cache Helper) => Then load dark theme
                   ? ThemeMode.dark
                   : ThemeMode.light,
-              home: AnimatedSplashScreen(
+              home: AnimatedSplashScreen(  //Showing a Splash Screen when loaded
                   duration: 3000,
                   splash: SvgPicture.asset(
                     'assets/images/logo.svg',

@@ -30,9 +30,11 @@ class HomePage extends StatelessWidget {
                         backgroundImage: AssetImage(
                             'assets/images/robot.gif'), //assets/images/profile.jpg
                       ),
+
                       const SizedBox(
                         width: 50,
                       ),
+
                       Expanded(
                         child: Text(
                           'Welcome Back, Mohammed!',
@@ -46,6 +48,7 @@ class HomePage extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
+
                   Padding(
                     padding: const EdgeInsetsDirectional.only(start:5 ),
                     child: Text(
@@ -53,9 +56,11 @@ class HomePage extends StatelessWidget {
                       style: ordinaryTextStyle,
                     ),
                   ),
+
                   const SizedBox(
                     height: 15,
                   ),
+
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Row(

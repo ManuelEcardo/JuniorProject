@@ -5,13 +5,11 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/modules/Languages/addLanguage.dart';
-import 'package:juniorproj/modules/Languages/languages.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
 
 class HomeLayout extends StatelessWidget {
-   HomeLayout({Key? key}) : super(key: key);
-
+   const HomeLayout({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
