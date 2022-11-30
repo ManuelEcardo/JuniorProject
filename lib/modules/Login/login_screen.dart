@@ -10,9 +10,9 @@ import 'cubit/states.dart';
 
 class LoginScreen extends StatelessWidget {
 
-   var EmailController= TextEditingController();
-   var PasswordController= TextEditingController();
-   var FormKey= GlobalKey<FormState>();
+   var emailController= TextEditingController();
+   var passwordController= TextEditingController();
+   var formKey= GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +22,7 @@ class LoginScreen extends StatelessWidget {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight
     ]);
+
     return BlocProvider(
       create: (BuildContext context) => LoginCubit(),
       child: BlocConsumer<LoginCubit,LoginStates>(
@@ -68,7 +69,7 @@ class LoginScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Form(
-                    key: FormKey,
+                    key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:
@@ -89,7 +90,7 @@ class LoginScreen extends StatelessWidget {
                         const SizedBox(height: 30,),
 
                         defaultFormField(
-                            controller: EmailController,
+                            controller: emailController,
                             keyboard: TextInputType.emailAddress,
                             label: 'Email Address',
                             prefix: Icons.email_outlined,
@@ -106,7 +107,7 @@ class LoginScreen extends StatelessWidget {
                         const SizedBox(height: 30,),
 
                         defaultFormField(
-                            controller: PasswordController,
+                            controller: passwordController,
                             keyboard: TextInputType.visiblePassword,
                             label: 'Password',
                             isObscure: LoginCubit.get(context).isPasswordShown,
@@ -152,7 +153,7 @@ class LoginScreen extends StatelessWidget {
                                 //     //   password: PasswordController.text,
                                 //
                                 //   }
-                                navigateAndFinish(context, HomeLayout());
+                                navigateAndFinish(context, const HomeLayout());
                               },
                               text: 'login'),
                         ),
