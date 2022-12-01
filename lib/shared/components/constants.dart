@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:juniorproj/shared/network/local/cache_helper.dart';
 
 
+import '../../modules/Login/login_screen.dart';
 import 'components.dart';
 
 void signOut(BuildContext context)  // A constant SignOut button
@@ -10,7 +11,7 @@ void signOut(BuildContext context)  // A constant SignOut button
   {
     if(value==true)
     {
-      //navigateAndFinish(context, ShopLoginScreen());
+      navigateAndFinish(context, LoginScreen());
     }
   });
 }

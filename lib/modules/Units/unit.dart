@@ -1,16 +1,16 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
+import 'package:juniorproj/models/MainModel/content_model.dart';
 import 'package:juniorproj/modules/Home/home.dart';
 import 'package:juniorproj/modules/Lessons/lesson.dart';
 import 'package:juniorproj/modules/Quiz/quiz.dart';
 import 'package:juniorproj/modules/Units/unitOverview.dart';
 import 'package:juniorproj/modules/VideoPlayer/videoPlayer.dart';
 import 'package:juniorproj/shared/components/components.dart';
-
-import '../../shared/styles/colors.dart';
 
 class Unit extends StatelessWidget {
   const Unit({Key? key}) : super(key: key);
@@ -23,6 +23,8 @@ class Unit extends StatelessWidget {
       {},
       builder: (context,state)
       {
+        var cubit=AppCubit.get(context);
+        ContentModel? model=AppCubit.contentModel;
         List<List<String>> list=
         [
           [
@@ -127,21 +129,25 @@ class Unit extends StatelessWidget {
             ],
           ),
 
-          body: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children:
-              [
-                Expanded(
-                  child: ListView.separated(
-                      itemBuilder: (context,index) => itemBuilder(context, list[index]),
-                      separatorBuilder: (context,index) => const SizedBox(height: 20,),
-                      itemCount: list.length),
-                ),
+          body: ConditionalBuilder(
+            condition: model!=null,
+            fallback: (context)=>const Center(child: CircularProgressIndicator(),),
+            builder: (context)=>Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children:
+                [
+                  Expanded(
+                    child: ListView.separated(
+                        itemBuilder: (context,index) => itemBuilder(context, list[index],model!),
+                        separatorBuilder: (context,index) => const SizedBox(height: 20,),
+                        itemCount: list.length),
+                  ),
 
-              ],
+                ],
+              ),
             ),
           ),
         );
@@ -149,7 +155,7 @@ class Unit extends StatelessWidget {
     );
   }
 
-  Widget itemBuilder(BuildContext context, List<String> list)
+  Widget itemBuilder(BuildContext context, List<String> list, ContentModel model)
   {
     bool canNavigate=true;
     

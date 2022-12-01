@@ -9,6 +9,7 @@ import 'package:juniorproj/modules/on_boarding/on_boarding_screen.dart';
 import 'package:juniorproj/shared/bloc_observer.dart';
 import 'package:juniorproj/shared/components/constants.dart';
 import 'package:juniorproj/shared/network/local/cache_helper.dart';
+import 'package:juniorproj/shared/network/remote/main_dio_helper.dart';
 import 'package:juniorproj/shared/network/remote/merriam_dio_helper.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
 import 'package:juniorproj/shared/styles/themes.dart';
@@ -23,6 +24,8 @@ void main() async {
   Bloc.observer = MyBlocObserver(); //Running Bloc Observer which prints change in states and errors etc...  in console
 
   MerriamDioHelper.init();  //Initializing  Merriam Dio Helper
+
+  MainDioHelper.init();  //Initializing Main Dio Helper to get user data and app data.
 
   await CacheHelper.init(); //Starting CacheHelper, await for it since there is async,await in .init().
 
@@ -69,7 +72,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       //Multi BlocProvider will be initialized in the main, so if there is more than one, all can be started here.
       providers: [
-        BlocProvider(create: (BuildContext context) => AppCubit()..changeTheme(themeFromState: isDark)),  //Main Cubit for the HomeLayout and most of the Views.
+        BlocProvider(create: (BuildContext context) => AppCubit()..changeTheme(themeFromState: isDark)..getLanguages()  ),  //Main Cubit for the HomeLayout and most of the Views.
 
         BlocProvider(create: (BuildContext context) => WordCubit()),  //Getting the definition of words.
 

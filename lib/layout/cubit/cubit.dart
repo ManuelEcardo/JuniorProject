@@ -1,14 +1,19 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:juniorproj/models/MainModel/languages_model.dart';
+import 'package:juniorproj/models/MainModel/units_model.dart';
 
 import 'package:juniorproj/modules/Achievements/achievements.dart';
 import 'package:juniorproj/modules/Home/home.dart';
 import 'package:juniorproj/modules/Profile/profile.dart';
 import 'package:juniorproj/shared/network/local/cache_helper.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
+import 'package:juniorproj/shared/network/remote/main_dio_helper.dart';
 
+import '../../models/MainModel/content_model.dart';
+import '../../models/MainModel/login_model.dart';
 import '../../modules/Languages/languages.dart';
+import '../../shared/network/end_points.dart';
 
 class AppCubit extends Cubit<AppStates>
 {
@@ -24,37 +29,6 @@ class AppCubit extends Cubit<AppStates>
     ProfilePage(),
   ];
 
-  // List<Widget> actionIcon=  //Action Icon when bottom nav bar is changed
-  // [
-  //   Icon(Icons.question_mark_rounded),
-  //   Icon(Icons.add_rounded),
-  //   Icon(Icons.question_mark_rounded),
-  //   Icon(Icons.question_mark_rounded),
-  // ];
-  //
-  // List<void Function()>actionAction= //Action action when bottom nav bar is changed
-  // [
-  //   ()
-  //   {
-  //     print('pressed 1');
-  //
-  //   },
-  //
-  //   ()
-  //   {
-  //     print('pressed 2');
-  //   },
-  //
-  //   ()
-  //   {
-  //     print('pressed 3');
-  //   },
-  //
-  //   ()
-  //   {
-  //     print('pressed 4');
-  //   },
-  // ];
 
   int currentIndex=0;  //The Index of the BottomNavBar item.
 
@@ -66,7 +40,7 @@ class AppCubit extends Cubit<AppStates>
     emit(AppChangeActionState());
   }
 
-  bool isDarkTheme=false;
+  bool isDarkTheme=false; //Check if the theme is Dark.
 
   void changeTheme({bool? themeFromState})
   {
@@ -190,4 +164,197 @@ class AppCubit extends Cubit<AppStates>
     isAnimationQuiz=b;
     emit(AppQuizChangeisAnimationState());
   }
+
+
+  //----------------------------------------------------------------------------------------------------------------\\
+
+  // GET FROM API METHODS.
+
+
+  // GET USER DATA
+  static LoginModel? userModel; // get user info
+
+  void userData()
+  {
+    emit(AppGetUserDataLoadingState());
+    MainDioHelper.getData(
+      url: LOGIN,
+    ).then((value)
+    {
+      print(value.data);
+      userModel=LoginModel?.fromJson(value.data);
+      emit(AppGetUserDataSuccessState());
+    }
+    ).catchError((error)
+    {
+      print('ERROR IN GETTING USER INFO, ${error.toString()}');
+      emit(AppGetUserDataErrorState());
+    }
+    );
+  }
+
+  //----------------
+
+  //Get all Languages
+  static LanguageModel? languagesModel;
+
+  void getLanguages()
+  {
+    emit(AppGetLanguagesLoadingState());
+
+    MainDioHelper.getData(
+      url: LANGUAGES,
+    ).then((value)
+    {
+      //print(value.data);
+      languagesModel= LanguageModel?.fromJson(value.data);
+      emit(AppGetLanguagesSuccessState());
+
+    }).catchError((error)
+    {
+      print('ERROR IN GETTING LANGUAGES : ${error.toString()}');
+      emit(AppGetLanguagesErrorState());
+    });
+  }
+
+  //-----------------
+
+  //Get Units for a specified Language. LanguageID is passed through.
+  static UnitsModel? unitsModel;
+
+  void getAllUnits(int languageId)
+  {
+    emit(AppGetAllUnitsLoadingState());
+    MainDioHelper.getData(
+      url: '$languageId/$ALLUNITS',
+      query:{},
+    ).then((value)
+    {
+      print(value.data);
+
+      unitsModel= UnitsModel?.fromJson(value.data);
+      emit(AppGetAllUnitsSuccessState());
+
+    }).catchError((error)
+    {
+      print('ERROR IN GETTING ALL UNITS : ${error.toString()}');
+      emit(AppGetAllUnitsErrorState());
+    });
+  }
+
+
+  //-----------------
+
+
+  //Get Unit Contents
+  static ContentModel? contentModel;
+
+  void getUnitContent(int unitId)
+  {
+    emit(AppGetUnitContentLoadingState());
+
+    MainDioHelper.getData(
+        url: '$UNITS/$unitId',
+    ).then((value)
+    {
+      print(value.data);
+
+      contentModel=ContentModel?.fromJson(value.data);
+
+      emit(AppGetUnitContentSuccessState());
+    }).catchError((error)
+    {
+      print('ERROR IN GETTING UNIT $unitId CONTENT, ${error.toString()}');
+
+      emit(AppGetLanguagesErrorState());
+    });
+  }
+
+
+  //Update User Info.
+  void putUserInfo(String? firstName, String? lastName, String? userPhoto)
+  {
+    String? fname,lname,photo;
+
+    emit(AppPutUserInfoLoadingState());
+
+    firstName ==null ? fname=userModel?.user?.firstName : fname=firstName;  //If FirstName of Last Name or Userphoto is not null then use it's value, else use the one in UserModel.
+
+    lastName ==null ? lname=userModel?.user?.lastName : lname=lastName;
+
+    userPhoto ==null ? photo=userModel?.user?.userPhoto : photo=userPhoto;
+
+    MainDioHelper.putData(
+        url: '$PROFILE/${userModel?.user?.id}',
+        data:
+        {
+          'first_name':fname,
+          'last_name':lname,
+          'gender':userModel?.user?.gender,
+          'birth_date': userModel?.user?.birthDate,
+          'user_photo': photo,
+        },
+    ).then((value)
+    {
+      emit(AppPutUserInfoSuccessState());
+    }).catchError((error)
+    {
+      print('ERROR WHILE PUTTING USER INFO ${error.toString()}');
+      emit(AppPutUserInfoErrorState());
+    });
+  }
+
+
+
+  //-----------------
+
+
+  // //Get lessons for a specified language
+  // static LessonModel? lessonModel;
+  //
+  // void getLessons(int Id)
+  // {
+  //   emit(AppGetLessonsLoadingState());
+  //
+  //   MainDioHelper.getData(
+  //     url: '$unitsModel/$LESSONS',
+  //
+  //   ).then((value)
+  //   {
+  //     print(value.data);
+  //
+  //     lessonModel= LessonModel?.fromJson(value.data);
+  //
+  //     emit(AppGetLanguagesSuccessState());
+  //   }).catchError((error)
+  //   {
+  //     print('ERROR IN GETTING LESSONS : ${error.toString()}');
+  //
+  //     emit(AppGetLanguagesErrorState());
+  //   });
+  // }
+
+
+  // //Get Questions for a specified Language
+  // static QuestionModel? questionModel;
+  //
+  // void getQuestions(int id)
+  // {
+  //   emit(AppGetQuestionsLoadingState());
+  //
+  //   MainDioHelper.getData(
+  //       url:'$id/$QUESTIONS'
+  //   ).then((value)
+  //   {
+  //     print(value.data);
+  //
+  //     //questionModel= QuestionModel?.fromJson(value.data);
+  //
+  //     emit(AppGetQuestionsSuccessState());
+  //   }).catchError((error)
+  //   {
+  //     print('ERROR IN GETTING QUESTIONS: ${error.toString()}');
+  //     emit(AppGetLanguagesErrorState());
+  //   });
+  // }
 }
