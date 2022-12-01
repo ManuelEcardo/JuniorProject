@@ -1,18 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:juniorproj/layout/home_layout.dart';
 import 'package:juniorproj/modules/register/cubit/cubit.dart';
 import 'package:juniorproj/modules/register/cubit/states.dart';
 import 'package:juniorproj/shared/components/components.dart';
+import 'package:juniorproj/shared/styles/colors.dart';
 
-class RegisterScreen extends StatelessWidget {
 
-  var nameController= TextEditingController();
+class RegisterScreen extends StatefulWidget {
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  var firstNameController= TextEditingController();
+  var lastNameController= TextEditingController();
+
   var phoneController= TextEditingController();
   var emailController= TextEditingController();
+
   var passwordController= TextEditingController();
+  var birthDateController= TextEditingController();
+
   var formKey= GlobalKey<FormState>();
+
+  List<String> listOfGenders = ['M','F'];
+  String currentGender='M';  //User's Gender.
 
   @override
   Widget build(BuildContext context) {
@@ -23,28 +39,28 @@ class RegisterScreen extends StatelessWidget {
         {
           // if(state is RegisterSuccessState)  //The Right way of handling the api, here if login is successful and there is such record then it will print message and token, else message only since there is no token.
           //     {
-          //   if(state.loginModel.status == true)
+          //   if(state.registerModel.status == true)
           //   {
-          //     print(state.loginModel.message);
-          //     print(state.loginModel.data?.token);
+          //     print(state.registerModel.message);
+          //     print(state.registerModel.data?.token);
           //
           //     await DefaultToast(
-          //         msg: '${state.loginModel.message}',
+          //         msg: '${state.registerModel.message}',
           //         state: ToastStates.SUCCESS,
           //     );
           //
-          //     CacheHelper.saveData(key: 'token', value: state.loginModel.data?.token).then((value)  //to save the token, so I have logged in and moved to home page.
+          //     CacheHelper.saveData(key: 'token', value: state.registerModel.data?.token).then((value)  //to save the token, so I have logged in and moved to home page.
           //     {
-          //       token=state.loginModel.data!.token!;  //To renew the token if I logged out and went in again.
-          //       navigateAndFinish(context, const Layout());
+          //       token=state.registerModel.data!.token!;  //To renew the token if I logged out and went in again.
+          //       navigateAndFinish(context, const HomeLayout());
           //     });
           //   }
           //   else
           //   {
-          //     print(state.loginModel.message);
+          //     print(state.registerModel.message);
           //
           //     await DefaultToast(
-          //         msg: '${state.loginModel.message}',
+          //         msg: '${state.registerModel.message}',
           //         state: ToastStates.ERROR,
           //     );
           //   }
@@ -81,16 +97,101 @@ class RegisterScreen extends StatelessWidget {
 
                         const SizedBox(height: 30,),
 
+                        //First Name
                         defaultFormField(
-                            controller: nameController,
+                            controller: firstNameController,
                             keyboard: TextInputType.name,
-                            label: 'Name',
+                            label: 'First Name',
                             prefix: Icons.person,
                             validate: (String? value)
                             {
                               if(value!.isEmpty)
                               {
-                                return 'Name is Empty';
+                                return 'First Name is Empty';
+                              }
+                              return null;
+                            }
+                        ),
+
+                        const SizedBox(height: 30,),
+
+                        //Last Name
+                        defaultFormField(
+                            controller: lastNameController,
+                            keyboard: TextInputType.name,
+                            label: 'Last Name',
+                            prefix: Icons.person,
+                            validate: (String? value)
+                            {
+                              if(value!.isEmpty)
+                              {
+                                return 'Last Name is Empty';
+                              }
+                              return null;
+                            }
+                        ),
+
+                        const SizedBox(height: 30,),
+
+                        //Gender Drop Down List.
+                        FormField<String>(
+                          builder: (FormFieldState<String> state) {
+                            return InputDecorator(
+                              decoration: InputDecoration(
+                                  errorStyle:const TextStyle(color: Colors.redAccent, fontSize: 16.0),
+                                  labelText: 'Gender',
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  style: TextStyle(color: defaultColor),
+
+                                  value: currentGender,
+                                  isDense: true,
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      currentGender = newValue!;
+                                      state.didChange(newValue);
+                                    });
+                                  },
+                                  items: listOfGenders.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+
+
+                        const SizedBox(height: 30,),
+
+                        //Birth Date
+                        defaultFormField(
+                            controller: birthDateController,
+                            keyboard: TextInputType.datetime,
+                            label: 'Birth Date',
+                            prefix: Icons.date_range,
+                            onTap: ()
+                            {
+                              showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(1920),
+                                  lastDate: DateTime.now(),
+
+                              ).then((value)
+                              {
+                                birthDateController.text = DateFormat("yyyy-MM-dd").format(value!);  //2011-08-05 DateFormat.yMd().format(value!)
+                              });
+                            },
+                            validate: (String? value)
+                            {
+                              if(value!.isEmpty)
+                              {
+                                return 'Birth Date is Empty';
                               }
                               return null;
                             }
@@ -112,6 +213,7 @@ class RegisterScreen extends StatelessWidget {
                               return null;
                             }
                         ),
+
 
                         const SizedBox(height: 30,),
 
@@ -141,24 +243,6 @@ class RegisterScreen extends StatelessWidget {
 
                         const SizedBox(height: 30,),
 
-
-                        defaultFormField(
-                            controller: phoneController,
-                            keyboard: TextInputType.phone,
-                            label: 'Phone',
-                            prefix: Icons.phone_android,
-                            validate: (String? value)
-                            {
-                              if(value!.isEmpty)
-                              {
-                                return 'Phone is Empty';
-                              }
-                              return null;
-                            }
-                        ),
-
-                        const SizedBox(height: 30,),
-
                         ConditionalBuilder(
                           condition: state is! RegisterLoadingState,
                           fallback: (context)=> const Center(child: CircularProgressIndicator()),
@@ -167,13 +251,15 @@ class RegisterScreen extends StatelessWidget {
                               {
                                 if(formKey.currentState!.validate())
                                 {
-                                  // RegisterCubit.get(context).userRegister(
-                                  //   name: nameController.text,
-                                  //   phone: phoneController.text,
-                                  //   email: emailController.text,
-                                  //   password: passwordController.text,
-                                  // );
-                                  navigateAndFinish(context, HomeLayout());
+                                  RegisterCubit.get(context).userRegister(
+                                    firstname: firstNameController.text,
+                                    lastname: lastNameController.text,
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    gender: currentGender,
+                                    birthdate: birthDateController.text,
+                                  );
+                                  navigateAndFinish(context, const HomeLayout());  //Should be removed after connecting with the Database.
                                 }
                               },
                               text: 'Register'),

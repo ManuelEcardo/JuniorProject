@@ -30,7 +30,7 @@ class LoginCubit extends Cubit<LoginStates>
   // })
   // {
   //   emit(LoginLoadingState());
-  //   DioHelper.postData(
+  //   MainDioHelper.postData(
   //     url: LOGIN,
   //     data:
   //     {
@@ -39,9 +39,8 @@ class LoginCubit extends Cubit<LoginStates>
   //     },
   //   ).then((value)  //when we get the data.
   //   {
-  //     print('bfff');
   //     print(value.data);
-  //     loginModel=ShopLoginModel?.fromJson(value.data);
+  //     loginModel=LoginModel?.fromJson(value.data);
   //     emit(ShopLoginSuccessState(loginModel!));
   //   }
   //     ).catchError((error)

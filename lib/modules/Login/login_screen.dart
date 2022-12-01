@@ -43,7 +43,7 @@ class LoginScreen extends StatelessWidget {
           //       CacheHelper.saveData(key: 'token', value: state.loginModel.data?.token).then((value)  //to save the token, so I have logged in and moved to home page.
           //       {
           //         token=state.loginModel.data!.token!;  //To renew the token if I logged out and went in again.
-          //         navigateAndFinish(context, const Layout());
+          //         navigateAndFinish(context, const HomeLayout());
           //       });
           //     }
           //     else
