@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:juniorproj/modules/Login/cubit/states.dart';
 
+import '../../../models/MainModel/login_model.dart';
+import '../../../shared/network/end_points.dart';
+import '../../../shared/network/remote/main_dio_helper.dart';
+
 class LoginCubit extends Cubit<LoginStates>
 {
   LoginCubit(): super(LoginInitialState());
 
   static LoginCubit get(context) => BlocProvider.of(context);
-
-  //LoginModel? loginModel; //Add the id,name,email ....
 
   IconData suffix= Icons.visibility_outlined;
 
@@ -23,32 +25,35 @@ class LoginCubit extends Cubit<LoginStates>
     emit(PasswordVisibilityChangeState());
   }
 
-  // void userLogin(
-  // {
-  //   required String email,
-  //   required String password
-  // })
-  // {
-  //   emit(LoginLoadingState());
-  //   MainDioHelper.postData(
-  //     url: LOGIN,
-  //     data:
-  //     {
-  //       'email':email,
-  //       'password':password,
-  //     },
-  //   ).then((value)  //when we get the data.
-  //   {
-  //     print(value.data);
-  //     loginModel=LoginModel?.fromJson(value.data);
-  //     emit(ShopLoginSuccessState(loginModel!));
-  //   }
-  //     ).catchError((error)
-  //     {
-  //       print('ERROR_IN_CUBIT_SIGN_IN_$error');
-  //       emit(ShopLoginErrorState(error.toString()));
-  //     }
-  //     );
-  // }
+  LoginModel? loginModel; // Add the id,name,email ....
+
+
+  void userLogin(
+  {
+    required String email,
+    required String password
+  })
+  {
+    emit(LoginLoadingState());
+    MainDioHelper.postData(
+      url: LOGIN,
+      data:
+      {
+        'email':email,
+        'password':password,
+      },
+    ).then((value)  //when we get the data.
+    {
+      print(value.data);
+      loginModel=LoginModel?.fromJson(value.data);
+      emit(LoginSuccessState(loginModel!));
+    }
+      ).catchError((error)
+      {
+        print('ERROR_IN_CUBIT_SIGN_IN_$error');
+        emit(LoginErrorState(error.toString()));
+      }
+      );
+  }
 
 }

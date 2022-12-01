@@ -1,10 +1,12 @@
 class RegisterModel {
   User? user;
   String? token;
+  String? message;
 
   RegisterModel.fromJson(Map<String, dynamic> json) {
     user = User.fromJson(json['user']);
     token = json['token'];
+    message= json['message'];
   }
 }
 
@@ -14,9 +16,9 @@ class User {
   String? lastName;
   String? gender;
   String? birthDate;
-//  String? userPhoto;
+//String? userPhoto;
   String? email;
-  int? roleId;
+  String? roleId;
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];

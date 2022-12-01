@@ -8,6 +8,9 @@ import 'package:juniorproj/modules/register/cubit/states.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
 
+import '../../shared/components/constants.dart';
+import '../../shared/network/local/cache_helper.dart';
+
 
 class RegisterScreen extends StatefulWidget {
 
@@ -37,35 +40,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
         listener: (context,state) async
         {
-          // if(state is RegisterSuccessState)  //The Right way of handling the api, here if login is successful and there is such record then it will print message and token, else message only since there is no token.
-          //     {
-          //   if(state.registerModel.status == true)
-          //   {
-          //     print(state.registerModel.message);
-          //     print(state.registerModel.data?.token);
-          //
-          //     await DefaultToast(
-          //         msg: '${state.registerModel.message}',
-          //         state: ToastStates.SUCCESS,
-          //     );
-          //
-          //     CacheHelper.saveData(key: 'token', value: state.registerModel.data?.token).then((value)  //to save the token, so I have logged in and moved to home page.
-          //     {
-          //       token=state.registerModel.data!.token!;  //To renew the token if I logged out and went in again.
-          //       navigateAndFinish(context, const HomeLayout());
-          //     });
-          //   }
-          //   else
-          //   {
-          //     print(state.registerModel.message);
-          //
-          //     await DefaultToast(
-          //         msg: '${state.registerModel.message}',
-          //         state: ToastStates.ERROR,
-          //     );
-          //   }
-          //
-          // }
+          if(state is RegisterSuccessState)  //The Right way of handling the api, here if login is successful and there is such record then it will print message and token, else message only since there is no token.
+              {
+            if(state.registerModel.message == null)
+            {
+              print(state.registerModel.message);
+              print(state.registerModel.token);
+
+              await DefaultToast(
+                  msg: 'Success', //${state.registerModel.message}
+                  state: ToastStates.SUCCESS,
+              );
+
+              CacheHelper.saveData(key: 'token', value: state.registerModel.token).then((value)  //to save the token, so I have logged in and moved to home page.
+              {
+                token=state.registerModel.token!;  //To renew the token if I logged out and went in again.
+                navigateAndFinish(context, const HomeLayout());
+              });
+            }
+            else
+            {
+              print(state.registerModel.message);
+
+              await DefaultToast(
+                  msg: '${state.registerModel.message}',
+                  state: ToastStates.ERROR,
+              );
+            }
+
+          }
+
+          if(state is RegisterErrorState)
+            {
+              await DefaultToast(
+                msg: state.error.toString(),
+                state: ToastStates.ERROR
+              );
+            }
         },
 
         builder: (context,state)
@@ -259,7 +270,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     gender: currentGender,
                                     birthdate: birthDateController.text,
                                   );
-                                  navigateAndFinish(context, const HomeLayout());  //Should be removed after connecting with the Database.
+                                  //navigateAndFinish(context, const HomeLayout());  //Should be removed after connecting with the Database.
                                 }
                               },
                               text: 'Register'),

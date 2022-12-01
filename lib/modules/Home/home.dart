@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/modules/Units/units.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
@@ -70,7 +71,7 @@ class HomePage extends StatelessWidget {
                             child: defaultButton(
                                 function: ()
                                 {
-                                  navigateTo(context, const Units());
+                                  navigateTo(context, Units());
                                 },
                                 text: "Let's Go")),
                       ],

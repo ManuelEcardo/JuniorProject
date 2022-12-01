@@ -1,11 +1,12 @@
 class LoginModel {
   User? user;
   String? token;
-
+  String? message;
 
   LoginModel.fromJson(Map<String, dynamic> json) {
     user = User.fromJson(json['user']);
     token = json['token'];
+    message=json['message'];
   }
 
 }

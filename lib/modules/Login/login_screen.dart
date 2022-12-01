@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:juniorproj/layout/home_layout.dart';
 import 'package:juniorproj/modules/register/register_screen.dart';
 import 'package:juniorproj/shared/components/components.dart';
+import '../../shared/components/constants.dart';
+import '../../shared/network/local/cache_helper.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 
@@ -28,36 +30,43 @@ class LoginScreen extends StatelessWidget {
       child: BlocConsumer<LoginCubit,LoginStates>(
         listener: (context,state) async
         {
-          // if(state is LoginSuccessState)  //The Right way of handling the api, here if login is successful and there is such record then it will print message and token, else message only since there is no token.
-          //   {
-          //     if(state.loginModel.status == true)
-          //     {
-          //       print(state.loginModel.message);
-          //       print(state.loginModel.data?.token);
-          //
-          //       await DefaultToast(
-          //           msg: '${state.loginModel.message}',
-          //           state: ToastStates.SUCCESS,
-          //       );
-          //
-          //       CacheHelper.saveData(key: 'token', value: state.loginModel.data?.token).then((value)  //to save the token, so I have logged in and moved to home page.
-          //       {
-          //         token=state.loginModel.data!.token!;  //To renew the token if I logged out and went in again.
-          //         navigateAndFinish(context, const HomeLayout());
-          //       });
-          //     }
-          //     else
-          //     {
-          //
-          //       print(state.loginModel.message);
-          //
-          //       await DefaultToast(
-          //           msg: '${state.loginModel.message}',
-          //         state: ToastStates.ERROR,
-          //       );
-          //     }
-          //
-          //   }
+          if(state is LoginSuccessState)  //The Right way of handling the api, here if login is successful and there is such record then it will print message and token, else message only since there is no token.
+            {
+              if(state.loginModel.message == null)  //state.loginModel.status == true
+              {
+                print(state.loginModel.message);
+                print(state.loginModel.token);
+
+                await DefaultToast(
+                    msg: 'Success', //${state.loginModel.message}
+                    state: ToastStates.SUCCESS,
+                );
+
+                CacheHelper.saveData(key: 'token', value: state.loginModel.token).then((value)  //to save the token, so I have logged in and moved to home page.
+                {
+                  token=state.loginModel.token!;  //To renew the token if I logged out and went in again.
+                  navigateAndFinish(context, const HomeLayout());
+                });
+              }
+              else
+              {
+                print(state.loginModel.message);
+
+                await DefaultToast(
+                    msg: '${state.loginModel.message}',
+                  state: ToastStates.ERROR,
+                );
+              }
+
+            }
+
+          if(state is LoginErrorState)
+            {
+              await DefaultToast(
+                  msg: state.error.toString().substring(0,10),
+                  state: ToastStates.ERROR,
+              );
+            }
 
         },
         builder: (context,state)
@@ -128,13 +137,13 @@ class LoginScreen extends StatelessWidget {
 
                           onSubmit: (value)
                             {
-                              // if(FormKey.currentState!.validate())
-                              // {
-                              //   LoginCubit.get(context).userLogin(
-                              //     email: EmailController.text,
-                              //     password: PasswordController.text,
-                              //   );
-                              // }
+                              if(formKey.currentState!.validate())
+                              {
+                                LoginCubit.get(context).userLogin(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                );
+                              }
                             }
                         ),
 
@@ -146,14 +155,13 @@ class LoginScreen extends StatelessWidget {
                           builder: (context)=> defaultButton(
                               function: ()
                               {
-                                // if(FormKey.currentState!.validate())
-                                //   {
-                                //     // LoginCubit.get(context).userLogin(
-                                //     //   email: EmailController.text,
-                                //     //   password: PasswordController.text,
-                                //
-                                //   }
-                                navigateAndFinish(context, const HomeLayout());
+                                if(formKey.currentState!.validate())
+                                  {
+                                    LoginCubit.get(context).userLogin(
+                                      email: emailController.text,
+                                      password: passwordController.text,);
+                                  }
+                                //navigateAndFinish(context, const HomeLayout());
                               },
                               text: 'login'),
                         ),

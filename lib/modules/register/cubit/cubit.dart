@@ -45,7 +45,7 @@ class RegisterCubit extends Cubit<RegisterStates>
       {
         'first_name':firstname,
         'last_name':lastname,
-        'gender':gender,
+        'gender':gender.toLowerCase(),
         'birth_date':birthdate,
         'email':email,
         'password':password,
@@ -54,7 +54,10 @@ class RegisterCubit extends Cubit<RegisterStates>
     ).then((value)  //when we get the data.
     {
       print(value.data);
+      print('hi from register then');
       registerModel=RegisterModel?.fromJson(value.data);
+
+      print('hi from register after JSON');
       emit(RegisterSuccessState(registerModel!));
     }
       ).catchError((error)
