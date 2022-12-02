@@ -99,3 +99,14 @@ class AppPutUserInfoLoadingState extends AppStates{}
 class AppPutUserInfoSuccessState extends AppStates{}
 
 class AppPutUserInfoErrorState extends AppStates{}
+
+
+//----------------------
+
+//USER LOGOUT:
+
+class AppUserSignOutLoadingState extends AppStates{}
+
+class AppUserSignOutSuccessState extends AppStates{}
+
+class AppUserSignOutErrorState extends AppStates{}

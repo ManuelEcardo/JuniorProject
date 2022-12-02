@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/home_layout.dart';
 import 'package:juniorproj/modules/register/register_screen.dart';
 import 'package:juniorproj/shared/components/components.dart';
@@ -45,6 +46,7 @@ class LoginScreen extends StatelessWidget {
                 CacheHelper.saveData(key: 'token', value: state.loginModel.token).then((value)  //to save the token, so I have logged in and moved to home page.
                 {
                   token=state.loginModel.token!;  //To renew the token if I logged out and went in again.
+                  AppCubit().userData(); //If the user Logged out and then signed in again, it will get the user data model.
                   navigateAndFinish(context, const HomeLayout());
                 });
               }

@@ -14,11 +14,11 @@ class UnitsModel
 
 
 class UnitItem {
-  int? id;
+  int? id; //The unit id
   String? unitName;
   String? unitLevel;
   String? unitStatus;
-  int? languageId;
+  int? languageId; //it's language id, ex unit 2 from language id 1 => in English Course.
 
   UnitItem.fromJson(Map<String, dynamic> json) {
     id = json['id'];

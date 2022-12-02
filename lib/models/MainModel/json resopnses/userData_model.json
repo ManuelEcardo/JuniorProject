@@ -1,0 +1,20 @@
+{
+  "data": {
+    "user": [
+      {
+        "id": 2,
+        "first_name": "Mohammad",
+        "last_name": "Bali",
+        "gender": "m",
+        "birth_date": "2001-08-05",
+        "user_photo": null,
+        "email": "mhd@test.com",
+        "email_verified_at": null,
+        "role_id": 3,
+        "created_at": "2022-12-02T13:11:28.000000Z",
+        "updated_at": "2022-12-02T13:11:28.000000Z"
+      }
+    ]
+  },
+  "message": "Retrieve successfully"
+}

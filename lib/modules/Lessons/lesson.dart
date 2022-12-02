@@ -5,8 +5,13 @@ import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
 
+import '../../models/MainModel/content_model.dart';
+
 class Lesson extends StatelessWidget {
-  const Lesson({Key? key}) : super(key: key);
+
+  Lessons model;
+
+  Lesson(this.model);
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +51,8 @@ class Lesson extends StatelessWidget {
       children:
       [
         Center(
-          child:  Text(
-            'Lesson 1:',
+          child:Text(
+            'Lesson ${model.id}:',
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -73,12 +78,10 @@ class Lesson extends StatelessWidget {
 
         const SizedBox(height: 10,),
 
-        const Text(
-          'Welcome to your first lesson in this course. \nWe are delighted to have you with us. \nToday\'s lesson is remembering the pronouns.'
-              '\nThe Pronouns are: I,you,he,she,it,we,are,they.'
-              '\nEach sentence in the English language must contain a pronoun.',
+        Text(
+          model.lesson_content,
           textAlign: TextAlign.start,
-          style: TextStyle(
+          style:const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w100,
           ),

@@ -12,7 +12,10 @@ import 'package:juniorproj/shared/network/remote/main_dio_helper.dart';
 
 import '../../models/MainModel/content_model.dart';
 import '../../models/MainModel/login_model.dart';
+import '../../models/MainModel/userData_model.dart';
+import '../../models/MainModel/userData_model.dart';
 import '../../modules/Languages/languages.dart';
+import '../../shared/components/constants.dart';
 import '../../shared/network/end_points.dart';
 
 class AppCubit extends Cubit<AppStates>
@@ -172,22 +175,23 @@ class AppCubit extends Cubit<AppStates>
 
 
   // GET USER DATA
-  static LoginModel? userModel; // get user info
+  static UserModel? userModel; // get user info
 
   void userData()
   {
     emit(AppGetUserDataLoadingState());
     MainDioHelper.getData(
-      url: LOGIN,
+      url: INFO,
+      token: token,
     ).then((value)
     {
       print(value.data);
-      userModel=LoginModel?.fromJson(value.data);
+      userModel=UserModel?.fromJson(value.data);
       emit(AppGetUserDataSuccessState());
     }
     ).catchError((error)
     {
-      print('ERROR IN GETTING USER INFO, ${error.toString()}');
+      print('ERROR IN GETTING USER DATA, ${error.toString()}');
       emit(AppGetUserDataErrorState());
     }
     );
@@ -278,20 +282,20 @@ class AppCubit extends Cubit<AppStates>
 
     emit(AppPutUserInfoLoadingState());
 
-    firstName ==null ? fname=userModel?.user?.firstName : fname=firstName;  //If FirstName of Last Name or Userphoto is not null then use it's value, else use the one in UserModel.
+    firstName ==null ? fname=userModel!.data!.user![0].firstName : fname=firstName;  //If FirstName of Last Name or Userphoto is not null then use it's value, else use the one in UserModel.
 
-    lastName ==null ? lname=userModel?.user?.lastName : lname=lastName;
+    lastName ==null ? lname=userModel!.data!.user![0].lastName : lname=lastName;
 
-    userPhoto ==null ? photo=userModel?.user?.userPhoto : photo=userPhoto;
+    userPhoto ==null ? photo=userModel!.data!.user![0].userPhoto : photo=userPhoto;
 
     MainDioHelper.putData(
-        url: '$PROFILE/${userModel?.user?.id}',
+        url: '$PROFILE/${userModel!.data!.user![0].id}',
         data:
         {
           'first_name':fname,
           'last_name':lname,
-          'gender':userModel?.user?.gender,
-          'birth_date': userModel?.user?.birthDate,
+          'gender':userModel!.data!.user![0].gender,
+          'birth_date': userModel!.data!.user![0].birthDate,
           'user_photo': photo,
         },
     ).then((value)
@@ -301,6 +305,28 @@ class AppCubit extends Cubit<AppStates>
     {
       print('ERROR WHILE PUTTING USER INFO ${error.toString()}');
       emit(AppPutUserInfoErrorState());
+    });
+  }
+
+
+  //User Logout
+
+  void logoutUserOut(BuildContext context)
+  {
+    emit(AppUserSignOutLoadingState());
+    MainDioHelper.postData(
+        url: LOGOUT,
+        token:token,
+        data: {},
+    ).then((value)
+    {
+      signOut(context);
+      userModel=null;
+      emit(AppUserSignOutSuccessState());
+    }).catchError((error)
+    {
+      print('ERROR WHILE SIGNING OUT, ${error.toString()}');
+      emit(AppUserSignOutErrorState());
     });
   }
 
