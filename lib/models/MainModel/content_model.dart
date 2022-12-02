@@ -1,9 +1,9 @@
 class ContentModel {
 
-  List<String>? unitOverview;
-  List<Questions>? questions;
-  List<Lessons>? lessons;
-  List<Videos>? videos;
+  List<String>? unitOverview=[];
+  List<Questions>? questions=[];
+  List<Lessons>? lessons=[];
+  List<Videos>? videos=[];
 
   ContentModel.fromJson(Map<String, dynamic> json)
   {
@@ -21,13 +21,13 @@ class ContentModel {
 
     json['lessons'].forEach((element)
     {
-      questions?.add(Questions.fromJson(element));
+      lessons?.add(Lessons.fromJson(element));
     }
     );
 
     json['videos'].forEach((element)
     {
-      questions?.add(Questions.fromJson(element));
+      videos?.add(Videos.fromJson(element));
     }
     );
   }
@@ -59,20 +59,37 @@ class Questions
 
 class Lessons
 {
-  String? lesson_title;
-  String? lesson_content;
-  int? unit_id;
+  late String lesson_title;
+  late String lesson_content;
+  late int unit_id;
+  late int id;
 
   Lessons.fromJson(Map<String, dynamic> json)
   {
     lesson_title=json['lesson_title'];
     lesson_content=json['lesson_content'];
     unit_id=json['unit_id'];
+    id=json['id'];
   }
 
 }
 
-class Videos
-{
+class Videos {
+  int? id;
+  String? videoTitle;
+  String? videoLink;
+  String? videoDescription;
+  String? videoSubtitle;
+  int? unitId;
+
+
+  Videos.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    videoTitle = json['video_title'];
+    videoLink = json['video_link'];
+    videoDescription = json['video_description'];
+    videoSubtitle = json['video_subtitle'];
+    unitId = json['unit_id'];
+  }
 
 }

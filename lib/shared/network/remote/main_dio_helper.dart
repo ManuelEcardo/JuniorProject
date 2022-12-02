@@ -23,7 +23,7 @@ class MainDioHelper
     dio?.options.headers=
     {
       'Connection' : 'keep-alive',
-      'token': token,
+      'Authorization': 'Bearer $token',
     };
 
     print('in Main Dio getData');
@@ -34,13 +34,14 @@ class MainDioHelper
   }
 
 
+
   static Future<Response> postData(
       {required String url, Map<String,dynamic>?query,  required Map<String,dynamic> data, String lang='en', String? token,  }) async
   {
     dio?.options.headers=
     {
       'Connection' : 'keep-alive',
-      'token': token,
+      'Authorization': 'Bearer $token',
     };
 
     print('in Main Dio postData');

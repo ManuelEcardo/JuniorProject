@@ -6,7 +6,10 @@ import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
 
 class UnitOverview extends StatelessWidget {
-  const UnitOverview({Key? key}) : super(key: key);
+
+  List<String> model;
+
+  UnitOverview(this.model, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +52,7 @@ class UnitOverview extends StatelessWidget {
       [
          Center(
           child:  Text(
-            'Unit 1:',
+            'Unit Overview:',
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -75,13 +78,21 @@ class UnitOverview extends StatelessWidget {
 
         const SizedBox(height: 10,),
 
-        const Text(
-          'In this unit, we will introduce some new words along with videos.\nWe will try to explain some ordinary concepts too. \nAt the end, you will take a quiz to proceed to the next unit.',
-          textAlign: TextAlign.start,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w100,
-          ),
+        ListView.builder(
+            itemCount: model.length,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (context,index)
+            {
+              return Text(
+                model[index],
+                textAlign: TextAlign.start,
+                style:const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w100,
+                ),
+              );
+            },
         ),
 
         const SizedBox(height: 20,),
@@ -101,3 +112,5 @@ class UnitOverview extends StatelessWidget {
     );
   }
 }
+
+

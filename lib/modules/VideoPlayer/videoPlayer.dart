@@ -8,6 +8,7 @@ import 'package:juniorproj/modules/VideoPlayer/cubit/cubit.dart';
 import 'package:juniorproj/modules/VideoPlayer/cubit/states.dart';
 import 'package:juniorproj/modules/VideoPlayer/defShow.dart';
 import 'package:juniorproj/shared/components/components.dart';
+import 'package:juniorproj/shared/styles/colors.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:selectable/selectable.dart';
 import 'package:string_extensions/string_extensions.dart';
@@ -15,8 +16,15 @@ import 'package:subtitle_wrapper_package/bloc/subtitle/subtitle_bloc.dart';
 import 'package:subtitle_wrapper_package/subtitle_wrapper_package.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../models/MainModel/content_model.dart';
+import '../../shared/styles/styles.dart';
+
 class VideoGetter extends StatefulWidget {
-  const VideoGetter({Key? key}) : super(key: key);
+
+
+  final Videos video;
+
+  const VideoGetter(this.video, {Key? key}) : super(key: key);
 
   @override
   State<VideoGetter> createState() => _VideoGetterState();
@@ -24,9 +32,9 @@ class VideoGetter extends StatefulWidget {
 
 class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
-  final String videoAsset= 'assets/videos/bryan.mp4';
-  final SubtitleController subtitleController= SubtitleController(  //SubtitleController Helps to manage the subtitles for the video.
-    subtitleUrl: 'https://drive.google.com/u/0/uc?id=1x0Qt5gurTM11RDWiuKRCqPrQMlwjgEqp&export=download', //'https://drive.google.com/u/0/uc?id=1gZ9pHKRoZYdE8C_FH2NbDHa6bLDf5bpt&export=download',
+
+  late SubtitleController subtitleController= SubtitleController(  //SubtitleController Helps to manage the subtitles for the video. //WAS FINAL INSTEAD OF LATE
+    subtitleUrl: widget.video.videoSubtitle!, //'https://drive.google.com/u/0/uc?id=1x0Qt5gurTM11RDWiuKRCqPrQMlwjgEqp&export=download'
     showSubtitles: true,
     subtitleType: SubtitleType.srt,
   );
@@ -43,7 +51,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
   VideoPlayerController get videoController  //Setting a getter for the videoController
   {
-    return VideoPlayerController.network('https://drive.google.com/u/0/uc?id=1bb9ZIltdgN-yBSnXfeJ9jTdb2FoQkiLk&export=download');
+    return VideoPlayerController.network(widget.video.videoLink!);
   }
 
   ChewieController get chewieController {  //Setting a getter for ChewieController which helps to manage the video and it's controls, initialize and fullscreen.
@@ -99,12 +107,10 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
   @override
   void dispose()
   {
-
-
    // if (videoController != null && chewieController != null)
     //{
-      videoController.dispose(); //Discards any resources used by the object
-      chewieController.dispose(); //Dispose the Chewie package.
+    videoController.dispose(); //Discards any resources used by the object
+    chewieController.dispose(); //Dispose the Chewie package.
     //}
 
     selectableController..removeListener(_selectionChangedListener)..dispose();
@@ -128,9 +134,9 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context)  {
-
     SubtitleBloc? subtitleBloc;
     var subtitle;
+    bool isPaused=false;
     return BlocConsumer<WordCubit,WordStates>(
       listener: (context,state)
       {
@@ -232,6 +238,21 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children:
                   [
+                    Align(
+                      alignment: AlignmentDirectional.topStart,
+                      child: Text(
+                        '${widget.video.videoTitle!}:',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1,
+                          color: pistachioColor,
+                        ),
+                      ),
+                    ),
+
                     const SizedBox(height: 10,),
 
                     AspectRatio(
@@ -273,19 +294,30 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                       child: GestureDetector(  //If the Subtitles has been pressed, the gesture detector allows taps.
                         onTap: ()
                         {
-                          subtitleBloc= subtitleController.getSubBloc();  //Getting the SubtitleBloc from the SubtitleController through a method I've Created in the SubtitleController class.
-
-                          subtitle= subtitleBloc?.subtitles;  //Get ll the subtitles and store them in a variable.
-
-                          for( var subItem in subtitle!.subtitles)  //Get to work with each subtitle by itself
-                              {
-                            if(subItem.startTime.inSeconds <= localChewieController.videoPlayerController.value.position.inSeconds && localChewieController.videoPlayerController.value.position.inSeconds <= subItem.endTime.inSeconds )  //If the current video time is same as the subtitle timeline,
-                                {
-                              DefaultToast(msg: 'Paused');
-                              localChewieController.videoPlayerController.pause();
-                              break;  //Break so won't keep on looping inside the for for memory management.
+                          // subtitleBloc= subtitleController.getSubBloc();  //Getting the SubtitleBloc from the SubtitleController through a method I've Created in the SubtitleController class.
+                          //
+                          // subtitle= subtitleBloc?.subtitles;  //Get ll the subtitles and store them in a variable.
+                          //
+                          // for( var subItem in subtitle!.subtitles)  //Get to work with each subtitle by itself
+                          //     {
+                          //   if(subItem.startTime.inSeconds <= localChewieController.videoPlayerController.value.position.inSeconds && localChewieController.videoPlayerController.value.position.inSeconds <= subItem.endTime.inSeconds )  //If the current video time is same as the subtitle timeline,
+                          //       {
+                          //     DefaultToast(msg: 'Paused');
+                          //     localChewieController.videoPlayerController.pause();
+                          //     break;  //Break so won't keep on looping inside the for for memory management.
+                          //   }
+                          // }
+                          if(localChewieController.isPlaying)
+                            {
+                                  DefaultToast(msg: 'Paused');
+                                  localChewieController.videoPlayerController.pause();
                             }
-                          }
+                          else if (localChewieController.isPlaying ==false)
+                            {
+                              DefaultToast(msg: 'Playing');
+                              localChewieController.videoPlayerController.play();
+                            }
+
                         },
                         child: SubtitleWrapper(
                           videoPlayerController: localChewieController.videoPlayerController,  //Specifying the controller of the video.
@@ -310,6 +342,28 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                         ),
                       ),
                     ),
+
+                    const SizedBox(height: 40,),
+
+                    Align(
+                      alignment: AlignmentDirectional.topStart,
+                      child: Text(
+                        'Video description:',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: defaultHeadlineTextStyle,
+                      ),
+                    ),
+
+                    const SizedBox(height: 10,),
+
+                    Align(
+                      alignment: AlignmentDirectional.topStart,
+                      child: Text(
+                        widget.video.videoDescription!,
+                        style: ordinaryTextStyle,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -332,64 +386,6 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
   }
 
-  // Future<Widget> bb()
-  // async {
-  //   await showDialog(
-  //       context: context,
-  //       builder: (context)
-  //   {
-  //     return StatefulBuilder(
-  //       builder: (context,setBState)
-  //       {
-  //         MerriamModel? model;
-  //         setBState(()
-  //          {
-  //             model= WordCubit.model;
-  //             WordCubit.model=null;
-  //         });
-  //         return ConditionalBuilder(
-  //           condition: model !=null,
-  //           fallback: (context)
-  //           {
-  //             return const Center(
-  //               child:CircularProgressIndicator(),
-  //             );
-  //           },
-  //           builder: (context)
-  //           {
-  //             return AlertDialog(
-  //               title: Text(
-  //                 '${model?.fl}',
-  //                 textAlign: TextAlign.center,
-  //                 style: TextStyle(
-  //                   color: HexColor('8AA76C'),
-  //                   fontWeight: FontWeight.w700,
-  //                 ),
-  //               ),
-  //               content:  Column(
-  //                 mainAxisAlignment: MainAxisAlignment.start,
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children:
-  //                 [
-  //                   Text(
-  //                     '${model?.shortdef?[0]}',
-  //                     style: const TextStyle(
-  //                       color: Colors.black,
-  //                       fontSize: 18,
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             );
-  //           },
-  //         );
-  //       },
-  //     );
-  //   }
-  //   );
-  //   return const CircularProgressIndicator();
-  // }
 
   popupDialog(MerriamModel? model)
   async {
