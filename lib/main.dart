@@ -39,13 +39,13 @@ void main() async {
     token = CacheHelper.getData(key: 'token'); // Get User Token
   }
 
-  Widget widget;
+  Widget widget; //to figure out which widget to send (login, onBoarding or HomePage) we use a widget and set the value in it depending on the token.
 
   if (onBoarding == true) //OnBoarding Screen has been shown before
   {
     if (token.isNotEmpty) //Token is there, so Logged in before
     {
-      widget = HomeLayout(); //Straight to Home Page.
+      widget = const HomeLayout(); //Straight to Home Page.
     }
     else  //OnBoarding has been shown before but the token is empty => Login is required.
     {
@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       //Multi BlocProvider will be initialized in the main, so if there is more than one, all can be started here.
       providers: [
-        BlocProvider(create: (BuildContext context) => AppCubit()..changeTheme(themeFromState: isDark)..userData()..getLanguages()  ),  //Main Cubit for the HomeLayout and most of the Views.
+        BlocProvider(create: (BuildContext context) => AppCubit()..changeTheme(themeFromState: isDark)..getLanguages()..userData()  ),  //Main Cubit for the HomeLayout and most of the Views.
 
         BlocProvider(create: (BuildContext context) => WordCubit()),  //Getting the definition of words.
 

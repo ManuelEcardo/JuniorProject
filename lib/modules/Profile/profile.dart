@@ -84,13 +84,13 @@ class ProfilePage extends StatelessWidget {
                           },
                           child: Stack(
                             alignment: Alignment.bottomRight,
-                            children: const
+                            children:
                             [
                               CircleAvatar(
                                 backgroundColor: Colors.black12,
                                 radius: 55,
                                 backgroundImage:
-                                AssetImage('assets/images/robot.gif'),
+                                AssetImage('assets/images/${model!.data!.user![0].userPhoto}'),
                               ),
 
                               Padding(
@@ -102,7 +102,7 @@ class ProfilePage extends StatelessWidget {
                         ),
 
                         Text(
-                          model!.data!.user![0].firstName!,
+                          model.data!.user![0].firstName!,
                           style: defaultHeadlineTextStyle,
                         ),
 

@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
         {
           var model=AppCubit.userModel;
           return ConditionalBuilder(
-            condition: AppCubit.userModel !=null,
+            condition: model !=null, //was AppCubit.userModel != null
             fallback: (context)=>const Center(child: CircularProgressIndicator(),),
             builder: (context)=>SingleChildScrollView(
               child: Padding(
@@ -36,11 +36,11 @@ class HomePage extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              const CircleAvatar(
+                               CircleAvatar(
                                 backgroundColor: Colors.black12,
                                 radius: 50,
                                 backgroundImage: AssetImage(
-                                    'assets/images/robot.gif'), //assets/images/profile.jpg
+                                    'assets/images/${model!.data!.user![0].userPhoto}'), //assets/images/profile.jpg
                               ),
 
                               const SizedBox(
@@ -49,7 +49,7 @@ class HomePage extends StatelessWidget {
 
                               Expanded(
                                 child: Text(
-                                  'Welcome Back, ${model!.data!.user![0].firstName}!',
+                                  'Welcome Back, ${model.data!.user![0].firstName}!',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                   style: defaultHeadlineTextStyle,
