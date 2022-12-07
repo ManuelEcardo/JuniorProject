@@ -1,10 +1,10 @@
-// End Points for Login and Register.
+// End Points for Login and Register etc...
 
-const String localhost='https://0a9d-217-20-208-133.eu.ngrok.io';  //local host to connect
+const String localhost='https://d21d-217-20-212-49.eu.ngrok.io';  //local host to connect, it's temporary and will be removed later.
 
-const String LOGIN='login';
+const String LOGIN='login';  //Login to your account
 
-const String REGISTER='register';
+const String REGISTER='register'; //Register your account
 
 const String LANGUAGES='languages'; //get all languages
 

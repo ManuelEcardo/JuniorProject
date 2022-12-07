@@ -29,7 +29,7 @@ class WordCubit extends Cubit<WordStates>
         }
     ).catchError((error)
     {
-      print('ERROR IN GETTING DATA ${error.toString()} ');
+      print('ERROR IN GETTING MERRIAM DATA, ${error.toString()} ');
       emit(WordsErrorState(error.toString()));
     }
     );

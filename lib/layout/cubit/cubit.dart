@@ -33,7 +33,7 @@ class AppCubit extends Cubit<AppStates>
   ];
 
 
-  int currentIndex=0;  //The Index of the BottomNavBar item.
+  int currentIndex=1;  //The Index of the BottomNavBar item.
 
   void changeBottom(int index) //Function will be called when the bottom navigation bar item has changed, which will change the index and emit the state.
   {
@@ -179,6 +179,7 @@ class AppCubit extends Cubit<AppStates>
 
   void userData()
   {
+
     emit(AppGetUserDataLoadingState());
     MainDioHelper.getData(
       url: INFO,
@@ -282,13 +283,13 @@ class AppCubit extends Cubit<AppStates>
 
     emit(AppPutUserInfoLoadingState());
 
-    firstName ==null ? fname=userModel!.data!.user![0].firstName : fname=firstName;  //If FirstName of Last Name or Userphoto is not null then use it's value, else use the one in UserModel.
+    firstName ==null ? fname=userModel!.data!.user![0].firstName : fname=firstName;  //If FirstName of Last Name or User photo is not null then use it's value, else use the one in UserModel.
 
     lastName ==null ? lname=userModel!.data!.user![0].lastName : lname=lastName;
 
     userPhoto ==null ? photo=userModel!.data!.user![0].userPhoto : photo=userPhoto;
 
-    MainDioHelper.putData(
+    MainDioHelper.patchData(
         url: '$PROFILE/${userModel!.data!.user![0].id}',
         data:
         {
@@ -300,6 +301,7 @@ class AppCubit extends Cubit<AppStates>
         },
     ).then((value)
     {
+      userData(); //To Update the current values.
       emit(AppPutUserInfoSuccessState());
     }).catchError((error)
     {
@@ -322,6 +324,7 @@ class AppCubit extends Cubit<AppStates>
     {
       signOut(context);
       userModel=null;
+      changeBottom(1);
       emit(AppUserSignOutSuccessState());
     }).catchError((error)
     {

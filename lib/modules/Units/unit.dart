@@ -229,9 +229,9 @@ class Unit extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Expanded(
+             const Expanded(
                 child: Text(
-                  'VIDEO ${model.id!}',
+                  'VIDEO: ',
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 18,
@@ -278,9 +278,9 @@ class Unit extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Expanded(
+              const Expanded(
                 child: Text(
-                  'LESSON ${model.id}',
+                  'LESSON:',
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 18,

@@ -34,7 +34,6 @@ class MainDioHelper
   }
 
 
-
   static Future<Response> postData(
       {required String url, Map<String,dynamic>?query,  required Map<String,dynamic> data, String lang='en', String? token,  }) async
   {
@@ -68,5 +67,24 @@ class MainDioHelper
       data: data,
     );
   }
+
+
+  static Future<Response> patchData(
+      {required String url, Map<String,dynamic>?query,  required Map<String,dynamic> data, String lang='en', String? token,  }) async
+  {
+    dio?.options.headers=
+    {
+      'Connection' : 'keep-alive',
+      //'token': token,
+    };
+    print('in Main Dio patchData');
+    return await dio!.patch(
+      url,
+      queryParameters: query,
+      data: data,
+    );
+  }
+
+
 
 }

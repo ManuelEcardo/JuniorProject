@@ -5,7 +5,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/shared/components/components.dart';
-import 'package:juniorproj/shared/components/constants.dart';
 import 'package:juniorproj/shared/styles/styles.dart';
 
 import 'change_profile_picture.dart';
@@ -85,13 +84,13 @@ class ProfilePage extends StatelessWidget {
                           },
                           child: Stack(
                             alignment: Alignment.bottomRight,
-                            children: const
+                            children:
                             [
                               CircleAvatar(
                                 backgroundColor: Colors.black12,
                                 radius: 55,
                                 backgroundImage:
-                                AssetImage('assets/images/robot.gif'),
+                                AssetImage('assets/images/${model!.data!.user![0].userPhoto}'),
                               ),
 
                               Padding(
@@ -103,7 +102,7 @@ class ProfilePage extends StatelessWidget {
                         ),
 
                         Text(
-                          model!.data!.user![0].firstName!,
+                          model.data!.user![0].firstName!,
                           style: defaultHeadlineTextStyle,
                         ),
 

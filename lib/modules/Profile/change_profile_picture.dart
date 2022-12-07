@@ -19,9 +19,31 @@ class ChangeProfilePicture extends StatelessWidget {
         {
           var cubit= AppCubit.get(context);
 
-          List<String> list=
-          [
-            'assets/images/robot.gif', 'assets/images/robot 2.gif' ,'assets/images/robot 3.gif' ,'assets/images/robot 4.gif'
+          // List<String> list=
+          // [
+          //   'assets/images/illustration-1.gif', 'assets/images/illustration-2.gif' ,'assets/images/illustration-3.gif' ,'assets/images/illustration-4.gif'
+          // ];
+
+          List<Map<String,String>> list= [
+            {
+              'name':'illustration-1.gif',
+              'link':'assets/images/illustration-1.gif'
+            },
+
+            {
+              'name':'illustration-2.gif',
+              'link':'assets/images/illustration-2.gif'
+            },
+
+            {
+              'name':'illustration-3.gif',
+              'link':'assets/images/illustration-3.gif'
+            },
+
+            {
+              'name':'illustration-4.gif',
+              'link':'assets/images/illustration-4.gif'
+            },
           ];
 
           return Scaffold(
@@ -67,7 +89,7 @@ class ChangeProfilePicture extends StatelessWidget {
     );
   }
 
-  Widget itemBuilder(AppCubit cubit, String image)
+  Widget itemBuilder(AppCubit cubit, Map image)
   {
     return Column(
       children: [
@@ -77,11 +99,16 @@ class ChangeProfilePicture extends StatelessWidget {
           child: CircleAvatar(
             backgroundColor: Colors.black12,
             radius: 60,
-            backgroundImage: AssetImage(image),
+            backgroundImage: AssetImage(image['link']),
 
           ),
           onTap: () //Change User's profile picture.
           {
+            cubit.putUserInfo(
+              null,
+              null,
+              image['name'],
+            );
           },
         ),
 

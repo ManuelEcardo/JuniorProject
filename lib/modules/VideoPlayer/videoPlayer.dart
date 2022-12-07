@@ -147,7 +147,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
         if(state is WordsErrorState)
           {
-            DefaultToast(msg: 'Couldn\'t Get Data');
+            DefaultToast(msg: 'Wrong words selected');
           }
         if(state is WordsSuccessState)
           {
@@ -276,9 +276,9 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                             isEnabled: (selectableController)=>selectableController!.isTextSelected,  //Will check if this item is enabled
                             handler: (selectableController)
                             {
-                              cubit.currentWord=selectableController!.getSelection()!.text!.split(' ').first;  //Storing the selected word in a variable in cubit, remove everything after space.
+                              cubit.currentWord=selectableController!.getSelection()!.text!; //.split(' ').first  //Storing the selected word in a variable in cubit, remove everything after space.
 
-                              cubit.search(selectableController.getSelection()!.text!.split(' ').first);    //Searching for the word using Merriam Webster API
+                              cubit.search(selectableController.getSelection()!.text!);  //.split(' ').first  //Searching for the word using Merriam Webster API
 
                               localChewieController.videoPlayerController.pause();  //Pausing the video
 
@@ -392,7 +392,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
     await Dialogs.materialDialog(
       context: context,
       title: WordCubit.get(context).currentWord.capitalize,
-      msg: model?.shortdef?[0],
+      msg: model!.shortdef!.isNotEmpty ? model.shortdef![0] : '', //model?.shortdef?[0]
       actions:
       [
         TextButton(

@@ -22,14 +22,14 @@ class Leaderboards extends StatelessWidget {
           List<List<String>> list=
           [
             [
-              'assets/images/robot 2.gif', 'Nerdy Robot', '1000'
+              'assets/images/illustration-2.gif', 'Nerdy Robot', '1000'
             ],
 
             [
-              'assets/images/robot 3.gif', 'Fighter Robot', '500'
+              'assets/images/illustration-3.gif', 'Fighter Robot', '500'
             ],
             [
-              'assets/images/robot 4.gif', 'Newbie Robot', '250'
+              'assets/images/illustration-4.gif', 'Newbie Robot', '250'
             ],
           ];
           return Scaffold(

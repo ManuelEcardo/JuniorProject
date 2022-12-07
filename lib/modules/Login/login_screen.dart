@@ -139,6 +139,7 @@ class LoginScreen extends StatelessWidget {
 
                           onSubmit: (value)
                             {
+
                               if(formKey.currentState!.validate())
                               {
                                 LoginCubit.get(context).userLogin(

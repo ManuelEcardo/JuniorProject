@@ -8,6 +8,7 @@ import 'package:juniorproj/modules/register/cubit/states.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
 
+import '../../layout/cubit/cubit.dart';
 import '../../shared/components/constants.dart';
 import '../../shared/network/local/cache_helper.dart';
 
@@ -55,6 +56,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               CacheHelper.saveData(key: 'token', value: state.registerModel.token).then((value)  //to save the token, so I have logged in and moved to home page.
               {
                 token=state.registerModel.token!;  //To renew the token if I logged out and went in again.
+
+                AppCubit().userData(); //If the user Registered, it will get the user data model.
+
                 navigateAndFinish(context, const HomeLayout());
               });
             }
