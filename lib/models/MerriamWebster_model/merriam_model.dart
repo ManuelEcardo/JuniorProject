@@ -4,7 +4,7 @@ class MerriamModel {
   Hwi? hwi;
   String? fl;  //Type; verb or noun or adjective
   String? date; //Date of first use.
-  List<String>? shortdef;
+  List<String>? shortdef=[];
 
 
   MerriamModel.fromJson(Map<String, dynamic> json) {
@@ -12,8 +12,12 @@ class MerriamModel {
     hwi = Hwi.fromJson(json['hwi']);
     fl = json['fl'];
     date= json['date'];
-    shortdef = json['shortdef'].cast<String>();
+    if(json['shortdef'].isNotEmpty)
+      {
+        shortdef = json['shortdef'].cast<String>();
+      }
   }
+
 }
 
 class Meta {
@@ -30,9 +34,12 @@ class Hwi {
 
   Hwi.fromJson(Map<String, dynamic> json) {
     hw = json['hw'];
-      json['prs'].forEach((v) {
-        prs!.add( Prs.fromJson(v));
-      });
+    if (json['prs'] != null)
+      {
+        json['prs'].forEach((v) {
+          prs!.add( Prs.fromJson(v));
+        });
+      }
   }
 
 }

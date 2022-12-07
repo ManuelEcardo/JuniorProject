@@ -82,6 +82,7 @@ class ChangeProfilePicture extends StatelessWidget {
           ),
           onTap: () //Change User's profile picture.
           {
+
           },
         ),
 

@@ -179,6 +179,7 @@ class AppCubit extends Cubit<AppStates>
 
   void userData()
   {
+
     emit(AppGetUserDataLoadingState());
     MainDioHelper.getData(
       url: INFO,

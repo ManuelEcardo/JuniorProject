@@ -1,6 +1,6 @@
 // End Points for Login and Register.
 
-const String localhost='https://0a9d-217-20-208-133.eu.ngrok.io';  //local host to connect
+const String localhost='https://0b89-217-20-210-71.eu.ngrok.io';  //local host to connect
 
 const String LOGIN='login';
 

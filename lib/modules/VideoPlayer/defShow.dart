@@ -20,7 +20,6 @@ class DefinitionShow extends StatefulWidget {
 
 class _DefinitionShowState extends State<DefinitionShow> {
   final AudioPlayer myAudioPlayer=AudioPlayer();
-
   late Source audioUrl;
 
   @override
@@ -89,6 +88,8 @@ class _DefinitionShowState extends State<DefinitionShow> {
 
               const Spacer(),
 
+              //Audio Button
+              if(model.hwi!.prs!.isNotEmpty)
               if(model.hwi?.prs?[0]?.sound?.audio !=null)
                 IconButton(
                   icon: const Icon(
@@ -134,7 +135,7 @@ class _DefinitionShowState extends State<DefinitionShow> {
           Row(
             children: [
               Text(
-                  '${model.fl.capitalize}',
+                  model.fl !=null ? '${model.fl.capitalize}' : 'Couldn\'t get Type', //Word Type; Noun-verb
                 style:TextStyle(
                   fontSize: 22,
                   color: defaultColor,
@@ -144,9 +145,10 @@ class _DefinitionShowState extends State<DefinitionShow> {
               const Spacer(),
 
               //TextSpan in order to read the IPA (International Phonetic Alphabet)
+              if(model.hwi!.prs!.isNotEmpty)
               RichText(
                 text: TextSpan(
-                  text:'${model.hwi?.prs?[0]?.mw}',
+                  text: model.hwi?.prs?[0]?.mw !=null ? '${model.hwi?.prs?[0]?.mw}' : 'IPA',
                   style:TextStyle(
                     fontSize: 22,
                     color: defaultDarkColor,
@@ -174,7 +176,7 @@ class _DefinitionShowState extends State<DefinitionShow> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: model.shortdef?.length,
             itemBuilder: (context,index)=>Text(
-              '${index+1}. ${model.shortdef![index]}. \n',
+              model.shortdef !=null ? '${index+1}. ${model.shortdef![index]}. \n' : ' \' Couldn\'t Get Definition \' ',
               style: const TextStyle(
                 fontSize: 20,
                 fontStyle: FontStyle.italic,
@@ -200,7 +202,7 @@ class _DefinitionShowState extends State<DefinitionShow> {
           ),
 
           Text(
-            '${model.date}',
+            model.date !=null ? '${model.date}' : 'Couldn\'t get Date ',
             style:TextStyle(
               fontSize: 22,
               color: defaultColor,
@@ -208,11 +210,6 @@ class _DefinitionShowState extends State<DefinitionShow> {
           ),
 
           const SizedBox(height: 10,),
-
-          // Padding(
-          //   padding: const EdgeInsets.all(14.0),
-          //   child: myDivider(),
-          // ),
         ],
       ),
     );
