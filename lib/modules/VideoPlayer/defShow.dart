@@ -12,7 +12,7 @@ import 'package:string_extensions/string_extensions.dart';
 import '../../layout/cubit/cubit.dart';
 
 class DefinitionShow extends StatefulWidget {
-   DefinitionShow({Key? key}) : super(key: key);
+   const DefinitionShow({Key? key}) : super(key: key);
 
   @override
   State<DefinitionShow> createState() => _DefinitionShowState();
@@ -51,7 +51,7 @@ class _DefinitionShowState extends State<DefinitionShow> {
           ),
           body: Padding(
             padding: const EdgeInsets.all(24.0),
-            child: Container(
+            child: SizedBox(
               height: double.infinity,
               width: double.infinity,
               child: ConditionalBuilder(

@@ -1,14 +1,11 @@
 class UserModel {
   Data? data;
   String? message;
-
-
   UserModel.fromJson(Map<String, dynamic> json)
   {
     data = Data.fromJson(json['data']);
     message = json['message'];
   }
-
 }
 
 class Data {

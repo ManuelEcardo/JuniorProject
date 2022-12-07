@@ -41,8 +41,6 @@ class Questions
   String? answer;
   String? choices;
   int? unitId;
-  String? createdAt;
-  String? updatedAt;
 
   Questions.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -51,24 +49,38 @@ class Questions
     answer = json['answer'];
     choices = json['choices'];
     unitId = json['unit_id'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+  }
+}
+
+class Choices
+{
+  int? id;
+  String? choice;
+  String? isCorrect;
+  String? questionId;
+
+  Choices.fromJson(Map<String,dynamic> json)
+  {
+    id=json['id'];
+    choice=json['choice'];
+    isCorrect=json['is_correct'];
+    questionId= json['question_id'];
   }
 }
 
 
 class Lessons
 {
-  late String lesson_title;
-  late String lesson_content;
-  late int unit_id;
+  late String lessonTitle;
+  late String lessonContent;
+  late int unitId;
   late int id;
 
   Lessons.fromJson(Map<String, dynamic> json)
   {
-    lesson_title=json['lesson_title'];
-    lesson_content=json['lesson_content'];
-    unit_id=json['unit_id'];
+    lessonTitle=json['lesson_title'];
+    lessonContent=json['lesson_content'];
+    unitId=json['unit_id'];
     id=json['id'];
   }
 

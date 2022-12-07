@@ -15,6 +15,7 @@ class LanguageModel
 class Languages {
   int? id;
   String? languageName;
+  String? languagePhoto;
   String? createdAt;
   String? updatedAt;
 
@@ -23,6 +24,7 @@ class Languages {
   Languages.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     languageName = json['language_name'];
+    languagePhoto=json['language_photo'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }

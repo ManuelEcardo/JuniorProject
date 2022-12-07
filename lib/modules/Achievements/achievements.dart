@@ -5,7 +5,6 @@ import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/modules/Achievements/leaderboards.dart';
 import 'package:juniorproj/shared/components/components.dart';
-import 'package:juniorproj/shared/styles/colors.dart';
 
 import '../../shared/styles/styles.dart';
 
@@ -100,7 +99,7 @@ class AchievementsPage extends StatelessWidget {
   }
   Widget achievementItemBuilder(String text)
   {
-    return Container(
+    return SizedBox(
       height: 100,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

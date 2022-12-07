@@ -17,6 +17,8 @@ class LoginScreen extends StatelessWidget {
    var passwordController= TextEditingController();
    var formKey= GlobalKey<FormState>();
 
+  LoginScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -38,7 +40,7 @@ class LoginScreen extends StatelessWidget {
                 print(state.loginModel.message);
                 print(state.loginModel.token);
 
-                await DefaultToast(
+                await defaultToast(
                     msg: 'Success', //${state.loginModel.message}
                     state: ToastStates.SUCCESS,
                 );
@@ -54,7 +56,7 @@ class LoginScreen extends StatelessWidget {
               {
                 print(state.loginModel.message);
 
-                await DefaultToast(
+                await defaultToast(
                     msg: '${state.loginModel.message}',
                   state: ToastStates.ERROR,
                 );
@@ -64,7 +66,7 @@ class LoginScreen extends StatelessWidget {
 
           if(state is LoginErrorState)
             {
-              await DefaultToast(
+              await defaultToast(
                   msg: state.error.toString().substring(0,10),
                   state: ToastStates.ERROR,
               );

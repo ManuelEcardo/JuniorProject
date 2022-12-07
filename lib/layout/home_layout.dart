@@ -296,6 +296,7 @@ class HomeLayout extends StatelessWidget {
               child: FloatingActionButton(
                 onPressed: ()
                 {
+                  cubit.getLanguages(); //Get The Languages available to be taken.
                   navigateTo(context, const AddLanguage());
                 },
                 child: const Icon(Icons.add,),

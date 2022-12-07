@@ -18,6 +18,8 @@ class ProfilePage extends StatelessWidget {
 
   var firstNameController = TextEditingController();
 
+  ProfilePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
@@ -25,16 +27,16 @@ class ProfilePage extends StatelessWidget {
       {
         if(state is AppPutUserInfoSuccessState)
           {
-            DefaultToast(msg: 'Success');
+            defaultToast(msg: 'Success');
           }
         if(state is AppPutUserInfoErrorState)
           {
-            DefaultToast(msg: 'Error While Updating');
+            defaultToast(msg: 'Error While Updating');
           }
 
         if(state is AppPutUserInfoLoadingState)
           {
-            DefaultToast(msg: 'Updating...');
+            defaultToast(msg: 'Updating...');
           }
       },
       builder: (context, state) {
@@ -44,14 +46,13 @@ class ProfilePage extends StatelessWidget {
         if(model!= null)
         {
           final data = model.data!.user![0];
-          if(data != null)
-          {
-            firstNameController.text= data.firstName!;
 
-            emailController.text=data.email! ;
+          //had if data !=null
+          firstNameController.text= data.firstName!;
 
-            lastNameController.text=data.lastName! ;
-          }
+          emailController.text=data.email! ;
+
+          lastNameController.text=data.lastName! ;
         }
 
         return ConditionalBuilder(
@@ -62,7 +63,7 @@ class ProfilePage extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(24.0),
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -93,7 +94,7 @@ class ProfilePage extends StatelessWidget {
                                 AssetImage('assets/images/${model!.data!.user![0].userPhoto}'),
                               ),
 
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsetsDirectional.only(end:6, bottom: 2),
                                 child: Icon(Icons.camera_alt_outlined),
                               ),
@@ -238,7 +239,7 @@ class ProfilePage extends StatelessWidget {
                                               ),
                                             ),
                                             Text(
-                                              '-Structure: Yazan',
+                                              '-Structure: Yazan Abd Alkarem',
                                               style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 18,

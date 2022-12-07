@@ -32,7 +32,7 @@ class UnitOverview extends StatelessWidget {
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(24.0),
-              child: Container(
+              child: SizedBox(  //was Container
                 //height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 child: itemBuilder(),

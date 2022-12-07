@@ -1,54 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:juniorproj/layout/home_layout.dart';
 import 'package:juniorproj/modules/Login/login_screen.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/network/local/cache_helper.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class onBoardingModel
+class OnBoardingModel
 {
   final String image;
   final String title;
   final String body;
 
-  onBoardingModel({required this.image, required this.title, required this.body});
+  OnBoardingModel({required this.image, required this.title, required this.body});
 }
 
-class onBoardingScreen extends StatefulWidget {
+class OnBoardingScreen extends StatefulWidget {
+  const OnBoardingScreen({Key? key}) : super(key: key);
+
 
   @override
-  State<onBoardingScreen> createState() => _onBoardingScreenState();
+  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
 
-class _onBoardingScreenState extends State<onBoardingScreen> {
+class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
 
   bool isLast=false;
 
-  List<onBoardingModel> list=
+  List<OnBoardingModel> list=
   [
-    onBoardingModel(
+    OnBoardingModel(
         image: 'assets/images/on_board_1.jpg',
         title: 'Title 1',
         body: 'body 1'
     ),
 
-    onBoardingModel(
+    OnBoardingModel(
         image: 'assets/images/on_board_2.png',
         title: 'Title 2',
         body: 'body 2'
     ),
 
-    onBoardingModel(
+    OnBoardingModel(
         image: 'assets/images/on_board_3.png',
         title: 'Title 3',
         body: 'body 3'
     ),
   ];
 
-  var PageViewController= PageController();
+  var pageViewController= PageController();
 
   void submit()
   {
@@ -86,7 +87,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
           [
             Expanded(
                 child: PageView.builder(
-                  controller: PageViewController,
+                  controller: pageViewController,
                   physics: const BouncingScrollPhysics(),
                   onPageChanged: (int index)
                   {
@@ -122,7 +123,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
               children:
                [
                 SmoothPageIndicator(
-                    controller: PageViewController,
+                    controller: pageViewController,
                     count: list.length,
                   effect:  ExpandingDotsEffect
                     (
@@ -147,7 +148,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                         }
                       else
                         {
-                          PageViewController.nextPage(
+                          pageViewController.nextPage(
                               duration: const Duration(milliseconds: 750),
                               curve: Curves.fastLinearToSlowEaseIn);
                         }
@@ -163,7 +164,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
     );
   }
 
-  Widget  buildBoardingItem(onBoardingModel list) =>Column(
+  Widget  buildBoardingItem(OnBoardingModel list) =>Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children:
      [

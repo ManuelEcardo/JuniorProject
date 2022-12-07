@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:juniorproj/models/MerriamWebster_model/merriam_model.dart';
 import 'package:juniorproj/modules/VideoPlayer/cubit/states.dart';

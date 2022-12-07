@@ -14,6 +14,7 @@ import '../../shared/network/local/cache_helper.dart';
 
 
 class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -48,7 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               print(state.registerModel.message);
               print(state.registerModel.token);
 
-              await DefaultToast(
+              await defaultToast(
                   msg: 'Success', //${state.registerModel.message}
                   state: ToastStates.SUCCESS,
               );
@@ -66,7 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             {
               print(state.registerModel.message);
 
-              await DefaultToast(
+              await defaultToast(
                   msg: '${state.registerModel.message}',
                   state: ToastStates.ERROR,
               );
@@ -76,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
           if(state is RegisterErrorState)
             {
-              await DefaultToast(
+              await defaultToast(
                 msg: state.error.toString(),
                 state: ToastStates.ERROR
               );

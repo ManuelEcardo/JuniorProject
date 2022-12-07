@@ -53,7 +53,7 @@ void main() async {
     }
   } else //Not shown onBoarding before, First lunch of app
   {
-    widget = onBoardingScreen();
+    widget = const OnBoardingScreen();
   }
 
   runApp(
@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
   final bool isDark;        //If the app last theme was dark or light
   final Widget homeWidget;  // Passing the widget to be loaded.
 
-  MyApp({required this.isDark, required this.homeWidget});
+  const MyApp({Key? key, required this.isDark, required this.homeWidget}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,8 +75,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => AppCubit()..changeTheme(themeFromState: isDark)..getLanguages()..userData()  ),  //Main Cubit for the HomeLayout and most of the Views.
 
         BlocProvider(create: (BuildContext context) => WordCubit()),  //Getting the definition of words.
-
-
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},

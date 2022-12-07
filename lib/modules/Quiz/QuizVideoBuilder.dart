@@ -11,7 +11,7 @@ class ChewieListItem extends StatefulWidget {
   @override
   State<ChewieListItem> createState() => _ChewieListItemState();
 
-   ChewieListItem({required this.videoPlayerController, required this.looping});
+   const ChewieListItem({Key? key, required this.videoPlayerController, required this.looping}) : super(key: key);
 }
 
 class _ChewieListItemState extends State<ChewieListItem> with WidgetsBindingObserver {

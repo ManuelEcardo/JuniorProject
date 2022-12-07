@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
-
-import '../../shared/components/components.dart';
+import 'package:juniorproj/shared/styles/colors.dart';
+import '../../models/MainModel/languages_model.dart';
 import '../../shared/styles/styles.dart';
 
 class AddLanguage extends StatelessWidget {
@@ -16,6 +16,7 @@ class AddLanguage extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var cubit= AppCubit.get(context);
+        LanguageModel? model= AppCubit.languagesModel;
         return Scaffold(
           appBar: AppBar(
             actions:
@@ -23,10 +24,9 @@ class AddLanguage extends StatelessWidget {
               IconButton(onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny)),
             ],
           ),
-
           body: ConditionalBuilder(
-              condition: true,
-              builder: (context)=> itemBuilder(cubit),
+              condition: model !=null,
+              builder: (context)=> itemBuilder(cubit,model!),
               fallback: (context) => const Center(child: CircularProgressIndicator(),),
           ),
         );
@@ -34,7 +34,7 @@ class AddLanguage extends StatelessWidget {
     );
   }
 
-  Widget itemBuilder(AppCubit cubit)
+  Widget itemBuilder(AppCubit cubit, LanguageModel model)
   {
     return Padding(
       padding: const EdgeInsetsDirectional.all(24.0),
@@ -52,7 +52,7 @@ class AddLanguage extends StatelessWidget {
               style: defaultHeadlineTextStyle,
             ),
 
-            const SizedBox(height: 25,),
+            const SizedBox(height: 50,),
 
             GridView.count(
               crossAxisCount: 2,
@@ -63,12 +63,12 @@ class AddLanguage extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               children:
               List.generate(
-                4,
+                model.item.length,
                     (index)=> languageItemBuilder(
-                    function: ()
-                    {},
-                    text: 'English',
+                    text: '${model.item[index].languageName}',
                     cubit: cubit,
+                    function: () {},
+                    model: model.item[index],
                     ),
               )
               ,
@@ -80,4 +80,51 @@ class AddLanguage extends StatelessWidget {
   }
 
 }
+
+//Default Builder for new Languages to add
+
+Widget languageItemBuilder({
+  Color background =  Colors.grey,
+  bool isUpper = true,
+  double radius = 10.0,  //was 10
+  double width = 150.0,
+  double height = 150.0, // was 40
+  required void Function()? function,
+  required String text,
+  required AppCubit cubit,
+  required Languages model,
+}) => Container(
+  clipBehavior: Clip.antiAliasWithSaveLayer,
+  decoration: BoxDecoration(
+
+    borderRadius: BorderRadius.circular(radius),
+    border: Border.all(
+      color: cubit.isDarkTheme ? Colors.white : Colors.black,
+    ),
+  ),
+  width: width,
+  height: height,
+  child: MaterialButton(
+    onPressed: function,
+    child: Column(
+
+      children:
+      [
+        Image(
+          image: AssetImage('assets/images/${model.languagePhoto}'),
+          height: 100,
+          width: 100,
+        ),
+
+        Text(
+          isUpper ? text.toUpperCase() : text,
+          style:TextStyle(
+              color: pistachioColor,
+              fontWeight: FontWeight.bold
+          ),
+        ),
+      ],
+    ),
+  ),
+);
 

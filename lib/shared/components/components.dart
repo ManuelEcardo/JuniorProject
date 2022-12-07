@@ -1,11 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:intl/intl.dart';
-
-import 'package:swipedetector_nullsafety/swipedetector_nullsafety.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../layout/cubit/cubit.dart';
@@ -86,55 +82,6 @@ Widget defaultUnitButton({
       ),
     );
 
-//--------------------------------------------------------------------------------------------------\\
-
-//Default Builder for new Languages to add
-
-Widget languageItemBuilder({
-  Color background =  Colors.grey,
-  bool isUpper = true,
-  double radius = 10.0,  //was 10
-  double width = 150.0,
-  double height = 150.0, // was 40
-  required void Function()? function,
-  required String text,
-  required AppCubit cubit,
-}) => Container(
-  clipBehavior: Clip.antiAliasWithSaveLayer,
-  decoration: BoxDecoration(
-
-    borderRadius: BorderRadius.circular(radius),
-    border: Border.all(
-      color: cubit.isDarkTheme ? Colors.white : Colors.black,
-    ),
-  ),
-  width: width,
-  height: height,
-  child: MaterialButton(
-    onPressed: function,
-    child: Column(
-
-      children:
-      [
-        const Image(
-          image: AssetImage('assets/images/english.png'),
-          height: 100,
-          width: 100,
-        ),
-
-        Text(
-          isUpper ? text.toUpperCase() : text,
-          style: const TextStyle(
-              color: Colors.red,
-              fontWeight: FontWeight.bold
-          ),
-        ),
-      ],
-    ),
-  ),
-);
-
-
 
 //---------------------------------------------------------------------------------------------------\\
 //TextFormField like password..
@@ -152,18 +99,18 @@ Widget defaultFormField({
   void Function()? onTap,
   void Function(String)? onChanged,
   void Function(String?)? onSaved,
-  InputBorder? FocusedBorderStyle,
-  InputBorder? BorderStyle,
-  TextStyle? LabelStyle,
-  Color? PrefixIconColor,
-  TextInputAction? InputAction,
+  InputBorder? focusedBorderStyle,
+  InputBorder? borderStyle,
+  TextStyle? labelStyle,
+  Color? prefixIconColor,
+  TextInputAction? inputAction,
 }) =>
     TextFormField(
       controller: controller,
       obscureText: isObscure,
       keyboardType: keyboard,
       onFieldSubmitted: onSubmit,
-      textInputAction: InputAction,
+      textInputAction: inputAction,
       validator: validate,
       enabled: isClickable,
       onTap: onTap,
@@ -171,11 +118,11 @@ Widget defaultFormField({
       onChanged: onChanged,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
-        focusedBorder: FocusedBorderStyle,
-        enabledBorder: BorderStyle,
-        labelStyle: LabelStyle,
+        focusedBorder: focusedBorderStyle,
+        enabledBorder: borderStyle,
+        labelStyle: labelStyle,
         labelText: label,
-        prefixIcon: Icon(prefix, color: PrefixIconColor,),
+        prefixIcon: Icon(prefix, color: prefixIconColor,),
         suffixIcon: IconButton(
           onPressed: onPressedSuffixIcon,
           icon: Icon(suffix),
@@ -188,7 +135,7 @@ Widget defaultFormField({
 
 
 //DefaultToast message
-Future<bool?> DefaultToast({
+Future<bool?> defaultToast({
   required String msg,
   ToastStates state=ToastStates.DEFAULT,
   ToastGravity position = ToastGravity.BOTTOM,
@@ -213,18 +160,18 @@ Color chooseToastColor(ToastStates state) {
   {
     case ToastStates.SUCCESS:
       return Colors.green;
-      break;
+      // break;
 
     case ToastStates.ERROR:
       return Colors.red;
-      break;
+      // break;
 
     case ToastStates.DEFAULT:
       return Colors.grey;
 
     case ToastStates.WARNING:
       return Colors.amber;
-      break;
+      // break;
 
 
   }
@@ -256,11 +203,11 @@ void navigateTo( BuildContext context, Widget widget) =>Navigator.push(
 
 //--------------------------------------------------------------------------------------------------\\
 
-// Navigate to a screen and distroy the ability to go back
+// Navigate to a screen and destroy the ability to go back
 void navigateAndFinish(context,Widget widget) => Navigator.pushAndRemoveUntil(
     context,
     MaterialPageRoute(builder: (context)=>widget),
-    (route) => false,  // The Route that you came from, false will distroy the path back..
+    (route) => false,  // The Route that you came from, false will destroy the path back..
 );
 
 

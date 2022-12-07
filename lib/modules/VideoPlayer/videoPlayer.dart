@@ -12,7 +12,6 @@ import 'package:juniorproj/shared/styles/colors.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:selectable/selectable.dart';
 import 'package:string_extensions/string_extensions.dart';
-import 'package:subtitle_wrapper_package/bloc/subtitle/subtitle_bloc.dart';
 import 'package:subtitle_wrapper_package/subtitle_wrapper_package.dart';
 import 'package:video_player/video_player.dart';
 
@@ -134,20 +133,20 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context)  {
-    SubtitleBloc? subtitleBloc;
-    var subtitle;
-    bool isPaused=false;
+    //SubtitleBloc? subtitleBloc;
+    //var subtitle;
+    //bool isPaused=false;
     return BlocConsumer<WordCubit,WordStates>(
       listener: (context,state)
       {
         if(state is WordsLoadingState)
           {
-            DefaultToast(msg: 'Loading');
+            defaultToast(msg: 'Loading');
           }
 
         if(state is WordsErrorState)
           {
-            DefaultToast(msg: 'Wrong words selected');
+            defaultToast(msg: 'Wrong words selected');
           }
         if(state is WordsSuccessState)
           {
@@ -309,12 +308,12 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                           // }
                           if(localChewieController.isPlaying)
                             {
-                                  DefaultToast(msg: 'Paused');
+                                  defaultToast(msg: 'Paused');
                                   localChewieController.videoPlayerController.pause();
                             }
                           else if (localChewieController.isPlaying ==false)
                             {
-                              DefaultToast(msg: 'Playing');
+                              defaultToast(msg: 'Playing');
                               localChewieController.videoPlayerController.play();
                             }
 
@@ -406,7 +405,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
           onPressed: ()
           {
-            navigateTo(context, DefinitionShow());
+            navigateTo(context, const DefinitionShow());
           },
         ),
       ],

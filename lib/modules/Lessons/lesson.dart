@@ -11,7 +11,7 @@ class Lesson extends StatelessWidget {
 
   Lessons model;
 
-  Lesson(this.model);
+  Lesson(this.model, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class Lesson extends StatelessWidget {
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(24.0),
-              child: Container(
+              child: SizedBox( //was Container
                 //height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 child: itemBuilder(),
@@ -79,7 +79,7 @@ class Lesson extends StatelessWidget {
         const SizedBox(height: 10,),
 
         Text(
-          model.lesson_content,
+          model.lessonContent,
           textAlign: TextAlign.start,
           style:const TextStyle(
             fontSize: 20,

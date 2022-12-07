@@ -24,16 +24,26 @@ class LanguagesPage extends StatelessWidget {
       {
         var cubit= AppCubit.get(context);
         var model= AppCubit.languagesModel;
-        List<String> lang=['English','Arabic','Spain'];
+        //List<String> lang=['English','Arabic','Spain'];
         List<String> path=['assets/images/english.png', 'assets/images/arabic.png', 'assets/images/spain.jpg'];
         return ConditionalBuilder(
             condition: model !=null,
             fallback: (context)=>const Center(child: CircularProgressIndicator(),),
-            builder: (context)=>ListView.separated(
-              physics: const BouncingScrollPhysics() ,
-              itemBuilder: (context,index)=> buildCatItem(cubit, model!.item[index], path[index], context),
-              separatorBuilder: (context,index)=> myDivider(),
-              itemCount: model!.item.length,
+            builder: (context)=>Column(
+              children: [
+                ListView.separated(
+                  physics: const BouncingScrollPhysics() ,
+                  shrinkWrap: true,
+                  itemBuilder: (context,index)=> buildCatItem(cubit, model!.item[index], path[index], context),
+                  separatorBuilder: (context,index)=> myDivider(),
+                  itemCount: model!.item.length,
+                ),
+
+                myDivider(),
+
+                youtubeLibraryItem(cubit,context),
+
+              ],
             ),
         );
       },
@@ -51,7 +61,7 @@ Widget buildCatItem(AppCubit cubit, Languages? model, String path, BuildContext 
       cubit.getAllUnits(model!.id!);
       navigateTo(
         context,
-        Units(),
+        const Units(),
       );
     },
 
@@ -84,5 +94,45 @@ Widget buildCatItem(AppCubit cubit, Languages? model, String path, BuildContext 
     ),
   ),
 );
+
+
+Widget youtubeLibraryItem(AppCubit cubit,BuildContext context) => Padding(
+    padding: const EdgeInsets.all(20.0),
+    child: InkWell(
+      borderRadius: BorderRadius.circular(20),
+      highlightColor: cubit.isDarkTheme? defaultDarkColor.withOpacity(0.2) : defaultColor.withOpacity(0.2),
+      onTap: ()
+      {
+      },
+
+      child: Row(
+        children:const
+        [
+          Image(
+            image: AssetImage('assets/images/Youtube.png'),
+            width: 80.0,
+            height: 80.0,
+            fit: BoxFit.contain,
+          ),
+
+          const SizedBox(
+            width: 20.0,
+          ),
+
+          Text(
+            'Youtube Library',
+            style:const TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold
+            ),
+          ),
+
+          const Spacer(),
+
+          const Icon(Icons.arrow_forward_sharp,),
+        ],
+      ),
+    ),
+  );
 
 }

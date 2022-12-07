@@ -233,7 +233,7 @@ class Unit extends StatelessWidget {
                 child: Text(
                   'VIDEO: ',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -282,7 +282,7 @@ class Unit extends StatelessWidget {
                 child: Text(
                   'LESSON:',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -292,7 +292,7 @@ class Unit extends StatelessWidget {
 
               Expanded(
                 child:  Text(
-                  model.lesson_title.toUpperCase(),
+                  model.lessonTitle.toUpperCase(),
                   //textAlign: TextAlign.start,
                   style:const TextStyle(
                     fontSize: 18,

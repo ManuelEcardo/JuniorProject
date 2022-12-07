@@ -19,6 +19,7 @@ class HomePage extends StatelessWidget {
         builder: (context,state)
         {
           var model=AppCubit.userModel;
+          var cubit= AppCubit.get(context);
           return ConditionalBuilder(
             condition: model !=null, //was AppCubit.userModel != null
             fallback: (context)=>const Center(child: CircularProgressIndicator(),),
@@ -28,7 +29,7 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
+                    SizedBox(
                       width: double.infinity,
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
@@ -36,12 +37,18 @@ class HomePage extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                               CircleAvatar(
-                                backgroundColor: Colors.black12,
-                                radius: 50,
-                                backgroundImage: AssetImage(
-                                    'assets/images/${model!.data!.user![0].userPhoto}'), //assets/images/profile.jpg
+                               GestureDetector(
+                                 child: CircleAvatar(
+                                  backgroundColor: Colors.black12,
+                                  radius: 50,
+                                  backgroundImage: AssetImage(
+                                      'assets/images/${model!.data!.user![0].userPhoto}'), //assets/images/profile.jpg
                               ),
+                                 onTap: ()
+                                 {
+                                   cubit.changeBottom(3);
+                                 },
+                               ),
 
                               const SizedBox(
                                 width: 50,
@@ -82,7 +89,7 @@ class HomePage extends StatelessWidget {
                                     child: defaultButton(
                                         function: ()
                                         {
-                                          navigateTo(context, Units());
+                                          navigateTo(context, const Units());
                                         },
                                         text: "Let's Go")),
                               ],
@@ -98,49 +105,42 @@ class HomePage extends StatelessWidget {
 
                     myDivider(c: goldenColor),
 
-                    Container(
-                      // decoration: BoxDecoration(
-                      //   border: Border.all(color: goldenColor, width: 4),
-                      //   borderRadius: BorderRadius.circular(5),
-                      // ),
-                      //height: 180,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'Daily Challenge:',
-                              overflow: TextOverflow.ellipsis,
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Daily Challenge:',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: defaultHeadlineTextStyle,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.only(start: 5),
+                            child: Text(
+                              'Learn Five New Words',
                               maxLines: 1,
-                              style: defaultHeadlineTextStyle,
+                              overflow: TextOverflow.ellipsis,
+                              style: ordinaryTextStyle,
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.only(start: 5),
-                              child: Text(
-                                'Learn Five New Words',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: ordinaryTextStyle,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Row(
-                              children: [
-                                const Spacer(),
-                                Expanded(
-                                    child: defaultButton(
-                                        function: () {}, text: 'Go Now !')),
-                              ],
-                            ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            children: [
+                              const Spacer(),
+                              Expanded(
+                                  child: defaultButton(
+                                      function: () {}, text: 'Go Now !')),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
 
@@ -229,7 +229,7 @@ class HomePage extends StatelessWidget {
                     //
                     //         children:
                     //         [
-                    //           const Image(image: AssetImage('assets/images/ringfire.gif')),
+                    //           const Image(image: AssetImage('assets/images/fire-ring.gif')),
                     //
                     //            Container(
                     //              width:250,

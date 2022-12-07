@@ -281,7 +281,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                                 }
                               else
                                 {
-                                  DefaultToast(msg: 'Choose an Answer');
+                                  defaultToast(msg: 'Choose an Answer');
                                 }
                             }
                           },
@@ -725,12 +725,12 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
             }
           else
             {
-              DefaultToast(msg: 'You\'ve already chosen an answer');
+              defaultToast(msg: 'You\'ve already chosen an answer');
             }
         },
         onLongPress: ()
         {
-          DefaultToast(msg: 'Just Press it :)');
+          defaultToast(msg: 'Just Press it :)');
         },
 
         child: Stack(

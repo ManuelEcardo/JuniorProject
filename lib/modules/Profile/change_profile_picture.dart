@@ -13,16 +13,12 @@ class ChangeProfilePicture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(
-        listener: (context,state){},
+        listener: (context,state)
+        {},
 
         builder: (context,state)
         {
           var cubit= AppCubit.get(context);
-
-          // List<String> list=
-          // [
-          //   'assets/images/illustration-1.gif', 'assets/images/illustration-2.gif' ,'assets/images/illustration-3.gif' ,'assets/images/illustration-4.gif'
-          // ];
 
           List<Map<String,String>> list= [
             {
@@ -43,6 +39,26 @@ class ChangeProfilePicture extends StatelessWidget {
             {
               'name':'illustration-4.gif',
               'link':'assets/images/illustration-4.gif'
+            },
+
+            {
+              'name':'illustration-5.gif',
+              'link':'assets/images/illustration-5.gif'
+            },
+
+            {
+              'name':'illustration-6.gif',
+              'link':'assets/images/illustration-6.gif'
+            },
+
+            {
+              'name':'illustration-7.gif',
+              'link':'assets/images/illustration-7.gif'
+            },
+
+            {
+              'name':'illustration-8.gif',
+              'link':'assets/images/illustration-8.gif'
             },
           ];
 

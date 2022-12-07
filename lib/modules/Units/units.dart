@@ -8,9 +8,9 @@ import 'package:juniorproj/modules/Units/unit.dart';
 import 'package:juniorproj/shared/components/components.dart';
 
 
-class Units extends StatelessWidget {
+class Units extends StatelessWidget{
 
-  Units();
+  const Units({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(

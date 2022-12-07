@@ -25,3 +25,8 @@ TextStyle achievementsStyle= const TextStyle(
   fontSize: 18,
   letterSpacing: 1,
 );
+
+// decoration: BoxDecoration(
+//   border: Border.all(color: goldenColor, width: 4),
+//   borderRadius: BorderRadius.circular(5),
+// ),

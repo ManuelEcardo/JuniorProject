@@ -11,8 +11,6 @@ import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/shared/network/remote/main_dio_helper.dart';
 
 import '../../models/MainModel/content_model.dart';
-import '../../models/MainModel/login_model.dart';
-import '../../models/MainModel/userData_model.dart';
 import '../../models/MainModel/userData_model.dart';
 import '../../modules/Languages/languages.dart';
 import '../../shared/components/constants.dart';
