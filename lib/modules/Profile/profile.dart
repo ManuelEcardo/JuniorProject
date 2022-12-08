@@ -47,7 +47,7 @@ class ProfilePage extends StatelessWidget {
         {
           final data = model.data!.user![0];
 
-          //had if data !=null
+          //had if (data !=null) {firstNameController.text etc.....}
           firstNameController.text= data.firstName!;
 
           emailController.text=data.email! ;
