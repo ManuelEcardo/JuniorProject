@@ -172,6 +172,8 @@ class AppCubit extends Cubit<AppStates>
   // GET FROM API METHODS.
 
 
+
+
   // GET USER DATA
   static UserModel? userModel; // get user info
 
@@ -180,7 +182,7 @@ class AppCubit extends Cubit<AppStates>
 
     emit(AppGetUserDataLoadingState());
     MainDioHelper.getData(
-      url: INFO,
+      url: info,
       token: token,
     ).then((value)
     {
@@ -206,7 +208,7 @@ class AppCubit extends Cubit<AppStates>
     emit(AppGetLanguagesLoadingState());
 
     MainDioHelper.getData(
-      url: LANGUAGES,
+      url: languages,
     ).then((value)
     {
       //print(value.data);
@@ -229,7 +231,7 @@ class AppCubit extends Cubit<AppStates>
   {
     emit(AppGetAllUnitsLoadingState());
     MainDioHelper.getData(
-      url: '$languageId/$ALLUNITS',
+      url: '$languageId/$allUnits',
       query:{},
     ).then((value)
     {
@@ -257,11 +259,10 @@ class AppCubit extends Cubit<AppStates>
     emit(AppGetUnitContentLoadingState());
 
     MainDioHelper.getData(
-        url: '$UNITS/$unitId',
+        url: '$units/$unitId',
     ).then((value)
     {
       print(value.data);
-
       contentModel=ContentModel?.fromJson(value.data);
 
       emit(AppGetUnitContentSuccessState());
@@ -288,7 +289,7 @@ class AppCubit extends Cubit<AppStates>
     userPhoto ==null ? photo=userModel!.data!.user![0].userPhoto : photo=userPhoto;
 
     MainDioHelper.patchData(
-        url: '$PROFILE/${userModel!.data!.user![0].id}',
+        url: '$profile/${userModel!.data!.user![0].id}',
         data:
         {
           'first_name':fname,
@@ -315,7 +316,7 @@ class AppCubit extends Cubit<AppStates>
   {
     emit(AppUserSignOutLoadingState());
     MainDioHelper.postData(
-        url: LOGOUT,
+        url: logout,
         token:token,
         data: {},
     ).then((value)

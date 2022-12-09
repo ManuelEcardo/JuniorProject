@@ -39,16 +39,21 @@ class Questions
   String? type;
   String? question;
   String? answer;
-  String? choices;
+  List<Choices>? choices=[];
   int? unitId;
+  String? link;
 
   Questions.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     type = json['type'];
     question = json['question'];
     answer = json['answer'];
-    choices = json['choices'];
     unitId = json['unit_id'];
+    link=json['question_link'];
+    json['choices'].forEach((element)
+    {
+      choices?.add(Choices.fromJson(element));
+    });
   }
 }
 
@@ -57,7 +62,8 @@ class Choices
   int? id;
   String? choice;
   String? isCorrect;
-  String? questionId;
+  int? questionId;
+
 
   Choices.fromJson(Map<String,dynamic> json)
   {
@@ -65,6 +71,7 @@ class Choices
     choice=json['choice'];
     isCorrect=json['is_correct'];
     questionId= json['question_id'];
+
   }
 }
 

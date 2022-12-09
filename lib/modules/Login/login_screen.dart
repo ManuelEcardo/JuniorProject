@@ -11,6 +11,7 @@ import '../../shared/network/local/cache_helper.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 
+//ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
 
    var emailController= TextEditingController();
@@ -42,7 +43,7 @@ class LoginScreen extends StatelessWidget {
 
                 await defaultToast(
                     msg: 'Success', //${state.loginModel.message}
-                    state: ToastStates.SUCCESS,
+                    state: ToastStates.success,
                 );
 
                 CacheHelper.saveData(key: 'token', value: state.loginModel.token).then((value)  //to save the token, so I have logged in and moved to home page.
@@ -58,7 +59,7 @@ class LoginScreen extends StatelessWidget {
 
                 await defaultToast(
                     msg: '${state.loginModel.message}',
-                  state: ToastStates.ERROR,
+                  state: ToastStates.error,
                 );
               }
 
@@ -68,7 +69,7 @@ class LoginScreen extends StatelessWidget {
             {
               await defaultToast(
                   msg: state.error.toString().substring(0,10),
-                  state: ToastStates.ERROR,
+                  state: ToastStates.error,
               );
             }
 
@@ -182,7 +183,7 @@ class LoginScreen extends StatelessWidget {
                             defaultTextButton(
                               onPressed: ()
                               {
-                                navigateTo(context, RegisterScreen());
+                                navigateTo(context, const RegisterScreen());
                               },
                               text: 'sign up',
                             )

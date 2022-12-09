@@ -115,21 +115,21 @@ Widget youtubeLibraryItem(AppCubit cubit,BuildContext context) => Padding(
             fit: BoxFit.contain,
           ),
 
-          const SizedBox(
+           SizedBox(
             width: 20.0,
           ),
 
           Text(
             'Youtube Library',
-            style:const TextStyle(
+            style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold
             ),
           ),
 
-          const Spacer(),
+           Spacer(),
 
-          const Icon(Icons.arrow_forward_sharp,),
+           Icon(Icons.arrow_forward_sharp,),
         ],
       ),
     ),

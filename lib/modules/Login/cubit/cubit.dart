@@ -36,7 +36,7 @@ class LoginCubit extends Cubit<LoginStates>
   {
     emit(LoginLoadingState());
     MainDioHelper.postData(
-      url: LOGIN,
+      url: login,
       data:
       {
         'email':email,

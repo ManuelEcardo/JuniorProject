@@ -6,6 +6,7 @@ import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/modules/Languages/addLanguage.dart';
 import 'package:juniorproj/shared/components/components.dart';
+import 'package:juniorproj/shared/components/constants.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
 
 class HomeLayout extends StatelessWidget {
@@ -28,6 +29,11 @@ class HomeLayout extends StatelessWidget {
                   {
                     defaultLaunchUrl('https://www.google.com');
                   },
+
+                onLongPress: ()  //TBD, for developing now
+                {
+                  signOut(context);
+                },
                   child: SvgPicture.asset(
                     'assets/images/logo.svg',
                     color: cubit.isDarkTheme? defaultDarkColor : defaultColor,
@@ -286,7 +292,6 @@ class HomeLayout extends StatelessWidget {
                 BottomNavigationBarItem(label: 'Achievements' , icon: Icon(Icons.gamepad_rounded)),
 
                 BottomNavigationBarItem(label: 'Profile' , icon: Icon(Icons.person_rounded)),
-
               ],
 
             ),

@@ -9,6 +9,7 @@ import 'package:juniorproj/shared/styles/styles.dart';
 
 import 'change_profile_picture.dart';
 
+//ignore: must_be_immutable
 class ProfilePage extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
 

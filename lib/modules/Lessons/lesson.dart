@@ -7,6 +7,7 @@ import 'package:juniorproj/shared/styles/colors.dart';
 
 import '../../models/MainModel/content_model.dart';
 
+//ignore: must_be_immutable
 class Lesson extends StatelessWidget {
 
   Lessons model;

@@ -51,7 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               await defaultToast(
                   msg: 'Success', //${state.registerModel.message}
-                  state: ToastStates.SUCCESS,
+                  state: ToastStates.success,
               );
 
               CacheHelper.saveData(key: 'token', value: state.registerModel.token).then((value)  //to save the token, so I have logged in and moved to home page.
@@ -69,7 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               await defaultToast(
                   msg: '${state.registerModel.message}',
-                  state: ToastStates.ERROR,
+                  state: ToastStates.error,
               );
             }
 
@@ -79,7 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             {
               await defaultToast(
                 msg: state.error.toString(),
-                state: ToastStates.ERROR
+                state: ToastStates.error
               );
             }
         },

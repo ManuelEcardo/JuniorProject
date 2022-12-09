@@ -119,14 +119,14 @@ class Unit extends StatelessWidget {
                               separatorBuilder: (context,index) => const SizedBox(height: 20,),
                               itemCount: 1),
 
-                          Visibility(
-                              visible: model!.unitOverview !=null,
-                              child: const SizedBox(height: 20,)),
+                          // Visibility(
+                          //     visible: model!.unitOverview !=null,
+                          //     child: const SizedBox(height: 20,)),
 
                           ListView.separated(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context,index) => lessonBuilder(context,model!.lessons![index]),
+                              itemBuilder: (context,index) => lessonBuilder(context,model!.lessons![index], index+1),
                               separatorBuilder: (context,index) => const SizedBox(height: 20,),
                               itemCount: model!.lessons!.length),
 
@@ -137,7 +137,7 @@ class Unit extends StatelessWidget {
                           ListView.separated(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context,index) => videoBuilder(context,model!.videos![index]),
+                              itemBuilder: (context,index) => videoBuilder(context,model!.videos![index], index+1),
                               separatorBuilder: (context,index) => const SizedBox(height: 20,),
                               itemCount: model!.videos!.length),
 
@@ -148,9 +148,9 @@ class Unit extends StatelessWidget {
                           ListView.separated(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context,index) => quizBuilder(context,model!.questions![index]),
+                              itemBuilder: (context,index) => quizBuilder(context,model!.questions!),
                               separatorBuilder: (context,index) => const SizedBox(height: 20,),
-                              itemCount: model!.questions!.length),
+                              itemCount: 1),
 
                         ],
                       ),
@@ -209,7 +209,7 @@ class Unit extends StatelessWidget {
     );
   }
 
-  Widget videoBuilder(BuildContext context, Videos model)
+  Widget videoBuilder(BuildContext context, Videos model, int index)
   {
 
     return GestureDetector(
@@ -229,9 +229,9 @@ class Unit extends StatelessWidget {
           ),
           child: Column(
             children: [
-             const Expanded(
+              Expanded(
                 child: Text(
-                  'VIDEO: ',
+                  'VIDEO $index: ',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18,
@@ -260,7 +260,7 @@ class Unit extends StatelessWidget {
     );
   }
 
-  Widget lessonBuilder(BuildContext context, Lessons model)
+  Widget lessonBuilder(BuildContext context, Lessons model, int index)
   {
     return GestureDetector(
       onTap: ()
@@ -278,9 +278,9 @@ class Unit extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const Expanded(
+               Expanded(
                 child: Text(
-                  'LESSON:',
+                  'LESSON $index:',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18,
@@ -310,12 +310,12 @@ class Unit extends StatelessWidget {
     );
   }
 
-  Widget quizBuilder(BuildContext context, Questions model)
+  Widget quizBuilder(BuildContext context, List<Questions> model)
   {
     return GestureDetector(
       onTap: ()
       {
-          navigateTo(context,const QuizPage());
+          navigateTo(context,QuizPage(model));
       },
       child: Padding(
         padding: const EdgeInsetsDirectional.only(top:8.0),

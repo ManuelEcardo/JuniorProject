@@ -1,10 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../layout/cubit/cubit.dart';
 
 //Button Like LOGIN
 Widget defaultButton({
@@ -137,7 +134,7 @@ Widget defaultFormField({
 //DefaultToast message
 Future<bool?> defaultToast({
   required String msg,
-  ToastStates state=ToastStates.DEFAULT,
+  ToastStates state=ToastStates.defaultType,
   ToastGravity position = ToastGravity.BOTTOM,
   Color color = Colors.grey,
   Color textColor= Colors.white,
@@ -153,23 +150,23 @@ Future<bool?> defaultToast({
       textColor: textColor,
     );
 
-enum ToastStates{SUCCESS,ERROR,WARNING, DEFAULT}
+enum ToastStates{success,error,warning, defaultType}
 
 Color chooseToastColor(ToastStates state) {
   switch (state)
   {
-    case ToastStates.SUCCESS:
+    case ToastStates.success:
       return Colors.green;
       // break;
 
-    case ToastStates.ERROR:
+    case ToastStates.error:
       return Colors.red;
       // break;
 
-    case ToastStates.DEFAULT:
+    case ToastStates.defaultType:
       return Colors.grey;
 
-    case ToastStates.WARNING:
+    case ToastStates.warning:
       return Colors.amber;
       // break;
 

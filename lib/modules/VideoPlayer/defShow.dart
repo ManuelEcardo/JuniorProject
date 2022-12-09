@@ -99,8 +99,10 @@ class _DefinitionShowState extends State<DefinitionShow> {
                   onPressed: () async
                   {
                     //Audio Link differs depending on the name of the word, all the cases are from Merriam Webster API documentation, refer to: https://dictionaryapi.com/products/json
+
                     late String audioLink;
-                    var regularExpression=RegExp("^[a-zA-Z0-9_]*");
+                    // var regularExpression=RegExp("^[a-zA-Z0-9_]*");
+                    var regularExpression=RegExp("^[^a-zA-Z]*");
 
                     if(model.hwi?.prs?[0]?.sound?.audio?.substring(0,2) == 'gg')
                       {
@@ -110,7 +112,7 @@ class _DefinitionShowState extends State<DefinitionShow> {
                       {
                          audioLink='https://media.merriam-webster.com/audio/prons/en/us/mp3/bix/${model.hwi?.prs?[0]?.sound?.audio}.mp3';
                       }
-                    else if(regularExpression.firstMatch(model.hwi!.prs![0]!.sound!.audio!.substring(0,1)) ==true )
+                    else if(regularExpression.firstMatch(model.hwi!.prs![0]!.sound!.audio!.substring(0,1)) != null)  //was ==true
                       {
                         audioLink='https://media.merriam-webster.com/audio/prons/en/us/mp3/number/${model.hwi?.prs?[0]?.sound?.audio}.mp3';
                       }

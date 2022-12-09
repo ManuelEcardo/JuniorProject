@@ -5,6 +5,7 @@ import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
 
+//ignore: must_be_immutable
 class UnitOverview extends StatelessWidget {
 
   List<String> model;

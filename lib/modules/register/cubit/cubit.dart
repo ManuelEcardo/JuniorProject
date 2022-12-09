@@ -40,7 +40,7 @@ class RegisterCubit extends Cubit<RegisterStates>
   {
     emit(RegisterLoadingState());
     MainDioHelper.postData(
-      url: REGISTER,
+      url: register,
       data:
       {
         'first_name':firstname,

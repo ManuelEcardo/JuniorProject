@@ -150,7 +150,7 @@ class HomePage extends StatelessWidget {
 
                     myDivider(c: goldenColor),
 
-                    Container(
+                    SizedBox(
                       // decoration: BoxDecoration(
                       //   border: Border.all(color: Colors.black),
                       //   borderRadius: BorderRadius.circular(5),

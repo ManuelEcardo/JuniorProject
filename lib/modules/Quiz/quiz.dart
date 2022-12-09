@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
+import 'package:juniorproj/models/MainModel/content_model.dart';
 import 'package:juniorproj/modules/Quiz/QuizVideoBuilder.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
@@ -13,20 +14,10 @@ import 'package:string_extensions/string_extensions.dart';
 import 'package:video_player/video_player.dart';
 
 
-class QuestionModel
-{
-  String question;
-  String questionTitle;
-  String? link;
-  List<String> answers;
-  int correctAnswerId;
-  String type;
-
-  QuestionModel({required this.question, required this.questionTitle,required this.answers,required this.correctAnswerId, required this.type , this.link});
-}
-
 class QuizPage extends StatefulWidget {
-  const QuizPage({Key? key}) : super(key: key);
+
+  final List<Questions> model;
+  const QuizPage(this.model, {Key? key}) : super(key: key);
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -35,23 +26,6 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin{
 
   PageController pageController= PageController();
-  List<QuestionModel> questionModel=
-  [
-    QuestionModel(question: 'What instrument is this?', questionTitle: 'Choose the right answer', answers: ['Guitar','Bass','Ukulele'], correctAnswerId: 0,type: 'image', link: 'assets/quizPhotos/guitar.jpg'),
-
-    QuestionModel(question: "I've seen you before!\nYou are -------- ", questionTitle: 'Complete The Following',answers: ['Recognisable','friend','good'], correctAnswerId: 0 ,type: 'com'),
-
-    QuestionModel(question: 'animals are dying from just ---- plastic ', questionTitle: 'Complete after watching the video', answers: ['encountering','countering','encounter'], correctAnswerId: 0,type: 'video', link: 'assets/quizVideos/videoQuiz1.mp4'),
-
-    QuestionModel(question: 'Let me introduce you to my --------', questionTitle: 'Complete The Following', answers: ['couch','friend','dog'], correctAnswerId: 1,type: 'com'),
-
-    QuestionModel(question: 'What was John talking about?', questionTitle: 'Complete after Listening', answers: ['Houses','Nature','Gaming'], correctAnswerId: 1,type: 'audio', link: 'https://www.kozco.com/tech/piano2-CoolEdit.mp3'),
-
-    QuestionModel(question:"Don't use my computer without my --------", questionTitle: 'Complete The Following',answers:['pen','accept','permission'], correctAnswerId:2,type: 'com'),
-
-    QuestionModel(question:'Have you -------- my glasses?\nI can\'t find them anywhere!', questionTitle: 'Complete The Following',answers:['see','seen','watched'], correctAnswerId:1,type: 'com'),
-
-  ];
 
    late AnimationController _animationController; //Animation Controller for FAB button to glow when the question is answered.
    late Animation _animation;
@@ -73,7 +47,6 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     {
       setState(()
       {
-
       });
     });
   }
@@ -97,6 +70,8 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     ]);
 
     var cubit= AppCubit.get(context);
+    List<Questions> model= widget.model;
+
     return BlocConsumer<AppCubit,AppStates>(
       listener: (context,state)
       {},
@@ -202,7 +177,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                 [
                   SmoothPageIndicator(
                       controller: pageController,
-                      count: questionModel.length,
+                      count: model.length,
                       effect:  ExpandingDotsEffect
                       (
                       dotColor: Colors.grey,
@@ -220,22 +195,22 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                     child: PageView.builder(
                       scrollDirection: Axis.horizontal,
                       controller: pageController,
-                      itemBuilder: (context,index) => determineType(cubit,questionModel[index],index),
-                      itemCount: questionModel.length,
+                      itemBuilder: (context,index) => determineType(cubit,model[index],index),
+                      itemCount: model.length,
                       physics: const NeverScrollableScrollPhysics(),
                       onPageChanged: (index)
                       {
                         setState(()
                         {
-                          correctAnswerId=questionModel[index].correctAnswerId;  //Setting the correct answer ID to a variable<<<<<<<< TBD should be moved to cubit.
+                          //correctAnswerId=model[index].choices![index].isCorrect.toInt()!;  //Setting the correct answer ID to a variable<<<<<<<< TBD should be moved to cubit.
                         });
-                        if(index==questionModel.length)  //if it is the last Question => set IsLast to true
+                        if(index==model.length)  //if it is the last Question => set IsLast to true
                         {
-                          cubit.changeQuizIsLast(index, questionModel.length);
+                          cubit.changeQuizIsLast(index, model.length);
                         }
                         else
                         {
-                          cubit.changeQuizIsLast(index, questionModel.length);
+                          cubit.changeQuizIsLast(index, model.length);
                         }
                       },
                     ),
@@ -259,7 +234,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                         child: FloatingActionButton(
                           onPressed: ()
                           {
-                            if(cubit.isLastQuiz && pageController.page == questionModel.length -1)   //If the question is the last
+                            if(cubit.isLastQuiz && pageController.page == model.length -1)   //If the question is the last
                             {
                               //navigateAndFinish(context, HomeLayout());
                               cubit.changeIsBoxTappedQuiz(false);
@@ -307,40 +282,43 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
   }
 
 
-  Widget determineType(AppCubit cubit, QuestionModel questionModel, int answerId) //Will Check for the type.
+  Widget determineType(AppCubit cubit, Questions questionModel, int answerId) //Will Check for the type.
   {
-    if(questionModel.type =='com')
+    if(questionModel.type =='t')        //type is Text, example: What is the color of the sun?  yellow,green,blue
       {
         return completeTheSentenceItemBuilder(cubit, questionModel, answerId);
       }
-    else if (questionModel.type =='video')
+
+    else if (questionModel.type =='v')  //Type is video.
       {
         return videoItemBuilder(cubit, questionModel, answerId);
       }
-    else if (questionModel.type =='audio')
+
+    else if (questionModel.type =='a')  //Type is audio
       {
         return audioItemBuilder(cubit, questionModel, answerId);
       }
 
-    else if (questionModel.type =='image')
+    else if (questionModel.type =='p')  //Type is picture.
       {
         return imageItemBuilder(cubit, questionModel, answerId);
       }
+
     else
       {
         return completeTheSentenceItemBuilder(cubit, questionModel, answerId);
       }
   }
 
-  Widget completeTheSentenceItemBuilder(AppCubit cubit, QuestionModel questionModel, int index)
+  Widget completeTheSentenceItemBuilder(AppCubit cubit, Questions questionModel, int index)
   {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children:
       [
-         Text(
-          'Question ${index+1}: ${questionModel.questionTitle}',
-          style: const TextStyle(
+        const Text(
+          'Complete the following: ',
+          style: TextStyle(
             fontSize: 30,
           ),
         ),
@@ -355,7 +333,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
         const SizedBox(height: 30,),
 
          Text(
-          questionModel.question,
+          questionModel.question!,
           style: const TextStyle(
             fontSize: 24,
           ),
@@ -389,15 +367,15 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
           child: Row(
             children:
             [
-              answerBuilder(cubit,questionModel.answers[0], 0),
+              answerBuilder(cubit, questionModel.choices![0].choice!, questionModel.choices![0].isCorrect!.toInt()!),
 
               const SizedBox(width: 10,),
 
-              answerBuilder(cubit,questionModel.answers[1],1),
+              answerBuilder(cubit,questionModel.choices![1].choice!, questionModel.choices![1].isCorrect!.toInt()!),
 
               const SizedBox(width: 10,),
 
-              answerBuilder(cubit,questionModel.answers[2],2),
+              answerBuilder(cubit,questionModel.choices![2].choice!, questionModel.choices![2].isCorrect!.toInt()!),
             ],
           ),
         ),
@@ -406,9 +384,8 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     );
   }
 
-  Widget videoItemBuilder(AppCubit cubit, QuestionModel questionModel, int index)
+  Widget videoItemBuilder(AppCubit cubit, Questions questionModel, int index)
   {
-
     return SingleChildScrollView(
       child: SizedBox(
         height: MediaQuery.of(context).size.height,
@@ -416,9 +393,9 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
           crossAxisAlignment: CrossAxisAlignment.start,
           children:
           [
-            Text(
-              'Question ${index+1}: ${questionModel.questionTitle}',
-              style: const TextStyle(
+            const Text(
+              'Complete after watching the video:',
+              style:TextStyle(
                 fontSize: 30,
               ),
             ),
@@ -435,7 +412,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
             AspectRatio(
               aspectRatio: 16/9,
               child: ChewieListItem(
-                videoPlayerController: VideoPlayerController.asset(questionModel.link!),
+                videoPlayerController: VideoPlayerController.network(questionModel.link !=null ? questionModel.link! : ''),
                 looping: false,
               ),
             ),
@@ -443,7 +420,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
             const SizedBox(height: 30,),
 
             Text(
-              questionModel.question,
+              questionModel.question!,
               style: const TextStyle(
                 fontSize: 24,
               ),
@@ -477,15 +454,15 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
               child: Row(
                 children:
                 [
-                  answerBuilder(cubit,questionModel.answers[0], 0),
+                  answerBuilder(cubit, questionModel.choices![0].choice!, questionModel.choices![0].isCorrect!.toInt()!),
 
                   const SizedBox(width: 10,),
 
-                  answerBuilder(cubit,questionModel.answers[1],1),
+                  answerBuilder(cubit, questionModel.choices![1].choice!, questionModel.choices![1].isCorrect!.toInt()!),
 
                   const SizedBox(width: 10,),
 
-                  answerBuilder(cubit,questionModel.answers[2],2),
+                  answerBuilder(cubit, questionModel.choices![2].choice!, questionModel.choices![2].isCorrect!.toInt()!),
                 ],
               ),
             ),
@@ -496,8 +473,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     );
   }
 
-
-  Widget audioItemBuilder(AppCubit cubit, QuestionModel questionModel, int index)
+  Widget audioItemBuilder(AppCubit cubit, Questions questionModel, int index)
   {
 
     return SingleChildScrollView(
@@ -507,9 +483,9 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
           crossAxisAlignment: CrossAxisAlignment.start,
           children:
           [
-            Text(
-              'Question ${index+1}: ${questionModel.questionTitle}',
-              style: const TextStyle(
+            const Text(
+              'Complete after listening: ',
+              style:TextStyle(
                 fontSize: 30,
               ),
             ),
@@ -525,8 +501,8 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
             TextButton(
               child: Row(
-                children:
-          const [
+                children:const
+               [
                    Text(
                    'Play Audio',
                    style: TextStyle(
@@ -556,7 +532,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
             const SizedBox(height: 30,),
 
             Text(
-              questionModel.question,
+              questionModel.question!,
               style: const TextStyle(
                 fontSize: 24,
               ),
@@ -590,15 +566,15 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
               child: Row(
                 children:
                 [
-                  answerBuilder(cubit,questionModel.answers[0], 0),
+                  answerBuilder(cubit, questionModel.choices![0].choice!, questionModel.choices![0].isCorrect!.toInt()!),
 
                   const SizedBox(width: 10,),
 
-                  answerBuilder(cubit,questionModel.answers[1],1),
+                  answerBuilder(cubit, questionModel.choices![1].choice!, questionModel.choices![1].isCorrect!.toInt()!),
 
                   const SizedBox(width: 10,),
 
-                  answerBuilder(cubit,questionModel.answers[2],2),
+                  answerBuilder(cubit, questionModel.choices![2].choice!, questionModel.choices![2].isCorrect!.toInt()!),
                 ],
               ),
             ),
@@ -609,7 +585,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     );
   }
 
-  Widget imageItemBuilder(AppCubit cubit, QuestionModel questionModel, int index)
+  Widget imageItemBuilder(AppCubit cubit, Questions questionModel, int index)
   {
 
     return SingleChildScrollView(
@@ -619,9 +595,9 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
           crossAxisAlignment: CrossAxisAlignment.start,
           children:
           [
-            Text(
-              'Question ${index+1}: ${questionModel.questionTitle}',
-              style: const TextStyle(
+            const Text(
+              'Choose the right answer: ',
+              style: TextStyle(
                 fontSize: 30,
               ),
             ),
@@ -637,7 +613,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
             Center(
               child: Image(
-                image: AssetImage(questionModel.link!),
+                image: NetworkImage(questionModel.link!=null ? questionModel.link! : ''),
                 width: 250,
                 height: 250,
                 fit: BoxFit.contain,
@@ -647,7 +623,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
             const SizedBox(height: 30,),
 
             Text(
-              questionModel.question,
+              questionModel.question!,
               style: const TextStyle(
                 fontSize: 24,
               ),
@@ -681,15 +657,15 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
               child: Row(
                 children:
                 [
-                  answerBuilder(cubit,questionModel.answers[0], 0),
+                  answerBuilder(cubit, questionModel.choices![0].choice!, questionModel.choices![0].isCorrect!.toInt()!),
 
                   const SizedBox(width: 10,),
 
-                  answerBuilder(cubit,questionModel.answers[1],1),
+                  answerBuilder(cubit, questionModel.choices![1].choice!, questionModel.choices![1].isCorrect!.toInt()!),
 
                   const SizedBox(width: 10,),
 
-                  answerBuilder(cubit,questionModel.answers[2],2),
+                  answerBuilder(cubit, questionModel.choices![2].choice!, questionModel.choices![2].isCorrect!.toInt()!),
                 ],
               ),
             ),
@@ -712,7 +688,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
               print('Box Tapped');
               cubit.changeIsBoxTappedQuiz(true);  //Set that the box has been tapped so the user won't be able to change his answer.
               cubit.changeIsAnimation(true);
-              if(answerId == correctAnswerId)
+              if(answerId == 1)
               {
                 cubit.changeIsCorrectQuiz(true);
                 correctFalseBuilder(cubit);
@@ -784,6 +760,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
         );
       }
   }
+
 
 
 }
