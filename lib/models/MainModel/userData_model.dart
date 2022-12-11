@@ -32,7 +32,8 @@ class UserData {
   List<UserUnits>? units=[];
 
   List<int>userLanguages=[]; //To be filled later in cubit, has the ID's of taken courses
-  List<Map<int,int>>userUnits=[]; //To be filled later in cubit, has the ID's of userUnits. first int in the map is language id , second int is the unit ID
+  Map<int,int>userUnits={}; //To be filled later in cubit, has the ID's of userUnits. first int in the map is language id , second int is the unit ID
+
 
   UserData.fromJson(Map<String, dynamic> json)
   {

@@ -11,6 +11,7 @@ import 'package:juniorproj/shared/components/constants.dart';
 import 'package:juniorproj/shared/network/local/cache_helper.dart';
 import 'package:juniorproj/shared/network/remote/main_dio_helper.dart';
 import 'package:juniorproj/shared/network/remote/merriam_dio_helper.dart';
+import 'package:juniorproj/shared/network/remote/youtube_dio_helper.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
 import 'package:juniorproj/shared/styles/themes.dart';
 import 'package:page_transition/page_transition.dart';
@@ -26,6 +27,8 @@ void main() async {
   MerriamDioHelper.init();  //Initializing  Merriam Dio Helper
 
   MainDioHelper.init();  //Initializing Main Dio Helper to get user data and app data.
+
+  YoutubeDioHelper.init(); //Initializing Youtube Dio Helper.
 
   await CacheHelper.init(); //Starting CacheHelper, await for it since there is async,await in .init().
 

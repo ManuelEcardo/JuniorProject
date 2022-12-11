@@ -91,17 +91,24 @@ class HomePage extends StatelessWidget {
                                     child: defaultButton(
                                         function: ()
                                         {
-                                          List<String>? i=CacheHelper.getData(key: 'lastAccessedUnit'); //Get Cached Data
-
-                                          if(i !=null) //If units has been accessed before
-                                            {
+                                          List<String>? i;
+                                          try
+                                          {
+                                            i=CacheHelper.getData(key: 'lastAccessedUnit'); //Get Cached Data
+                                            if(i !=null) //If units has been accessed before
+                                                {
                                               cubit.getAllUnits(i[0].toInt()!);  // i[0] contains the language Id, i[1] contains the name of the language
                                               navigateTo(context, Units(i[1]));
                                             }
-                                          else //No Cached Data, will move user to Languages Page.
-                                            {
+                                            else //No Cached Data, will move user to Languages Page.
+                                                {
                                               cubit.changeBottom(1);
                                             }
+                                          }
+                                          catch(error)
+                                          {
+                                            defaultToast(msg: 'You Haven\'t opened a unit yet.');
+                                          }
 
                                         },
                                         text: "Let's Go")),

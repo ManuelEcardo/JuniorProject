@@ -1,0 +1,36 @@
+{
+  "kind": "youtube#videoListResponse",
+  "etag": "gCMeoFavyp-pfbMLt1ZCWUVXR_c",
+  "items": [
+    {
+      "kind": "youtube#video",
+      "etag": "nMvoIdu8emnHSed5h8bWiG38tYI",
+      "id": "CnT6NRiTz9M",
+      "snippet": {
+        "title": "Lil Durk - Hanging With Wolves (Official Video)",
+        "description": "Stream: https://music.empi.re/hangingwithwolves\n\nhttps://music.empi.re/loyalbros2\n\nShot by @JerryPHD \n\nFollow Lil Durk:\nLilDurk.lnk.to/instagram\nLilDurk.lnk.to/twitter\nLilDurk.lnk.to/TikTok\nLilDurk.lnk.to/Facebook\n\nListen To Lil Durk:\nLilDurk.lnk.to/spotify\nLilDurk.lnk.to/applemusic\nLilDurk.lnk.to/soundcloud\n\nShop:\nhttps://otfgear.com/\n\nSubscribe: http://bit.ly/Subscribe-to-Durk\n\n\n#LilDurk #HangingWithWolves",
+        "thumbnails": {
+          "high": {
+            "url": "https://i.ytimg.com/vi/CnT6NRiTz9M/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          }
+        },
+        "channelTitle": "Lil Durk",
+        "defaultAudioLanguage": "en"
+      },
+      "contentDetails": {
+        "duration": "PT3M13S",
+        "definition": "hd",
+        "caption": "false"
+      }
+    }
+
+  ],
+  "nextPageToken": "CAoQAA",
+  "prevPageToken": "CAUQAQ",
+  "pageInfo": {
+    "totalResults": 200,
+    "resultsPerPage": 5
+  }
+}

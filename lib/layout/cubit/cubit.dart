@@ -206,7 +206,7 @@ class AppCubit extends Cubit<AppStates>
 
   void userData()
   {
-    if(token != '')
+    if(token != '') //If token is empty, then don't do the request.
       {
         emit(AppGetUserDataLoadingState());
         MainDioHelper.getData(
@@ -222,20 +222,18 @@ class AppCubit extends Cubit<AppStates>
           userModel?.user?.units?.forEach((element)  //Round each element in his units list and adding languages ids and units ids to a list.
           {
             if(userModel!.user?.userLanguages.contains(element.languageId) ==false )  //checking if this language id is not there
-                {
-              userModel!.user?.userLanguages.add(element.languageId!); //Adding the language id to the users languages list.
+              {
+                userModel!.user?.userLanguages.add(element.languageId!); //Adding the language id to the users languages list.
 
-              // for(int i=0; i<= userModel!.user!.userUnits.length ; i++) //Looping through
-              //   {
-              //     if(userModel!.user?.userUnits[element.languageId!].containsKey(element.unitId) ==false ) //If the this unit for this language isn't added
-              //     {
-              //       userModel!.user?.userUnits.add(
-              //           {
-              //             element.languageId!:element.unitId!
-              //           });
-              //     }
-              //   }
+                if(userModel!.user?.userUnits[element.languageId] != element.unitId ) //If the this unit for this language isn't added
+                {
+                  userModel!.user?.userUnits.addAll(
+                      {
+                        element.languageId!:element.unitId!
+                      });
+                }
             }
+            print(userModel!.user?.userUnits);
           });
         }
         ).catchError((error)

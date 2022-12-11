@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/shared/components/components.dart';
+import 'package:juniorproj/shared/components/constants.dart';
 import 'package:juniorproj/shared/styles/styles.dart';
 
 import 'change_profile_picture.dart';
