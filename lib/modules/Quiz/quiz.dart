@@ -30,17 +30,16 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
    late AnimationController _animationController; //Animation Controller for FAB button to glow when the question is answered.
    late Animation _animation;
 
-   final AudioPlayer myAudioPlayer=AudioPlayer();
+   final AudioPlayer myAudioPlayer=AudioPlayer();  //Audio player for questions that contains audio.
    late Source audioUrl;
 
 
-  var correctAnswerId=0;
+  // var correctAnswerId=0;
 
   @override
   void initState()
   {
     super.initState();
-
     _animationController= AnimationController(vsync: this, duration: const Duration(seconds: 2));
     _animationController.repeat(reverse: true);
     _animation= Tween(begin: 2.0, end: 10.0).animate(_animationController)..addListener(()
@@ -63,12 +62,10 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
     var cubit= AppCubit.get(context);
     List<Questions> model= widget.model;
 
@@ -78,7 +75,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
       builder: (context,state)
       {
-
+        cubit.markCalculator(model.length);
         return WillPopScope(
           child: Scaffold(
             appBar: AppBar(
@@ -207,6 +204,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                         if(index==model.length)  //if it is the last Question => set IsLast to true
                         {
                           cubit.changeQuizIsLast(index, model.length);
+
                         }
                         else
                         {
@@ -239,9 +237,9 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                               //navigateAndFinish(context, HomeLayout());
                               cubit.changeIsBoxTappedQuiz(false);
                               cubit.changeIsAnimation(false);
-
-
                               print('LAST');
+                              //markDialog(context, cubit);
+                              popupDialog(context,cubit);
                             }
                             else
                             {
@@ -282,7 +280,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
   }
 
 
-  Widget determineType(AppCubit cubit, Questions questionModel, int answerId) //Will Check for the type.
+  Widget determineType(AppCubit cubit, Questions questionModel, int answerId) //Will Check for the type if video, audio, photo or normal question.
   {
     if(questionModel.type =='t')        //type is Text, example: What is the color of the sun?  yellow,green,blue
       {
@@ -676,7 +674,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     );
   }
 
-  Widget answerBuilder(AppCubit cubit,String text, int answerId)
+  Widget answerBuilder(AppCubit cubit,String text, int answerId)   //Builds blocks that contains choices.
   {
     return Expanded(
       child: GestureDetector(
@@ -735,11 +733,12 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     );
   }
 
-  Widget correctFalseBuilder(AppCubit cubit)
+  Widget correctFalseBuilder(AppCubit cubit)  //Tells if an answer is correct or not
   {
     if(cubit.isCorrectQuiz ==true)
       {
         cubit.changeQuizIsVisible(true);
+        cubit.markAdder(true);
         return const Text(
           'Correct !',
           style: TextStyle(
@@ -762,5 +761,140 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
   }
 
 
+
+  // Future<void> markDialog(BuildContext context, AppCubit cubit)  //shows dialog contains the final mark for this student.
+  //  async {
+  //   await Dialogs.materialDialog(
+  //     context: context,
+  //     title:'Your Result: ',
+  //     msg:'${messageBuilder(cubit.finalMark)}, You\'ve scored: ${cubit.finalMark}',
+  //     actions:
+  //     [
+  //       TextButton(
+  //         child:const Text(
+  //           'NEXT',
+  //           style: TextStyle(
+  //             fontSize: 20,
+  //           ),
+  //         ),
+  //
+  //         onPressed: ()
+  //         {
+  //           cubit.setFinalMark();
+  //           cubit.changeIsBoxTappedQuiz(false);
+  //           cubit.changeQuizIsVisible(false);
+  //           Navigator.of(context).popUntil((route){
+  //             return route.settings.name == 'unit';
+  //           });  //Go Back to the previous screen.
+  //         },
+  //
+  //       ),
+  //     ],
+  //
+  //     titleAlign: TextAlign.center,
+  //     titleStyle:const TextStyle(
+  //       fontSize: 24,
+  //       color: Colors.black,
+  //     ),
+  //
+  //     msgStyle: const TextStyle(
+  //       fontSize: 18,
+  //       color: Colors.black,
+  //     ),
+  //   );
+  // }
+
+
+  Future<void> popupDialog(BuildContext context, AppCubit cubit) //shows dialog contains the final mark for this student.
+  async {
+
+    // myAudioPlayer.stop(); //if audio is being played, then stop
+    await showDialog(
+        context: context,
+        builder: (context)
+        {
+          return WillPopScope(
+            child: AlertDialog(
+              title: const Text(
+                'Your Result:',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.black,
+                ),
+              ),
+              content:  Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children:
+                [
+                  Text(
+                    '${messageBuilder(cubit.finalMark)}, You\'ve scored: ${cubit.finalMark}',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ) ,
+                  ),
+
+                  Center(
+                    child: TextButton(
+                      child:const Text(
+                        'NEXT',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+
+                      onPressed: ()
+                      {
+                        cubit.setFinalMark();
+                        cubit.changeIsBoxTappedQuiz(false);
+                        cubit.changeQuizIsVisible(false);
+                        Navigator.of(context).popUntil((route){
+                          return route.settings.name == 'unit';
+                        });  //Go Back to the previous screen.
+                      },
+
+                    ),
+                  ),
+                ]
+              ),
+            ),
+
+            onWillPop: () async
+            {
+              cubit.setFinalMark();
+              cubit.changeIsBoxTappedQuiz(false);
+              cubit.changeQuizIsVisible(false);
+              Navigator.of(context).popUntil((route){
+                return route.settings.name == 'unit';
+              });
+              return true;
+            },
+          );
+        }
+    );
+  }
+
+  String messageBuilder(double mark) //Will return a message depending on the student mark.
+  {
+    if(mark==10)
+      {
+        return 'Amazing!';
+      }
+    else if (mark<10 && mark>=6)
+      {
+        return 'Good Job!';
+      }
+    else if (mark<6 && mark>3)
+      {
+        return 'Try better';
+      }
+    else
+      {
+        return 'Oops, we think you should repeat the unit';
+      }
+  }
 
 }

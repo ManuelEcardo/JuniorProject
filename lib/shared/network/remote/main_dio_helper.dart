@@ -14,6 +14,8 @@ class MainDioHelper
         receiveDataWhenStatusError: true,
         receiveTimeout:50000,
         connectTimeout: 30000,
+        // validateStatus: (status)=>true, //Won't throw errors
+
       ),
     );
   }
@@ -35,7 +37,7 @@ class MainDioHelper
 
 
   static Future<Response> postData(
-      {required String url, Map<String,dynamic>?query,  required Map<String,dynamic> data, String lang='en', String? token,  }) async
+      {required String url, Map<String,dynamic>?query,  required Map<String,dynamic> data, String lang='en', String? token,}) async
   {
     dio?.options.headers=
     {
@@ -58,7 +60,7 @@ class MainDioHelper
     dio?.options.headers=
     {
       'Connection' : 'keep-alive',
-      'token': token,
+      'token': 'Bearer $token',
     };
     print('in Main Dio putData');
     return await dio!.put(

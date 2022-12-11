@@ -5,9 +5,11 @@ import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/modules/Units/units.dart';
 import 'package:juniorproj/shared/components/components.dart';
+import 'package:juniorproj/shared/network/local/cache_helper.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
 import 'package:juniorproj/shared/styles/styles.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:string_extensions/string_extensions.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -42,7 +44,7 @@ class HomePage extends StatelessWidget {
                                   backgroundColor: Colors.black12,
                                   radius: 50,
                                   backgroundImage: AssetImage(
-                                      'assets/images/${model!.data!.user![0].userPhoto}'), //assets/images/profile.jpg
+                                      'assets/images/${model!.user!.userPhoto}'), //assets/images/profile.jpg
                               ),
                                  onTap: ()
                                  {
@@ -56,7 +58,7 @@ class HomePage extends StatelessWidget {
 
                               Expanded(
                                 child: Text(
-                                  'Welcome Back, ${model.data!.user![0].firstName}!',
+                                  'Welcome Back, ${model.user!.firstName}!',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                   style: defaultHeadlineTextStyle,
@@ -89,7 +91,18 @@ class HomePage extends StatelessWidget {
                                     child: defaultButton(
                                         function: ()
                                         {
-                                          navigateTo(context, const Units());
+                                          List<String>? i=CacheHelper.getData(key: 'lastAccessedUnit'); //Get Cached Data
+
+                                          if(i !=null) //If units has been accessed before
+                                            {
+                                              cubit.getAllUnits(i[0].toInt()!);  // i[0] contains the language Id, i[1] contains the name of the language
+                                              navigateTo(context, Units(i[1]));
+                                            }
+                                          else //No Cached Data, will move user to Languages Page.
+                                            {
+                                              cubit.changeBottom(1);
+                                            }
+
                                         },
                                         text: "Let's Go")),
                               ],

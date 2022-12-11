@@ -46,7 +46,7 @@ class ProfilePage extends StatelessWidget {
 
         if(model!= null)
         {
-          final data = model.data!.user![0];
+          final data = model.user!;
 
           //had if (data !=null) {firstNameController.text etc.....}
           firstNameController.text= data.firstName!;
@@ -92,19 +92,21 @@ class ProfilePage extends StatelessWidget {
                                 backgroundColor: Colors.black12,
                                 radius: 55,
                                 backgroundImage:
-                                AssetImage('assets/images/${model!.data!.user![0].userPhoto}'),
+                                AssetImage('assets/images/${model!.user!.userPhoto}'),
                               ),
 
-                              const Padding(
+                               const Padding(
                                 padding: EdgeInsetsDirectional.only(end:6, bottom: 2),
-                                child: Icon(Icons.camera_alt_outlined),
+                                child: Icon(
+                                    Icons.camera_alt_outlined,
+                                ),
                               ),
                             ],
                           ),
                         ),
 
                         Text(
-                          model.data!.user![0].firstName!,
+                          model.user!.firstName!,
                           style: defaultHeadlineTextStyle,
                         ),
 

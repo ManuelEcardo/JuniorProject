@@ -315,7 +315,9 @@ class Unit extends StatelessWidget {
     return GestureDetector(
       onTap: ()
       {
-          navigateTo(context,QuizPage(model));
+          // navigateTo(context,QuizPage(model));
+
+        navigateAndSaveRouteSettings(context, QuizPage(model), 'quiz');
       },
       child: Padding(
         padding: const EdgeInsetsDirectional.only(top:8.0),

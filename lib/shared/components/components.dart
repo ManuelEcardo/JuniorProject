@@ -195,7 +195,20 @@ Future<void> defaultLaunchUrl(String ur) async
 
 void navigateTo( BuildContext context, Widget widget) =>Navigator.push(
     context,
-    MaterialPageRoute(builder: (context)=>widget)
+    MaterialPageRoute(builder: (context)=>widget),
+
+);
+
+
+// Navigate to a screen and save the route name
+
+void navigateAndSaveRouteSettings( BuildContext context, Widget widget, String routeName) =>Navigator.push(
+  context,
+  MaterialPageRoute(
+      builder: (context)=>widget,
+      settings: RouteSettings(name: routeName,),
+  ),
+
 );
 
 //--------------------------------------------------------------------------------------------------\\
@@ -251,4 +264,4 @@ Widget defaultCarouselSlider(
 //--------------------------------------------------------------------------------------------------\\
 
 //Default Divider for ListViews ...
-Widget myDivider({Color? c=Colors.grey}) => Container(height: 1, width: double.infinity , color:c,);
+Widget myDivider({Color? c=Colors.grey, double padding=0}) => Container(height: 1, width: double.infinity , color:c, padding: EdgeInsets.symmetric(horizontal: padding),);

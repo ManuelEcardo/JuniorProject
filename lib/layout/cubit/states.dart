@@ -1,5 +1,8 @@
 abstract class AppStates{}
 
+
+//Main STATES
+
 class AppInitialState extends AppStates{}
 
 class AppChangeBottomNavBarState extends AppStates{}
@@ -7,6 +10,9 @@ class AppChangeBottomNavBarState extends AppStates{}
 class AppChangeActionState extends AppStates{}
 
 class AppChangeThemeModeState extends AppStates{}
+
+
+//QUIZ STATES
 
 class AppQuizChangeisLastState extends AppStates{}   //Change of screen happened in showing questions.
 
@@ -17,6 +23,12 @@ class AppQuizChangeisCorrectState extends AppStates{}   //Change if the state is
 class AppQuizChangeisBoxTappedState extends AppStates{}   //Change if any answers boxes has been tapped.
 
 class AppQuizChangeisAnimationState extends AppStates{}   //Change animation to be true.
+
+class AppQuizTotalMarkState extends AppStates{} //after Calculating quiz marks.
+
+class AppQuizAddMarkState extends AppStates{} //Adding marks to student marks.
+
+class AppQuizInitialMarkState extends AppStates{} //Setting initial mark
 
 
 //-------------------------------------------------------\\
@@ -102,6 +114,15 @@ class AppPutUserInfoErrorState extends AppStates{}
 
 
 //----------------------
+
+
+//POST TO ADD A LANGUAGE TO USER:
+
+class AppPostUserLanguageLoadingState extends AppStates{}
+
+class AppPostUserLanguageSuccessState extends AppStates{}
+
+class AppPostUserLanguageErrorState extends AppStates{}
 
 //USER LOGOUT:
 

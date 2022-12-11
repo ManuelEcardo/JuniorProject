@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
+import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
 import '../../models/MainModel/languages_model.dart';
 import '../../shared/styles/styles.dart';
@@ -13,7 +14,18 @@ class AddLanguage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state) {},
+      listener: (context, state)
+      {
+        if(state is AppPostUserLanguageLoadingState)
+          {
+            defaultToast(msg: 'Adding Language');
+          }
+
+        if(state is AppPostUserLanguageSuccessState)
+          {
+            defaultToast(msg: 'Added Successfully');
+          }
+      },
       builder: (context, state) {
         var cubit= AppCubit.get(context);
         LanguageModel? model= AppCubit.languagesModel;
@@ -67,7 +79,10 @@ class AddLanguage extends StatelessWidget {
                     (index)=> languageItemBuilder(
                     text: '${model.item[index].languageName}',
                     cubit: cubit,
-                    function: () {},
+                    function: ()
+                    {
+                      cubit.postLanguageUser(model.item[index].id!);
+                    },
                     model: model.item[index],
                     ),
               )

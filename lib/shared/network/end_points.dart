@@ -1,6 +1,6 @@
 // End Points for Login and Register etc...
 
-const String localhost='https://2540-217-20-212-212.eu.ngrok.io';  //local host to connect, it's temporary and will be removed later.
+const String localhost='https://a8a5-217-20-208-235.eu.ngrok.io';  //local host to connect, it's temporary and will be removed later.
 
 const String login='login';  //Login to your account
 
@@ -21,3 +21,5 @@ const String profile= 'profile'; //Update user info
 const String info='info'; //Get User Data
 
 const String logout='logout'; //Logout and delete token.
+
+const String addLanguage= 'languageAdd';  //Add a language to user taken languages

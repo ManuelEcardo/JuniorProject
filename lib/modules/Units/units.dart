@@ -6,11 +6,14 @@ import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/modules/Units/unit.dart';
 import 'package:juniorproj/shared/components/components.dart';
+import 'package:juniorproj/shared/styles/colors.dart';
 
 
 class Units extends StatelessWidget{
 
-  const Units({Key? key}) : super(key: key);
+  final String langName;
+
+  const Units(this.langName, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(
@@ -83,6 +86,25 @@ class Units extends StatelessWidget{
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:
                       [
+                        Center(
+                          child: Text(
+                            '$langName Course',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1,
+                              color: pistachioColor,
+                            ),
+
+                          ),
+                        ),
+
+                        const SizedBox(height: 10,),
+
+                        myDivider(padding: 10),
+
+                        const SizedBox(height: 30,),
+
                         GridView.count(
                           crossAxisCount: 2,
                           mainAxisSpacing: 25,
@@ -96,7 +118,9 @@ class Units extends StatelessWidget{
                                 (index)=> defaultUnitButton(
                                 function: (){
                                   cubit.getUnitContent(model!.item[index].id!); //Get the content of this unit and put it in contentModel
-                                  navigateTo(context,const Unit());
+
+                                  // navigateTo(context,const Unit());
+                                  navigateAndSaveRouteSettings(context, const Unit(), 'unit');
                                 },
                                 text: 'Unit ${index+1}'),
                           )
