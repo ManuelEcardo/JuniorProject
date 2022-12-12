@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:youtube_caption_scraper/youtube_caption_scraper.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 //Button Like LOGIN
 Widget defaultButton({
@@ -265,3 +267,54 @@ Widget defaultCarouselSlider(
 
 //Default Divider for ListViews ...
 Widget myDivider({Color? c=Colors.grey, double padding=0}) => Container(height: 1, width: double.infinity , color:c, padding: EdgeInsets.symmetric(horizontal: padding),);
+
+
+
+
+
+
+//-----------------------------------------
+
+
+//FOR YOUTUBE
+
+Future<String> videoStreamGetter(String videoId, YoutubeExplode yt ) //Get Stream from link
+async {
+  StreamManifest manifest = await yt.videos.streamsClient.getManifest(videoId); //Get Manifest of this video
+  var streamInfo = StreamManifest(manifest.streams).muxed.withHighestBitrate(); //Video and Audio
+
+  return streamInfo.url.toString();
+}
+
+Future<String> captionsGetter(String videoId, YouTubeCaptionScraper captionScraper )  //Get Captions from link
+async {
+
+  try
+  {
+    final captionTracks = await captionScraper.getCaptionTracks('https://www.youtube.com/watch?v=$videoId');
+    String sub='';
+    int i=1;
+    for (var element in captionTracks)
+    {
+      if(element.languageCode=='en')
+      {
+        print('CAPTION LINK IS: ${element.baseUrl}');
+        var subtitles= await captionScraper.getSubtitles(element);
+        for (final subtitle in subtitles) {
+          // sub.append('$i \r\n${subtitle.start} --> ${subtitle.duration}\r\n${subtitle.text}');
+          sub= '$sub$i \r\n${subtitle.start} --> ${subtitle.duration}\r\n${subtitle.text}';
+        }
+        return element.baseUrl;
+      }
+    }
+    return 'noCaption'; //If no language code as en  //MAKE IT noCaption
+  }
+
+  catch(error)
+  {
+    print('ERROR WHILE GETTING CAPTIONS, ${error.toString()}');
+    return 'noCaption';
+  }
+  // final subtitles = await captionScraper.getSubtitles(captionTracks.first);
+  // return subtitles.toString();
+}

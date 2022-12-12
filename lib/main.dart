@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/modules/Login/login_screen.dart';
 import 'package:juniorproj/modules/VideoPlayer/cubit/cubit.dart';
+import 'package:juniorproj/modules/YoutubeVideos/cubit/cubit.dart';
 import 'package:juniorproj/modules/on_boarding/on_boarding_screen.dart';
 import 'package:juniorproj/shared/bloc_observer.dart';
 import 'package:juniorproj/shared/components/constants.dart';
@@ -75,9 +76,12 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       //Multi BlocProvider will be initialized in the main, so if there is more than one, all can be started here.
       providers: [
+
         BlocProvider(create: (BuildContext context) => AppCubit()..changeTheme(themeFromState: isDark)..getLanguages()..userData()  ),  //Main Cubit for the HomeLayout and most of the Views.
 
         BlocProvider(create: (BuildContext context) => WordCubit()),  //Getting the definition of words.
+
+        BlocProvider(create: (BuildContext context)=>YoutubeCubit())
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},

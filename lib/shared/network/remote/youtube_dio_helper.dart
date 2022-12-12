@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:juniorproj/shared/network/end_points.dart';
 
 // Dio is an HTTP client, we declare in the init() giving the url to get the data from, and it getData we give him the method and queries.
 class YoutubeDioHelper
@@ -14,6 +13,7 @@ class YoutubeDioHelper
         receiveDataWhenStatusError: true,
         receiveTimeout:50000,
         connectTimeout: 30000,
+        validateStatus: (_)=>true,
       ),
     );
   }
@@ -23,7 +23,6 @@ class YoutubeDioHelper
     dio?.options.headers=
     {
       'Connection' : 'keep-alive',
-      'key': youtubeToken,
     };
 
     print('in Main Youtube getData');

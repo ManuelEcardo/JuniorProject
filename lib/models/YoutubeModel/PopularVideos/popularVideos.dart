@@ -34,8 +34,8 @@ class YoutubeVideoItem
   YoutubeVideoItem.fromJson(Map<String,dynamic>json)
   {
     id=json['id'];
-    snippet= YoutubeVideoItemSnippet.fromJson(json['snippet']);
-    contentDetails=YoutubeVideoItemContentDetails.fromJson(json['contentDetails']);
+   snippet= YoutubeVideoItemSnippet.fromJson(json['snippet']);
+   contentDetails=YoutubeVideoItemContentDetails.fromJson(json['contentDetails']);
 
   }
 }
@@ -52,7 +52,7 @@ class YoutubeVideoItemSnippet
   {
     title=json['title'];
     description=json['description'];
-    thumbnail=YoutubeVideoItemSnippetThumbnail.fromJson(json['thumbnail']);
+    thumbnail=YoutubeVideoItemSnippetThumbnail.fromJson(json['thumbnails']);
     channelTitle=json['channelTitle'];
     defaultAudioLanguage=json['defaultAudioLanguage'];
   }
@@ -64,7 +64,7 @@ class YoutubeVideoItemSnippetThumbnail
 
   YoutubeVideoItemSnippetThumbnail.fromJson(Map<String,dynamic>json)
   {
-    high=json['high'];
+    high=YoutubeVideoItemSnippetThumbnailItem.fromJson(json['high']);
   }
 
 }
@@ -72,8 +72,8 @@ class YoutubeVideoItemSnippetThumbnail
 class YoutubeVideoItemSnippetThumbnailItem
 {
   String? url;
-  String? height;
-  String? width;
+  int? height;
+  int? width;
 
   YoutubeVideoItemSnippetThumbnailItem.fromJson(Map<String,dynamic>json)
   {

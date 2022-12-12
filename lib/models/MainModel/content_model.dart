@@ -101,6 +101,8 @@ class Videos {
   String? videoSubtitle;
   int? unitId;
 
+  Videos({this.videoTitle,this.videoLink,this.videoSubtitle,this.videoDescription});
+
 
   Videos.fromJson(Map<String, dynamic> json) {
     id = json['id'];

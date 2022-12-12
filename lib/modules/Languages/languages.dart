@@ -6,6 +6,8 @@ import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/models/MainModel/languages_model.dart';
 import 'package:juniorproj/modules/Units/units.dart';
+import 'package:juniorproj/modules/YoutubeVideos/cubit/cubit.dart';
+import 'package:juniorproj/modules/YoutubeVideos/YoutubeMain/youtubeHomePage.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/network/local/cache_helper.dart';
 
@@ -33,6 +35,7 @@ class LanguagesPage extends StatelessWidget {
             fallback: (context)=>const Center(child: CircularProgressIndicator(),),
             builder: (context)=>Column(
               children: [
+
                 ListView.separated(
                   physics: const BouncingScrollPhysics() ,
                   shrinkWrap: true,
@@ -122,6 +125,8 @@ Widget youtubeLibraryItem(AppCubit cubit,BuildContext context) => Padding(
       highlightColor: cubit.isDarkTheme? defaultDarkColor.withOpacity(0.2) : defaultColor.withOpacity(0.2),
       onTap: ()
       {
+        YoutubeCubit.get(context).youtubeGetVideos(); //Get Youtube Videos
+        navigateTo(context, const YoutubeHomePage());
       },
 
       child: Row(
