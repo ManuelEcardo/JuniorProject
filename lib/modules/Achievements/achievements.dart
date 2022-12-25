@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,6 +7,7 @@ import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/modules/Achievements/leaderboards.dart';
 import 'package:juniorproj/shared/components/components.dart';
 
+import '../../models/MainModel/achievements_model.dart';
 import '../../shared/styles/styles.dart';
 
 class AchievementsPage extends StatelessWidget {
@@ -19,121 +21,121 @@ class AchievementsPage extends StatelessWidget {
 
       builder: (context,state)
       {
+        var model= AppCubit.achievementsModel;
         var cubit= AppCubit.get(context);
 
-        List<String> achieveList=
-        [
-          '1. Complete Your Information',
-          '2. Start a Lesson',
-          '3. Take a Quiz',
-          '4. Complete a quiz with no mistakes',
-          '5. Change your picture'
-        ];
-        return Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+        return ConditionalBuilder(
+            condition: model !=null,
+            fallback: (context)=> const Center(child: CircularProgressIndicator(),),
+            builder: (context)=> Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
 
-            children:
-            [
-              Text(
-                'Achievements:',
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                style: defaultHeadlineTextStyle,
-              ),
+                children:
+                [
+                  Text(
+                    'Achievements:',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: defaultHeadlineTextStyle,
+                  ),
 
-              const SizedBox(height: 25,),
+                  const SizedBox(height: 25,),
 
-              Expanded(
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    itemBuilder: (context,index)=> achievementItemBuilder(achieveList[index]),
-                    separatorBuilder: (context,index)=> myDivider(),
-                    itemCount: achieveList.length,
-                ),
-              ),
+                  Expanded(
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemBuilder: (context,index)=> achievementItemBuilder(model!.item[index], index+1),
+                      separatorBuilder: (context,index)=> myDivider(),
+                      itemCount: model!.item.length,
+                    ),
+                  ),
 
-              const SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
 
-              TextButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/images/crown.svg',
-                      color: cubit.isDarkTheme? Colors.deepOrange : Colors.blue,
-                      fit: BoxFit.cover,
-                      width: 40,
-                      height: 40,
-                      semanticsLabel: 'Crown',
+                  TextButton(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/crown.svg',
+                          color: cubit.isDarkTheme? Colors.deepOrange : Colors.blue,
+                          fit: BoxFit.cover,
+                          width: 40,
+                          height: 40,
+                          semanticsLabel: 'Crown',
 
+                        ),
+
+                        const SizedBox(width:15,),
+
+                        const Text(
+                          'Leaderboards',
+                          style: TextStyle(
+                            fontSize: 25,
+                          ),
+                        ),
+                      ],
                     ),
 
-                    const SizedBox(width:15,),
-
-                    const Text(
-                        'Leaderboards',
-                      style: TextStyle(
-                        fontSize: 25,
-                      ),
-                    ),
-                  ],
-                ),
-
-                onPressed: ()
-                {
-                  navigateTo(context, const Leaderboards());
-                },
+                    onPressed: ()
+                    {
+                      navigateTo(context, const Leaderboards());
+                    },
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+
         );
       },
     );
-
-
   }
-  Widget achievementItemBuilder(String text)
+
+  Widget achievementItemBuilder(AchievementItem model, int index)
   {
-    return SizedBox(
-      height: 100,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            text,
-            style: achievementsStyle,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-          ),
+    return Visibility(
+      visible: model.secret==0,
+      child: SizedBox(
+        height: 100,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '$index. ${model.name}',
+              style: achievementsStyle,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+            ),
 
-          const SizedBox(height: 10,),
-          Row(
-            children:
-            [
-              Text(
-                'Status:',
-                style: secondaryTextStyle,
-              ),
-
-              const SizedBox(width: 5,),
-              const Text(
-                'Completed',
-                style:  TextStyle(
-                  fontSize: 16,
-                  letterSpacing: 2,
-                  color: Colors.redAccent,
-                  decoration: TextDecoration.lineThrough
+            const SizedBox(height: 10,),
+            Row(
+              children:
+              [
+                Text(
+                  'Status:',
+                  style: secondaryTextStyle,
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 15,),
-        ],
+
+                const SizedBox(width: 5,),
+                const Text(
+                  'Completed',
+                  style:  TextStyle(
+                    fontSize: 16,
+                    letterSpacing: 2,
+                    color: Colors.redAccent,
+                    decoration: TextDecoration.lineThrough
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 15,),
+          ],
+        ),
       ),
     );
   }

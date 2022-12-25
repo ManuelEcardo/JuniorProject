@@ -81,6 +81,14 @@ class AppGetUnitContentErrorState extends AppStates{}
 //-----------------------
 
 
+//GET ACHIEVEMENTS:
+
+class AppGetAchievementsLoadingState extends AppStates{}
+
+class AppGetAchievementsSuccessState extends AppStates{}
+
+class AppGetAchievementsErrorState extends AppStates{}
+
 //GET LESSONS:
 
 class AppGetLessonsLoadingState extends AppStates{}

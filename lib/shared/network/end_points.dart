@@ -32,6 +32,8 @@ const String logout='logout'; //Logout and delete token.
 
 const String addLanguage= 'languageAdd';  //Add a language to user taken languages
 
+const String achievements='achievements';  //Get Achievements
+
 
 
 //----------------------------------------------------------

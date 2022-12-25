@@ -12,6 +12,7 @@ import 'package:juniorproj/shared/network/local/cache_helper.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/shared/network/remote/main_dio_helper.dart';
 
+import '../../models/MainModel/achievements_model.dart';
 import '../../models/MainModel/content_model.dart';
 import '../../models/MainModel/userData_model.dart';
 import '../../modules/Languages/languages.dart';
@@ -271,6 +272,30 @@ class AppCubit extends Cubit<AppStates>
   }
 
   //-----------------
+
+  //Get Achievements
+
+  static AchievementsModel? achievementsModel;
+  void getAchievements()
+  {
+    emit(AppGetAchievementsLoadingState());
+
+    MainDioHelper.getData(
+        url: 'achievements',
+    ).then((value)
+    {
+      print('Available Achievemnts:, ${value.data}');
+
+      achievementsModel=AchievementsModel.fromJson(value.data);
+
+      emit(AppGetAchievementsSuccessState());
+    }).catchError((error)
+    {
+      print('ERROR WHILE GETTING ACHIEVEMENTS, ${error.toString()}');
+      emit(AppGetAchievementsErrorState());
+    });
+
+  }
 
   //Get Units for a specified Language. LanguageID is passed through.
   static UnitsModel? unitsModel;
