@@ -47,6 +47,7 @@ class YoutubeHomePage extends StatelessWidget {
                       icon: const Icon(Icons.sunny)),
                 ],
               ),
+
               body: Padding(
                 padding: const EdgeInsetsDirectional.all(24.0),
                 child: SingleChildScrollView(
@@ -224,19 +225,6 @@ class YoutubeHomePage extends StatelessWidget {
         String videoLink= await videoStreamGetter(model.id!,yt);  //Get Video Stream link
 
         String videoCaptions= await captionsGetter(model.id!, captionScraper); //Get Caption link
-
-        // StreamManifest manifest = await yt.videos.streamsClient.getManifest(model.id); //Get Manifest of this video
-        //
-        // var streamInfo = StreamManifest(manifest.streams).muxed.withHighestBitrate(); //Video and Audio
-        // videoLink = streamInfo.url.toString();
-
-
-        // final captionTracks = await captionScraper.getCaptionTracks('https://www.youtube.com/watch?v=${model.id!}');
-        // final subtitles = await captionScraper.getSubtitles(captionTracks[0]);
-        //
-        // videoCaptions=subtitles.toString();
-        //
-        // print('CAPTIONS: $videoCaptions');
 
         if(videoCaptions != 'noCaption')
           {

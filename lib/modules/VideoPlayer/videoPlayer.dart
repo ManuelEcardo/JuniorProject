@@ -33,9 +33,9 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
 
   late SubtitleController subtitleController= SubtitleController(  //SubtitleController Helps to manage the subtitles for the video. //WAS FINAL INSTEAD OF LATE
+
     subtitleUrl: widget.video.videoSubtitle!, //'https://drive.google.com/u/0/uc?id=1x0Qt5gurTM11RDWiuKRCqPrQMlwjgEqp&export=download'
     showSubtitles: true,
-
     subtitleType: SubtitleType.srt,
   );
 
@@ -138,7 +138,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
     //var subtitle;
     //bool isPaused=false;
 
-    print('ABLAAAB ${widget.video.videoSubtitle}');
+    print('This Video Subtitles: ${widget.video.videoSubtitle}');
     return BlocConsumer<WordCubit,WordStates>(
       listener: (context,state)
       {

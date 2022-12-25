@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_caption_scraper/youtube_caption_scraper.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:path_provider/path_provider.dart';
 
 //Button Like LOGIN
 Widget defaultButton({
@@ -280,20 +283,34 @@ Widget myDivider({Color? c=Colors.grey, double padding=0}) => Container(height: 
 
 Future<String> videoStreamGetter(String videoId, YoutubeExplode yt ) //Get Stream from link
 async {
-  StreamManifest manifest = await yt.videos.streamsClient.getManifest(videoId); //Get Manifest of this video
-  var streamInfo = StreamManifest(manifest.streams).muxed.withHighestBitrate(); //Video and Audio
 
-  return streamInfo.url.toString();
+  try
+    {
+      StreamManifest manifest = await yt.videos.streamsClient.getManifest(videoId); //Get Manifest of this video
+      var streamInfo = StreamManifest(manifest.streams).muxed.withHighestBitrate(); //Video and Audio
+
+      return streamInfo.url.toString();
+    }
+
+    catch(error)
+    {
+      print('Couldn\'t Get Stream, ${error.toString()}');
+      return 'no stream';
+    }
 }
 
 Future<String> captionsGetter(String videoId, YouTubeCaptionScraper captionScraper )  //Get Captions from link
 async {
 
+  final Directory directory = await getApplicationDocumentsDirectory();
+  print('THE DIRECTORY PATH IS: ${directory.path}');
+  final File file = File('${directory.path}/my_file.txt');
+
   try
   {
     final captionTracks = await captionScraper.getCaptionTracks('https://www.youtube.com/watch?v=$videoId');
-    String sub='';
-    int i=1;
+    String sub='';  //Initial Subtitle string
+    int i=1;  //put a number for each line
     for (var element in captionTracks)
     {
       if(element.languageCode=='en')
@@ -301,12 +318,16 @@ async {
         print('CAPTION LINK IS: ${element.baseUrl}');
         var subtitles= await captionScraper.getSubtitles(element);
         for (final subtitle in subtitles) {
-          // sub.append('$i \r\n${subtitle.start} --> ${subtitle.duration}\r\n${subtitle.text}');
-          sub= '$sub$i \r\n${subtitle.start} --> ${subtitle.duration}\r\n${subtitle.text}';
+
+          sub= '$sub$i \r\n${subtitle.start} --> ${subtitle.duration}\r\n${subtitle.text}\r\n\r\n';  //Append each new subtitle line with the old
+          i++; //Increment the counter
+
+          await file.writeAsString(sub);
         }
-        return element.baseUrl;
+        return sub; //element.baseUrl;
       }
     }
+
     return 'noCaption'; //If no language code as en  //MAKE IT noCaption
   }
 
@@ -315,6 +336,5 @@ async {
     print('ERROR WHILE GETTING CAPTIONS, ${error.toString()}');
     return 'noCaption';
   }
-  // final subtitles = await captionScraper.getSubtitles(captionTracks.first);
-  // return subtitles.toString();
+
 }

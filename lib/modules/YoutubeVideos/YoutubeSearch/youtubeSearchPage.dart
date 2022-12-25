@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,14 +21,13 @@ class YoutubeSearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var formKey= GlobalKey<FormState>();
     var searchController= TextEditingController();
-
     return BlocConsumer<YoutubeCubit,YoutubeStates>(
         listener: (context,state)
         {},
         builder: (context,state)
         {
           var cubit=YoutubeCubit.get(context);
-          var yt = YoutubeExplode();
+          var yt = YoutubeExplode(); //Youtube Package Helper to get video's details
           var captionScraper = YouTubeCaptionScraper(); //Get video captions
 
           return Scaffold(
@@ -73,7 +74,7 @@ class YoutubeSearchPage extends StatelessWidget {
 
                       const SizedBox(height: 15,),
 
-                      if(state is YoutubeSearchLoadingState)
+                      if(state is YoutubeSearchLoadingState)  //If video is Loading or Getting Captions then show Linear Progress Indicator
                         const LinearProgressIndicator(),
 
                       if(state is YoutubeSearchSuccessState)
@@ -221,11 +222,15 @@ class YoutubeSearchPage extends StatelessWidget {
       onTap: ()
       async {
         String videoLink= await videoStreamGetter(model.id!,yt);  //Get Video Stream link
-
         String videoCaptions= await captionsGetter(model.id!, captionScraper); //Get Caption link
 
-        if(videoCaptions != 'noCaption')
+        if(videoLink == 'no stream')
         {
+          defaultToast(msg: 'Video Streams are not available because of some restrictions');
+        }
+
+        if(videoCaptions != 'noCaption' && videoLink != 'no stream')  //No Problem with either Video stream or captions, then show video.
+            {
           Videos v1= Videos(
             videoDescription: model.snippet!.description!,
             videoLink: videoLink,
@@ -236,21 +241,20 @@ class YoutubeSearchPage extends StatelessWidget {
           navigateTo(context, VideoGetter(v1));
         }
 
-        else
+        else if (videoCaptions == 'noCaption' && videoLink != 'no stream')
         {
           defaultToast(msg: 'No Captions for This Video');
+
           Videos v1= Videos(
             videoDescription: model.snippet!.description!,
             videoLink: videoLink,
             videoTitle: model.snippet!.title!,
             videoSubtitle: videoCaptions,
           );
+
           navigateTo(context, VideoGetter(v1));
         }
       },
     );
   }
 }
-
-
-//YoutubeCubit.youtubeSearchModel
