@@ -89,6 +89,26 @@ class AppGetAchievementsSuccessState extends AppStates{}
 
 class AppGetAchievementsErrorState extends AppStates{}
 
+//-----------------------
+
+//GET USER ACHIEVEMENTS:
+
+class AppGetUserAchievementsLoadingState extends AppStates{}
+
+class AppGetUserAchievementsSuccessState extends AppStates{}
+
+class AppGetUserAchievementsErrorState extends AppStates{}
+
+//------------------------
+
+// GET LATEST ACHIEVEMENTS:
+
+class AppGetLatestAchievementsLoadingState extends AppStates{}
+
+class AppGetLatestAchievementsSuccessState extends AppStates{}
+
+class AppGetLatestAchievementsErrorState extends AppStates{}
+
 //GET LESSONS:
 
 class AppGetLessonsLoadingState extends AppStates{}

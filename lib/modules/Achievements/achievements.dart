@@ -8,6 +8,7 @@ import 'package:juniorproj/modules/Achievements/leaderboards.dart';
 import 'package:juniorproj/shared/components/components.dart';
 
 import '../../models/MainModel/achievements_model.dart';
+import '../../models/MainModel/userAchievements_model.dart';
 import '../../shared/styles/styles.dart';
 
 class AchievementsPage extends StatelessWidget {
@@ -21,7 +22,10 @@ class AchievementsPage extends StatelessWidget {
 
       builder: (context,state)
       {
-        var model= AppCubit.achievementsModel;
+        var model= AppCubit.achievementsModel; //All Achievements
+
+        var userAchievements = AppCubit.userAchievementsModel; //User's Achievements.
+
         var cubit= AppCubit.get(context);
 
         return ConditionalBuilder(
@@ -49,7 +53,7 @@ class AchievementsPage extends StatelessWidget {
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       physics: const AlwaysScrollableScrollPhysics(),
-                      itemBuilder: (context,index)=> achievementItemBuilder(model!.item[index], index+1),
+                      itemBuilder: (context,index)=> achievementItemBuilder(model!.item[index], userAchievements!, index),
                       separatorBuilder: (context,index)=> myDivider(),
                       itemCount: model!.item.length,
                     ),
@@ -96,8 +100,20 @@ class AchievementsPage extends StatelessWidget {
     );
   }
 
-  Widget achievementItemBuilder(AchievementItem model, int index)
+  Widget achievementItemBuilder(AchievementItem model, UserAchievementsModel userModel, int index)
   {
+    bool isUnlocked=false;
+
+    for(var i in userModel.item)
+      {
+        if(i.achievementId==model.id)
+          {
+            if(i.unlockedAt !=null)
+              {
+                isUnlocked=true;
+              }
+          }
+      }
     return Visibility(
       visible: model.secret==0,
       child: SizedBox(
@@ -106,7 +122,7 @@ class AchievementsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '$index. ${model.name}',
+              '${index+1}. ${model.name}',
               style: achievementsStyle,
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
@@ -122,13 +138,14 @@ class AchievementsPage extends StatelessWidget {
                 ),
 
                 const SizedBox(width: 5,),
-                const Text(
-                  'Completed',
+
+                 Text(
+                  isUnlocked==true ?'Completed' : 'Pending',
                   style:  TextStyle(
                     fontSize: 16,
                     letterSpacing: 2,
                     color: Colors.redAccent,
-                    decoration: TextDecoration.lineThrough
+                    decoration: isUnlocked ==true ? TextDecoration.lineThrough : TextDecoration.none,
                   ),
                 ),
               ],

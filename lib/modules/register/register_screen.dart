@@ -60,6 +60,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 AppCubit().userData(); //If the user Registered, it will get the user data model.
 
+                AppCubit().getUserAchievements(); //Get The User Achievements.
+
                 navigateAndFinish(context, const HomeLayout());
               });
             }
@@ -159,7 +161,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<String>(
-                                  style: TextStyle(color: defaultColor),
+                                  style: TextStyle(color: AppCubit.get(context).isDarkTheme? defaultDarkColor : defaultColor),
 
                                   value: currentGender,
                                   isDense: true,
@@ -278,6 +280,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   //navigateAndFinish(context, const HomeLayout());  //Should be removed after connecting with the Database.
                                 }
                               },
+                              background: AppCubit.get(context).isDarkTheme? defaultDarkColor : defaultColor,
                               text: 'Register'),
                         ),
 

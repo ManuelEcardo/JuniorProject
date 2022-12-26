@@ -6,6 +6,7 @@ import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/home_layout.dart';
 import 'package:juniorproj/modules/register/register_screen.dart';
 import 'package:juniorproj/shared/components/components.dart';
+import 'package:juniorproj/shared/styles/colors.dart';
 import '../../shared/components/constants.dart';
 import '../../shared/network/local/cache_helper.dart';
 import 'cubit/cubit.dart';
@@ -50,7 +51,8 @@ class LoginScreen extends StatelessWidget {
                 {
                   token=state.loginModel.token!;  //To renew the token if I logged out and went in again.
                   AppCubit().userData(); //If the user Logged out and then signed in again, it will get the user data model.
-                  navigateAndFinish(context, const HomeLayout());
+                  AppCubit().getUserAchievements(); //Get The User Achievements.
+                  navigateAndFinish(context,const HomeLayout());
                 });
               }
               else
@@ -169,7 +171,9 @@ class LoginScreen extends StatelessWidget {
                                   }
                                 //navigateAndFinish(context, const HomeLayout());
                               },
-                              text: 'login'),
+                              text: 'login',
+                              background: AppCubit.get(context).isDarkTheme? defaultDarkColor : defaultColor,
+                          ),
                         ),
 
                         const SizedBox(height: 15,),

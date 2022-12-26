@@ -2,7 +2,7 @@
 
 
 //LOCAL HOSTS:
-const String localhost='https://d25d-217-20-208-172.eu.ngrok.io';  //local host to connect, it's temporary and will be removed later.
+const String localhost='https://026b-217-20-211-92.eu.ngrok.io';  //local host to connect, it's temporary and will be removed later.
 
 const String youtubeToken= 'AIzaSyC4-caWZdcZG9x5DtdUOPyij-yv53w2DnI';  //Youtube Default API key
 
@@ -33,6 +33,10 @@ const String logout='logout'; //Logout and delete token.
 const String addLanguage= 'languageAdd';  //Add a language to user taken languages
 
 const String achievements='achievements';  //Get Achievements
+
+const String userAchievements='achievements/user';  //Get Achievements for this User.
+
+const String latestAchievements= 'achievements/latest'; //Get the new Achievements the user has unlocked.
 
 
 

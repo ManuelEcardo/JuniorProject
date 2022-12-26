@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -147,6 +146,7 @@ Future<bool?> defaultToast({
   int time = 1,
 }) =>
     Fluttertoast.showToast(
+
       msg: msg,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: time,
@@ -271,11 +271,6 @@ Widget defaultCarouselSlider(
 //Default Divider for ListViews ...
 Widget myDivider({Color? c=Colors.grey, double padding=0}) => Container(height: 1, width: double.infinity , color:c, padding: EdgeInsets.symmetric(horizontal: padding),);
 
-
-
-
-
-
 //-----------------------------------------
 
 
@@ -338,3 +333,9 @@ async {
   }
 
 }
+
+
+//-----------------------------------------------
+
+
+//Show Achievement Toast

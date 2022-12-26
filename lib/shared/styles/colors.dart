@@ -13,3 +13,5 @@ import 'package:hexcolor/hexcolor.dart';
 
 
  Color defaultHomeColor= HexColor('F2F6F8'); //Something of a light Blue Color.
+
+Color defaultHomeDarkColor=Colors.black38;

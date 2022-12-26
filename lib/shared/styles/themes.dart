@@ -49,19 +49,19 @@ ThemeData lightTheme(context) => ThemeData(
 
 ThemeData darkTheme(context)=> ThemeData(
 
-    backgroundColor: Colors.black38,
+    backgroundColor: defaultHomeDarkColor,
     primarySwatch: defaultDarkColor,
-    scaffoldBackgroundColor: Colors.black38,
+    scaffoldBackgroundColor: defaultHomeDarkColor,
     appBarTheme:  AppBarTheme(
       titleSpacing: 16.0,
-      backgroundColor: Colors.black38,
+      backgroundColor: defaultHomeDarkColor,
       elevation: 0.0,
       iconTheme: const IconThemeData(color: Colors.white),
       titleTextStyle:TextStyle(color: defaultDarkColor, fontWeight: FontWeight.bold, fontSize: 20),
 
       actionsIconTheme: const IconThemeData(color: Colors.white),
-      systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.black38,
+      systemOverlayStyle:  SystemUiOverlayStyle(
+          statusBarColor: defaultHomeDarkColor,
           statusBarIconBrightness: Brightness.light
       ),
 
@@ -69,7 +69,7 @@ ThemeData darkTheme(context)=> ThemeData(
 
     bottomNavigationBarTheme:  BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.black38,
+      backgroundColor: defaultHomeDarkColor,
       selectedItemColor: defaultDarkColor,
       unselectedIconTheme: const IconThemeData(color: Colors.white,),
       unselectedItemColor: Colors.white,
@@ -122,13 +122,13 @@ ThemeData darkTheme(context)=> ThemeData(
 
       ),
 
-    bottomSheetTheme: const BottomSheetThemeData(
-      backgroundColor: Colors.black38,
+    bottomSheetTheme:  BottomSheetThemeData(
+      backgroundColor: defaultHomeDarkColor,
       modalBackgroundColor: Colors.white,
     ),
 
-    navigationBarTheme: const NavigationBarThemeData(
-      backgroundColor: Colors.black38,
+    navigationBarTheme:  NavigationBarThemeData(
+      backgroundColor: defaultHomeDarkColor,
       indicatorColor: Colors.white,
 
     ),

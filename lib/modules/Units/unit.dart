@@ -282,7 +282,7 @@ class Unit extends StatelessWidget {
                 child: Text(
                   'LESSON $index:',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,

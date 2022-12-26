@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,7 +12,6 @@ import 'package:juniorproj/shared/styles/colors.dart';
 
 class HomeLayout extends StatelessWidget {
    const HomeLayout({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(
@@ -341,5 +341,7 @@ class HomeLayout extends StatelessWidget {
       },
     );
   }
+
+
 
 }

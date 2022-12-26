@@ -14,6 +14,7 @@ import 'package:juniorproj/shared/network/remote/main_dio_helper.dart';
 
 import '../../models/MainModel/achievements_model.dart';
 import '../../models/MainModel/content_model.dart';
+import '../../models/MainModel/userAchievements_model.dart';
 import '../../models/MainModel/userData_model.dart';
 import '../../modules/Languages/languages.dart';
 import '../../shared/components/constants.dart';
@@ -281,10 +282,10 @@ class AppCubit extends Cubit<AppStates>
     emit(AppGetAchievementsLoadingState());
 
     MainDioHelper.getData(
-        url: 'achievements',
+      url: achievements,
     ).then((value)
     {
-      print('Available Achievemnts:, ${value.data}');
+      print('Available Achievements:, ${value.data}');
 
       achievementsModel=AchievementsModel.fromJson(value.data);
 
@@ -294,8 +295,68 @@ class AppCubit extends Cubit<AppStates>
       print('ERROR WHILE GETTING ACHIEVEMENTS, ${error.toString()}');
       emit(AppGetAchievementsErrorState());
     });
-
   }
+  
+  //-----------------
+  
+  
+  //Get User Achievements
+  
+  static UserAchievementsModel? userAchievementsModel;
+  
+  void getUserAchievements()
+  {
+    if(token != '')
+      {
+        emit(AppGetUserAchievementsLoadingState());
+
+        MainDioHelper.getData(
+          url: userAchievements,
+          token: token,
+        ).then((value)
+        {
+          print(value.data);
+
+          userAchievementsModel= UserAchievementsModel.fromJson(value.data);
+          emit(AppGetUserAchievementsSuccessState());
+        }).catchError((error)
+        {
+          print('ERROR WHILE GETTING USER ACHIEVEMENTS, ${error.toString()}');
+          emit(AppGetUserAchievementsErrorState());
+        });
+      }
+  }
+
+  //-----------------
+
+
+  //Get Latest Achievements
+  //
+  // static UserAchievementsModel? newAchievementsModel;
+  //
+  // void getLatestAchievements()
+  // {
+  //   newAchievementsModel=null; //emptying the model.
+  //   emit(AppGetLatestAchievementsLoadingState());
+  //
+  //   MainDioHelper.getData(
+  //     url: latestAchievements,
+  //     token: token,
+  //   ).then((value)
+  //   {
+  //     newAchievementsModel= UserAchievementsModel.fromJson(value.data);
+  //     emit(AppGetLatestAchievementsSuccessState());
+  //
+  //   }).catchError((error)
+  //   {
+  //
+  //     print('ERROR WHILE GETTING USER ACHIEVEMENTS, ${error.toString()}');
+  //     emit(AppGetLatestAchievementsErrorState());
+  //   });
+  // }
+
+
+  //----------------------------------
 
   //Get Units for a specified Language. LanguageID is passed through.
   static UnitsModel? unitsModel;
