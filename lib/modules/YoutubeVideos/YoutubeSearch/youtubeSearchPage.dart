@@ -28,64 +28,72 @@ class YoutubeSearchPage extends StatelessWidget {
           var yt = YoutubeExplode(); //Youtube Package Helper to get video's details
           var captionScraper = YouTubeCaptionScraper(); //Get video captions
 
-          return Scaffold(
-            appBar: AppBar(
-              actions:
-              [
-                IconButton(
-                    onPressed: ()
-                    {
-                      AppCubit.get(context).changeTheme();
-                    },
-                    icon: const Icon(Icons.sunny)),
-              ],
-            ),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    children:
-                    [
-                      defaultFormField(
-                          controller: searchController,
-                          keyboard: TextInputType.text,
-                          label: 'Search',
-                          prefix: Icons.search,
-                          validate: (String? value)
-                          {
-                            if(value!.isEmpty)
+          return WillPopScope(
+            child: Scaffold(
+              appBar: AppBar(
+                actions:
+                [
+                  IconButton(
+                      onPressed: ()
+                      {
+                        AppCubit.get(context).changeTheme();
+                      },
+                      icon: const Icon(Icons.sunny)),
+                ],
+              ),
+              body: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children:
+                      [
+                        defaultFormField(
+                            controller: searchController,
+                            keyboard: TextInputType.text,
+                            label: 'Search',
+                            prefix: Icons.search,
+                            validate: (String? value)
                             {
-                              return 'Enter Data';
-                            }
-                            return null;
-                          },
-                          onSubmit: (String text)
-                          {
-                            if(formKey.currentState?.validate()==true)
+                              if(value!.isEmpty)
+                              {
+                                return 'Enter Data';
+                              }
+                              return null;
+                            },
+                            onSubmit: (String text)
                             {
-                              YoutubeCubit.get(context).youtubeSearch(item: text);
+                              if(formKey.currentState?.validate()==true)
+                              {
+                                YoutubeCubit.get(context).youtubeSearch(item: text);
+                              }
                             }
-                          }
-                      ),
-
-                      const SizedBox(height: 15,),
-
-                      if(state is YoutubeSearchLoadingState)  //If video is Loading or Getting Captions then show Linear Progress Indicator
-                        const LinearProgressIndicator(),
-
-                      if(state is YoutubeSearchSuccessState)
-                        ConditionalBuilder(
-                            condition: YoutubeCubit.youtubeSearchModel !=null,
-                            fallback: (context)=> const Center(child: LinearProgressIndicator(),),
-                            builder: (context)=> videoListViewBuilder(YoutubeCubit.youtubeSearchModel!,cubit, yt, captionScraper, searchController.value.text),
                         ),
-                    ],
+
+                        const SizedBox(height: 15,),
+
+                        if(state is YoutubeSearchLoadingState)  //If video is Loading or Getting Captions then show Linear Progress Indicator
+                          const LinearProgressIndicator(),
+
+                        if(state is YoutubeSearchSuccessState)
+                          ConditionalBuilder(
+                              condition: YoutubeCubit.youtubeSearchModel !=null,
+                              fallback: (context)=> const Center(child: LinearProgressIndicator(),),
+                              builder: (context)=> videoListViewBuilder(YoutubeCubit.youtubeSearchModel!,cubit, yt, captionScraper, searchController.value.text),
+                          ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
+
+            onWillPop: ()async
+            {
+              cubit.clearYoutubeSearchModel();
+              return true;
+            },
           );
         },
     );
@@ -168,11 +176,25 @@ class YoutubeSearchPage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children:
         [
-          Image(
-            image: NetworkImage(model.snippet!.thumbnail!.high!.url!),
-            width: 110,
-            height: 110,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15), // Image border
+            child: SizedBox.fromSize(
+              size: const Size.fromRadius(50), // Image radius
+              child: Image.network(
+                model.snippet!.thumbnail!.high!.url!,
+                fit: BoxFit.contain,
+                width: 110,
+                height: 110,
+              ),
+            ),
           ),
+
+          //Old Image Style
+          // Image(
+          //   image: NetworkImage(model.snippet!.thumbnail!.high!.url!),
+          //   width: 110,
+          //   height: 110,
+          // ),
 
           const SizedBox(width: 10,),
 
@@ -219,6 +241,7 @@ class YoutubeSearchPage extends StatelessWidget {
 
       onTap: ()
       async {
+        defaultToast(msg: 'Loading');
         String videoLink= await videoStreamGetter(model.id!,yt);  //Get Video Stream link
         String videoCaptions= await captionsGetter(model.id!, captionScraper); //Get Caption link
 

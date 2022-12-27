@@ -18,6 +18,8 @@ class YoutubeSearchSuccessState extends YoutubeStates{}
 
 class YoutubeSearchErrorState extends YoutubeStates{}
 
+class YoutubeSearchEmptyState extends YoutubeStates{}
+
 
 //GET CAPTIONS
 

@@ -72,4 +72,11 @@ class YoutubeCubit extends Cubit<YoutubeStates>
   }
 
 
+  void clearYoutubeSearchModel()
+  {
+    youtubeSearchModel=null;
+    emit(YoutubeSearchEmptyState());
+  }
+
+
 }

@@ -62,8 +62,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
       autoInitialize: true,
       allowFullScreen: true,
       zoomAndPan: true,
-
-        errorBuilder: (context,errorMessage)  //Error Message to show.
+      errorBuilder: (context,errorMessage)  //Error Message to show.
         {
           return Center(
             child: Text(
@@ -138,7 +137,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
     //var subtitle;
     //bool isPaused=false;
 
-    print('This Video Subtitles: ${widget.video.videoSubtitle}');
+    // print('This Video Subtitles: ${widget.video.videoSubtitle}');
     return BlocConsumer<WordCubit,WordStates>(
       listener: (context,state)
       {
@@ -156,7 +155,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
             if(WordCubit.model !=null)
               {
-                popupDialog(WordCubit.model);
+                popupDialog(WordCubit.model); //Show Popup that contains the word meaning.
               }
           }
       },

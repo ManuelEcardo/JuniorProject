@@ -35,7 +35,7 @@ class Lesson extends StatelessWidget {
               child: SizedBox( //was Container
                 //height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
-                child: itemBuilder(),
+                child: itemBuilder(context),
               ),
             ),
           ),
@@ -45,7 +45,7 @@ class Lesson extends StatelessWidget {
 
 
   }
-  Widget itemBuilder()
+  Widget itemBuilder(BuildContext context)
   {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +57,7 @@ class Lesson extends StatelessWidget {
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
-              color: defaultDarkColor,
+              color:  AppCubit.get(context).isDarkTheme? defaultColor : defaultDarkColor,
             ),
           ),
         ),
@@ -73,7 +73,7 @@ class Lesson extends StatelessWidget {
           style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.bold,
-            color: defaultColor,
+            color: AppCubit.get(context).isDarkTheme? defaultDarkColor : defaultColor,
           ),
         ),
 
@@ -96,7 +96,7 @@ class Lesson extends StatelessWidget {
             style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w500,
-                color: defaultDarkColor
+                color: AppCubit.get(context).isDarkTheme? defaultColor : defaultDarkColor,
             ),
           ),
         ),

@@ -89,7 +89,7 @@ class _MyAppState extends State<MyApp> {
   void initState()
   {
     super.initState();
-    timer= Timer.periodic(const Duration(seconds: 30), (Timer t) => checkAchievements()); //Set Timer to check for new achievements every 2 Minutes.
+    timer= Timer.periodic(const Duration(minutes: 2), (Timer t) => checkAchievements()); //Set Timer to check for new achievements every 2 Minutes.
   }
 
   @override
@@ -187,7 +187,6 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-
   void getLatestAchievements() // Get latest achievement from server.
   {
     MainDioHelper.getData(
@@ -207,6 +206,7 @@ class _MyAppState extends State<MyApp> {
     return Builder(
       builder: (BuildContext myContext)
       {
+        AppCubit.get(myContext).getUserAchievements();
         return SafeArea(
           child: SwipeDetector(
             onSwipeUp: ()
@@ -266,4 +266,5 @@ class _MyAppState extends State<MyApp> {
       },
     );
   }
+
 }

@@ -54,7 +54,7 @@ class YoutubeHomePage extends StatelessWidget {
                   child: ConditionalBuilder(
                     condition: model !=null,
                     fallback: (context)=>const Center(child: LinearProgressIndicator(),),
-                    builder: (context)=> videoListViewBuilder(model!,cubit, yt, captionScraper),
+                    builder: (context)=> videoListViewBuilder(context, model!,cubit, yt, captionScraper),
                   ),
                 ),
               ),
@@ -71,7 +71,7 @@ class YoutubeHomePage extends StatelessWidget {
     );
   }
 
-  Widget videoListViewBuilder(PopularYoutubeVideos model, YoutubeCubit cubit, YoutubeExplode yt, YouTubeCaptionScraper captionScraper)
+  Widget videoListViewBuilder(BuildContext context, PopularYoutubeVideos model, YoutubeCubit cubit, YoutubeExplode yt, YouTubeCaptionScraper captionScraper)
   {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -158,10 +158,25 @@ class YoutubeHomePage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children:
         [
-          Image(
-              image: NetworkImage(model.snippet!.thumbnail!.high!.url!),
-              width: 110,
-              height: 110,
+          //Old Image Style
+          // Image(
+          //     image: NetworkImage(model.snippet!.thumbnail!.high!.url!),
+          //     width: 110,
+          //     height: 110,
+          //     fit: BoxFit.fitWidth,
+          // ),
+
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15), // Image border
+            child: SizedBox.fromSize(
+              size: const Size.fromRadius(50), // Image radius
+              child: Image.network(
+                  model.snippet!.thumbnail!.high!.url!,
+                  fit: BoxFit.contain,
+                  width: 110,
+                  height: 110,
+              ),
+            ),
           ),
 
           const SizedBox(width: 10,),
@@ -222,6 +237,8 @@ class YoutubeHomePage extends StatelessWidget {
 
       onTap: ()
       async {
+
+        defaultToast(msg: 'Loading');
         String videoLink= await videoStreamGetter(model.id!,yt);  //Get Video Stream link
 
         String videoCaptions= await captionsGetter(model.id!, captionScraper); //Get Caption link

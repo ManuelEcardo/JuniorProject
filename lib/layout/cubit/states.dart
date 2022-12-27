@@ -101,7 +101,7 @@ class AppGetUserAchievementsErrorState extends AppStates{}
 
 //------------------------
 
-// GET LATEST ACHIEVEMENTS:
+// GET LATEST ACHIEVEMENTS: (NOT USED).
 
 class AppGetLatestAchievementsLoadingState extends AppStates{}
 
@@ -109,7 +109,7 @@ class AppGetLatestAchievementsSuccessState extends AppStates{}
 
 class AppGetLatestAchievementsErrorState extends AppStates{}
 
-//GET LESSONS:
+//GET LESSONS: (NOT USED).
 
 class AppGetLessonsLoadingState extends AppStates{}
 
@@ -121,7 +121,7 @@ class AppGetLessonsErrorState extends AppStates{}
 //-----------------------
 
 
-//GET QUESTIONS:
+//GET QUESTIONS: (NOT USED).
 
 class AppGetQuestionsLoadingState extends AppStates{}
 
