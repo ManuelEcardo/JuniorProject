@@ -294,7 +294,7 @@ async {
     }
 }
 
-Future<String> captionsGetter(String videoId, YouTubeCaptionScraper captionScraper )  //Get Captions from link
+Future<Object> captionsGetter(String videoId, YouTubeCaptionScraper captionScraper )  //Get Captions from link
 async {
 
   final Directory directory = await getApplicationDocumentsDirectory();
@@ -313,13 +313,13 @@ async {
         print('CAPTION LINK IS: ${element.baseUrl}');
         var subtitles= await captionScraper.getSubtitles(element);
         for (final subtitle in subtitles) {
-
-          sub= '$sub$i \r\n${subtitle.start} --> ${subtitle.duration}\r\n${subtitle.text}\r\n\r\n';  //Append each new subtitle line with the old
+         // print('$i \r\n0${subtitle.start.toString().substring(0,11).replaceAll('.', ',')} --> 0${ (subtitle.duration+ subtitle.start).toString().substring(0,11).replaceAll('.', ',') }\r\n');
+          sub= '$sub$i \r\n0${subtitle.start.toString().substring(0,11).replaceAll('.', ',') } --> 0${ (subtitle.duration+ subtitle.start).toString().substring(0,11).replaceAll('.', ',') }\r\n${subtitle.text}\r\n\r\n';  //Append each new subtitle line with the old
           i++; //Increment the counter
 
           await file.writeAsString(sub);
         }
-        return sub; //element.baseUrl;
+        return file; //element.baseUrl;
       }
     }
 
@@ -334,8 +334,4 @@ async {
 
 }
 
-
 //-----------------------------------------------
-
-
-//Show Achievement Toast

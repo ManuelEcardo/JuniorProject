@@ -12,9 +12,9 @@ class MainDioHelper
       BaseOptions(
         baseUrl: '$localhost/api/',   // JuniorProject default url.
         receiveDataWhenStatusError: true,
-        receiveTimeout:50000,
-        connectTimeout: 30000,
-        // validateStatus: (status)=>true, //Won't throw errors
+        //receiveTimeout:50000,
+        //connectTimeout: 30000,
+        validateStatus: (status)=>true, //Won't throw errors
 
       ),
     );
@@ -50,6 +50,26 @@ class MainDioHelper
       url,
       queryParameters: query,
       data: data,
+
+    );
+  }
+
+
+  static Future<Response> postFileData(
+      {required String url, Map<String,dynamic>?query,  required dynamic data, String lang='en', String? token,}) async
+  {
+    dio?.options.headers=
+    {
+      'Connection' : 'keep-alive',
+      'Authorization': 'Bearer $token',
+    };
+
+    print('in Main Dio postData');
+    return await dio!.post(
+      url,
+      queryParameters: query,
+      data: data,
+
     );
   }
 

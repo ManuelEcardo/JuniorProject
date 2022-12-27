@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,8 +12,6 @@ import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
 import 'package:youtube_caption_scraper/youtube_caption_scraper.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-import '../../../models/MainModel/content_model.dart';
-import '../../VideoPlayer/videoPlayer.dart';
 
 class YoutubeHomePage extends StatelessWidget {
   const YoutubeHomePage({Key? key}) : super(key: key);
@@ -94,7 +94,7 @@ class YoutubeHomePage extends StatelessWidget {
             scrollDirection: Axis.vertical,
             physics: const NeverScrollableScrollPhysics(),
             separatorBuilder: (context,index)=>myDivider(),
-            itemBuilder: (context,index)=>videoItemBuilder(context, model.items![index], yt ,captionScraper),
+            itemBuilder: (context,index)=>videoItemBuilder(context, model.items![index], yt ,captionScraper, cubit),
             itemCount: model.items!.length),
 
         Row(
@@ -145,7 +145,7 @@ class YoutubeHomePage extends StatelessWidget {
     );
   }
 
-  Widget videoItemBuilder(BuildContext context, YoutubeVideoItem model, YoutubeExplode yt, YouTubeCaptionScraper captionScraper )
+  Widget videoItemBuilder(BuildContext context, YoutubeVideoItem model, YoutubeExplode yt, YouTubeCaptionScraper captionScraper, YoutubeCubit cubit )
   {
     return InkWell(
       borderRadius: BorderRadius.circular(20),
@@ -239,29 +239,45 @@ class YoutubeHomePage extends StatelessWidget {
       async {
 
         defaultToast(msg: 'Loading');
+
         String videoLink= await videoStreamGetter(model.id!,yt);  //Get Video Stream link
 
-        String videoCaptions= await captionsGetter(model.id!, captionScraper); //Get Caption link
+        // Object videoCaptions= await captionsGetter(model.id!, captionScraper); //Get Caption link
 
-        if(videoCaptions != 'noCaption')
+        captionsGetter(model.id!, captionScraper).then((videoCaptions)
+        {
+          if(videoCaptions is File) //if returned value is file, then subtitles are true
           {
-            Videos v1= Videos(
-              videoDescription: model.snippet!.description!,
-              videoLink: videoLink,
-              videoTitle: model.snippet!.title!,
-              videoSubtitle: videoCaptions,
-            );
+            defaultToast(msg: 'Captions are Getting Exported');
 
-            navigateTo(context, VideoGetter(v1));
+            cubit.getSub(
+                videoCaptions,
+                context: context,
+                videoDescription: model.snippet!.description!,
+                videoLink: videoLink,
+                videoTitle: model.snippet!.title!,
+            ).catchError((error)
+            {
+              print('Couldn\'t Get Subtitles');
+            });
+
           }
 
-        else
+          if(videoCaptions is String) //If returned value is String, then error
           {
-            defaultToast(msg: 'No Captions for This Video');
+            print('videoCaptions is STRING');
+
+            if(videoCaptions == 'noCaption')
+            {
+              defaultToast(msg: 'No Captions for This Video');
+            }
           }
+
+        });
       },
     );
   }
+
 
 
 }

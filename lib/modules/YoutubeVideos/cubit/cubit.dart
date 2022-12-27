@@ -1,10 +1,19 @@
 
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:juniorproj/models/YoutubeModel/PopularVideos/popularVideos.dart';
 import 'package:juniorproj/models/YoutubeModel/SearchVideos/YoutubeSearchModel.dart';
 import 'package:juniorproj/modules/YoutubeVideos/cubit/states.dart';
 import 'package:juniorproj/shared/network/end_points.dart';
+import 'package:juniorproj/shared/network/remote/main_dio_helper.dart';
 import 'package:juniorproj/shared/network/remote/youtube_dio_helper.dart';
+
+import '../../../models/MainModel/content_model.dart';
+import '../../../shared/components/components.dart';
+import '../../VideoPlayer/videoPlayer.dart';
 
 class YoutubeCubit extends Cubit<YoutubeStates>
 {
@@ -76,6 +85,38 @@ class YoutubeCubit extends Cubit<YoutubeStates>
   {
     youtubeSearchModel=null;
     emit(YoutubeSearchEmptyState());
+  }
+
+
+  Future<void> getSub(File file, {required BuildContext context, required String videoDescription, required String videoLink, required String videoTitle })
+  async {
+    emit(YoutubeGetSrtLoadingState());
+
+    FormData formData= FormData.fromMap({"subtitle": await MultipartFile.fromFile(file.path,filename:'name'),});  //Add the File as formData
+
+    MainDioHelper.postFileData(
+        url: getSrt,
+        data:formData,
+    ).then((value)
+    {
+      print(value.data);
+
+      emit(YoutubeGetSrtSuccessState());
+
+      Videos v1= Videos(
+        videoDescription: videoDescription,
+        videoLink: videoLink,
+        videoTitle: videoTitle,
+        videoSubtitle: value.data,
+      );
+      navigateTo(context, VideoGetter(v1));  //Show the video with it's subtitle
+
+    }).catchError((error)
+    {
+      print('ERROR WHILE GETTING SRT,${error.toString()}');
+      emit(YoutubeGetSrtErrorState());
+    });
+
   }
 
 

@@ -1,10 +1,11 @@
-# juniorproj
+# Hablar Project
 
-Junior Flutter Project
+Hablar Flutter Project
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project aims to help people to learn new languages through exposing to a variety of videos, allowing them to widen their vocab storage.
+
 
 A few resources to get you started if this is your first Flutter project:
 

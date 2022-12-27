@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,10 +8,9 @@ import 'package:juniorproj/modules/YoutubeVideos/cubit/states.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:youtube_caption_scraper/youtube_caption_scraper.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-import '../../../models/MainModel/content_model.dart';
 import '../../../models/YoutubeModel/SearchVideos/YoutubeSearchModel.dart';
 import '../../../shared/styles/colors.dart';
-import '../../VideoPlayer/videoPlayer.dart';
+
 
 class YoutubeSearchPage extends StatelessWidget {
   const YoutubeSearchPage({Key? key}) : super(key: key);
@@ -18,6 +18,7 @@ class YoutubeSearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var formKey= GlobalKey<FormState>();
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     var searchController= TextEditingController();
     return BlocConsumer<YoutubeCubit,YoutubeStates>(
         listener: (context,state)
@@ -30,6 +31,7 @@ class YoutubeSearchPage extends StatelessWidget {
 
           return WillPopScope(
             child: Scaffold(
+              key: scaffoldKey,
               appBar: AppBar(
                 actions:
                 [
@@ -76,11 +78,11 @@ class YoutubeSearchPage extends StatelessWidget {
                         if(state is YoutubeSearchLoadingState)  //If video is Loading or Getting Captions then show Linear Progress Indicator
                           const LinearProgressIndicator(),
 
-                        if(state is YoutubeSearchSuccessState)
+                        if(state is YoutubeSearchSuccessState || state is YoutubeGetSrtLoadingState || state is YoutubeGetSrtSuccessState || state is YoutubeGetSrtErrorState)
                           ConditionalBuilder(
                               condition: YoutubeCubit.youtubeSearchModel !=null,
                               fallback: (context)=> const Center(child: LinearProgressIndicator(),),
-                              builder: (context)=> videoListViewBuilder(YoutubeCubit.youtubeSearchModel!,cubit, yt, captionScraper, searchController.value.text),
+                              builder: (context)=> videoListViewBuilder(context, YoutubeCubit.youtubeSearchModel!,cubit, yt, captionScraper, searchController.value.text),
                           ),
                       ],
                     ),
@@ -99,7 +101,7 @@ class YoutubeSearchPage extends StatelessWidget {
     );
   }
 
-  Widget videoListViewBuilder(YoutubeSearchModel model, YoutubeCubit cubit, YoutubeExplode yt, YouTubeCaptionScraper captionScraper, String query)
+  Widget videoListViewBuilder(BuildContext myContext, YoutubeSearchModel model, YoutubeCubit cubit, YoutubeExplode yt, YouTubeCaptionScraper captionScraper, String query)
   {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -112,7 +114,7 @@ class YoutubeSearchPage extends StatelessWidget {
             scrollDirection: Axis.vertical,
             physics: const NeverScrollableScrollPhysics(),
             separatorBuilder: (context,index)=>myDivider(),
-            itemBuilder: (context,index)=>videoItemBuilder(context, model.items![index], yt ,captionScraper),
+            itemBuilder: (context,index)=>videoItemBuilder(myContext, model.items![index], yt ,captionScraper, cubit),
             itemCount: model.items!.length),
 
         Row(
@@ -163,7 +165,7 @@ class YoutubeSearchPage extends StatelessWidget {
     );
   }
 
-  Widget videoItemBuilder(BuildContext context, YoutubeSearchVideoItem model, YoutubeExplode yt, YouTubeCaptionScraper captionScraper )
+  Widget videoItemBuilder(BuildContext context, YoutubeSearchVideoItem model, YoutubeExplode yt, YouTubeCaptionScraper captionScraper, YoutubeCubit cubit )
   {
     return InkWell(
       borderRadius: BorderRadius.circular(20),
@@ -242,40 +244,41 @@ class YoutubeSearchPage extends StatelessWidget {
       onTap: ()
       async {
         defaultToast(msg: 'Loading');
+
         String videoLink= await videoStreamGetter(model.id!,yt);  //Get Video Stream link
-        String videoCaptions= await captionsGetter(model.id!, captionScraper); //Get Caption link
 
-        if(videoLink == 'no stream')
+        captionsGetter(model.id!, captionScraper).then((videoCaptions)
         {
-          defaultToast(msg: 'Video Streams are not available because of some restrictions');
-        }
+          if(videoCaptions is File) //if returned value is file, then subtitles are true
+              {
+            defaultToast(msg: 'Captions are Getting Exported');
 
-        if(videoCaptions != 'noCaption' && videoLink != 'no stream')  //No Problem with either Video stream or captions, then show video.
+            cubit.getSub(
+              videoCaptions,
+              context: context,
+              videoDescription: model.snippet!.description!,
+              videoLink: videoLink,
+              videoTitle: model.snippet!.title!,
+            ).catchError((error)
             {
-          Videos v1= Videos(
-            videoDescription: model.snippet!.description!,
-            videoLink: videoLink,
-            videoTitle: model.snippet!.title!,
-            videoSubtitle: videoCaptions,
-          );
+              print('Couldn\'t Get Subtitles');
+            });
 
-          navigateTo(context, VideoGetter(v1));
-        }
+          }
 
-        else if (videoCaptions == 'noCaption' && videoLink != 'no stream')
-        {
-          defaultToast(msg: 'No Captions for This Video');
+          if(videoCaptions is String) //If returned value is String, then error
+              {
+            print('videoCaptions is STRING');
 
-          Videos v1= Videos(
-            videoDescription: model.snippet!.description!,
-            videoLink: videoLink,
-            videoTitle: model.snippet!.title!,
-            videoSubtitle: videoCaptions,
-          );
+            if(videoCaptions == 'noCaption')
+            {
+              defaultToast(msg: 'No Captions for This Video');
+            }
+          }
 
-          navigateTo(context, VideoGetter(v1));
-        }
+        });
       },
     );
   }
+
 }

@@ -137,7 +137,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
     //var subtitle;
     //bool isPaused=false;
 
-    // print('This Video Subtitles: ${widget.video.videoSubtitle}');
+    print('This Video Subtitles: ${widget.video.videoSubtitle}');
     return BlocConsumer<WordCubit,WordStates>(
       listener: (context,state)
       {
@@ -335,7 +335,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                           videoChild: Container(  //Here the child isn't a video because I want to show the subtitles below the video => Container
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: Colors.grey.withOpacity(0.4),
+                              color: Colors.grey.withOpacity(0.2),
                             ),
                             width: double.infinity,
                             height: 200,

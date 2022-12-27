@@ -28,3 +28,12 @@ class YoutubeGetCaptionsLoadingState extends YoutubeStates{}
 class YoutubeGetCaptionsSuccessState extends YoutubeStates{}
 
 class YoutubeGetCaptionsErrorState extends YoutubeStates{}
+
+
+// SEND TEXT AND GET SRT
+
+class YoutubeGetSrtLoadingState extends YoutubeStates{}
+
+class YoutubeGetSrtSuccessState extends YoutubeStates{}
+
+class YoutubeGetSrtErrorState extends YoutubeStates{}

@@ -38,6 +38,7 @@ const String userAchievements='achievements/user';  //Get Achievements for this 
 
 const String latestAchievements= 'achievements/latest'; //Get the new Achievements the user has unlocked.
 
+const String getSrt='youtube'; //Send text and get SRT file .
 
 
 //----------------------------------------------------------

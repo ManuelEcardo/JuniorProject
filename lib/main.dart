@@ -95,6 +95,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose()
   {
+    timer?.cancel();
     super.dispose();
   }
 
@@ -206,7 +207,7 @@ class _MyAppState extends State<MyApp> {
     return Builder(
       builder: (BuildContext myContext)
       {
-        AppCubit.get(myContext).getUserAchievements();
+        AppCubit.get(myContext).getUserAchievements(); //Get the new achievements
         return SafeArea(
           child: SwipeDetector(
             onSwipeUp: ()
