@@ -1,7 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/models/MerriamWebster_model/merriam_model.dart';
 import 'package:juniorproj/modules/VideoPlayer/cubit/cubit.dart';
@@ -62,18 +61,20 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
       autoInitialize: true,
       allowFullScreen: true,
       zoomAndPan: true,
-      errorBuilder: (context,errorMessage)  //Error Message to show.
-        {
-          return Center(
-            child: Text(
-              errorMessage,
-              style: const TextStyle(color: Colors.white),
-            ),
-          );
-        },
-
       placeholder: const Center(child: CircularProgressIndicator(),),  //While loading, show Circular Progress
       showControlsOnInitialize: false,  //Won't show options while loading
+
+      errorBuilder: (context,errorMessage)  //Error Message to show.
+      {
+        return Center(
+          child: Text(
+            errorMessage,
+            style: const TextStyle(color: Colors.white),
+          ),
+        );
+      },
+
+
     );
 
   }
@@ -133,11 +134,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context)  {
-    //SubtitleBloc? subtitleBloc;
-    //var subtitle;
-    //bool isPaused=false;
 
-    print('This Video Subtitles: ${widget.video.videoSubtitle}');
     return BlocConsumer<WordCubit,WordStates>(
       listener: (context,state)
       {
@@ -182,46 +179,22 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                         context: context,
                         builder: (context)
                         {
-                          return AlertDialog(
-                            title: Text(
-                              'Video Section',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: HexColor('8AA76C'),
-                                fontWeight: FontWeight.w700,
+                          return defaultAlertDialog(
+                              context: context,
+                              title: 'Video Section',
+                              content: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children:
+                                const[
+                                  Text('Videos can be stopped either through pressing the stop button, or pressing the box which contains the subtitles',),
+
+                                  Text('-Select a word after pausing the video then press translate to check the translation of this word.',),
+
+                                  Text('- Press the three dots in the video frame to change Playback Speed',),
+                                ],
                               ),
-                            ),
-                            content:  Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children:
-                              const[
-                                Text(
-                                  'Videos can be stopped either through pressing the stop button, or pressing the box which contains the subtitles',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                  ),
-                                ),
-
-                                Text(
-                                  '-Select a word after pausing the video then press translate to check the translation of this word.',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                  ),
-                                ),
-
-                                Text(
-                                  '- Press the three dots in the video frame to change Playback Speed',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ],
-                            ),
                           );
                         }
                     );
@@ -320,6 +293,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                             }
 
                         },
+
                         child: SubtitleWrapper(
                           videoPlayerController: localChewieController.videoPlayerController,  //Specifying the controller of the video.
                           subtitleController: subtitleController,
@@ -335,10 +309,10 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                           videoChild: Container(  //Here the child isn't a video because I want to show the subtitles below the video => Container
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: Colors.grey.withOpacity(0.2),
+                              color: Colors.white.withOpacity(0.1),
                             ),
                             width: double.infinity,
-                            height: 200,
+                            height: 180,
                           ),
                         ),
                       ),
@@ -388,7 +362,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
   }
 
 
-  popupDialog(MerriamModel? model)
+  popupDialog(MerriamModel? model)  //Show Brief Translation
   async {
     await Dialogs.materialDialog(
       context: context,

@@ -1,7 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/models/MainModel/content_model.dart';
@@ -41,54 +40,25 @@ class Unit extends StatelessWidget {
                         context: context,
                         builder: (context)
                         {
-                          return AlertDialog(
-                            title: Text(
-                              'Content of each Unit',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: HexColor('8AA76C'),
-                                fontWeight: FontWeight.w700,
+
+                          return defaultAlertDialog(
+                              context: context,
+                              title: 'Content of each Unit',
+                              content: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children:
+                                const[
+                                  Text('Each Unit contains 2 Lessons and 4 Videos and a Quiz to test your abilities',),
+
+                                  Text('-Each Lesson will contain mandatory information to pass the unit',),
+
+                                  Text('- The video will improve your listening as well as your vocabularies.',),
+
+                                  Text('- Quiz will contain a variety of questions, bypass them to get to the next unit.',),
+                                ],
                               ),
-                            ),
-                            content:  Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children:
-                              const[
-                                Text(
-                                  'Each Unit contains 2 Lessons and 4 Videos and a Quiz to test your abilities',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                  ),
-                                ),
-
-                                Text(
-                                  '-Each Lesson will contain mandatory information to pass the unit',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                  ),
-                                ),
-
-                                Text(
-                                  '- The video will improve your listening as well as your vocabularies.',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                  ),
-                                ),
-
-                                Text(
-                                  '- Quiz will contain a variety of questions, bypass them to get to the next unit.',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ],
-                            ),
                           );
                         }
                     );
@@ -363,92 +333,3 @@ class Unit extends StatelessWidget {
     );
   }
 }
-
-
-
-// Widget itemBuilder(BuildContext context, List<String> list, ContentModel model)
-// {
-//   bool canNavigate=true;
-//
-//   Widget destination(String text) //Will decide the destination when the Container is pressed.
-//   {
-//     Widget w;
-//     if(text =='unit')
-//     {
-//       w=const UnitOverview();
-//     }
-//     else if(text == 'video')
-//     {
-//       w= const VideoGetter();
-//     }
-//     else if(text=='lesson')
-//     {
-//       w= const Lesson();
-//     }
-//
-//     else if(text=='quiz')
-//     {
-//       w= const QuizPage();
-//     }
-//     else
-//     {
-//       canNavigate=false;
-//       w= const HomePage();
-//       DefaultToast(msg: 'Can\'t Proceed', color: Colors.redAccent);
-//     }
-//
-//     return w;
-//   }
-//
-//   return GestureDetector(
-//     onTap: ()
-//     {
-//       Widget navigationWidget=destination(list[2]);
-//
-//       if(canNavigate ==true)
-//       {
-//         navigateTo(context,navigationWidget);
-//       }
-//     },
-//     child: Padding(
-//       padding: const EdgeInsetsDirectional.only(top:8.0),
-//       child: Container(
-//         padding: const EdgeInsetsDirectional.only(end: 1 ,start: 1),
-//         height: 60,
-//         decoration: BoxDecoration(
-//             borderRadius: BorderRadius.circular(5),
-//             color: Colors.grey
-//         ),
-//         child: Column(
-//           children: [
-//             Expanded(
-//               child: Text(
-//                 list[0].toUpperCase(),
-//                 textAlign: TextAlign.center,
-//                 style: const TextStyle(
-//                   fontSize: 18,
-//                   fontWeight: FontWeight.bold,
-//                   color: Colors.white,
-//                 ),
-//               ),
-//             ),
-//
-//             Expanded(
-//               child:  Text(
-//                 list[1].toUpperCase(),
-//                 //textAlign: TextAlign.start,
-//                 style: TextStyle(
-//                   fontSize: 18,
-//                   fontWeight: FontWeight.w300,
-//                   color: Colors.white,
-//                 ),
-//                 overflow: TextOverflow.ellipsis,
-//                 maxLines: 1,
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     ),
-//   );
-// }

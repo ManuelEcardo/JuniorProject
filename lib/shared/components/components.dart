@@ -2,6 +2,9 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:juniorproj/layout/cubit/cubit.dart';
+import 'package:juniorproj/shared/styles/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_caption_scraper/youtube_caption_scraper.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
@@ -193,7 +196,6 @@ Future<void> defaultLaunchUrl(String ur) async
 //--------------------------------------------------------------------------------------------------\\
 
 
-//--------------------------------------------------------------------------------------------------\\
 
 
 // Navigate to a screen, it takes context and a widget to go to.
@@ -272,6 +274,42 @@ Widget defaultCarouselSlider(
 Widget myDivider({Color? c=Colors.grey, double padding=0}) => Container(height: 1, width: double.infinity , color:c, padding: EdgeInsets.symmetric(horizontal: padding),);
 
 //-----------------------------------------
+
+
+Widget defaultAlertDialog(
+{
+  required BuildContext context,
+  required String title,
+  required Widget content,
+})
+{
+  return AlertDialog(
+    title: Text(
+      title,
+      textAlign: TextAlign.center,),
+
+    content: content,
+
+    contentTextStyle: TextStyle(
+      fontSize: 18,
+      color:  AppCubit.get(context).isDarkTheme? Colors.white: Colors.black,
+      fontFamily: 'Jannah',
+    ),
+
+    titleTextStyle: TextStyle(
+      fontSize: 20,
+      color: HexColor('8AA76C'),
+      fontWeight: FontWeight.w700,
+      fontFamily: 'Jannah',
+    ),
+
+    backgroundColor: AppCubit.get(context).isDarkTheme? defaultHomeDarkColor : defaultHomeColor,
+
+  );
+}
+
+
+//-------------------------------------------
 
 
 //FOR YOUTUBE

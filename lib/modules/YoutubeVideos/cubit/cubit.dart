@@ -81,13 +81,14 @@ class YoutubeCubit extends Cubit<YoutubeStates>
   }
 
 
-  void clearYoutubeSearchModel()
+  void clearYoutubeSearchModel()  //Empty the Search Model, so next time it's accessed it's empty
   {
     youtubeSearchModel=null;
     emit(YoutubeSearchEmptyState());
   }
 
 
+  //Send the organized Subtitle file that as (.txt) to main database and get a link containing the same file but as (.srt) format.
   Future<void> getSub(File file, {required BuildContext context, required String videoDescription, required String videoLink, required String videoTitle })
   async {
     emit(YoutubeGetSrtLoadingState());

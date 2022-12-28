@@ -1,7 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/modules/Units/unit.dart';
@@ -36,30 +35,20 @@ class Units extends StatelessWidget{
                           context: context,
                           builder: (context)
                       {
-                        return AlertDialog(
-                          title: Text(
-                            'This Course Units',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: HexColor('8AA76C'),
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          content:  Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children:
-                            const[
-                              Text(
-                                'Each Course has 6 units, pass all the quizzes to complete the language\'s course.',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
+                        return defaultAlertDialog(
+                            context: context,
+                            title: 'This Course Units',
+                            content: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children:
+                              const[
+                                Text(
+                                  'Each Course has 6 units, pass all the quizzes to complete the language\'s course.',
                                 ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            ),
                         );
                       }
                       );

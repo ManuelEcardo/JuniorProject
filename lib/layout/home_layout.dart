@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/modules/Languages/addLanguage.dart';
@@ -49,60 +47,28 @@ class HomeLayout extends StatelessWidget {
                   visible: cubit.isHome(),
                   child: IconButton(
                     icon: const Icon(Icons.question_mark_rounded),
-
                     onPressed: ()
                     async {
                       await showDialog(
                           context: context,
                           builder: (context)
                           {
-                            return AlertDialog(
-                              title: Text(
-                                'Ready to learn a new language?',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: HexColor('8AA76C'),
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              content:  Column(
+                            return defaultAlertDialog(
+                              context: context,
+                              title: 'Ready to learn a new language?',
+                              content: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children:
                                 const[
-                                  Text(
-                                    '-This is your home page, we will show you a recap here.',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                    ),
-                                  ),
+                                   Text('-This is your home page, we will show you a recap here.',),
 
-                                  Text(
-                                    '-If you would like to proceed then press Let\'s Go',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                    ),
-                                  ),
+                                   Text('-If you would like to proceed then press Let\'s Go'),
 
-                                  Text(
-                                    '-Check for challenges, each time you complete one you will earn points.',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                    ),
-                                  ),
+                                   Text('-Check for challenges, each time you complete one you will earn points.',),
 
-                                  Text(
-                                    '-Your Progress in the current active course will show here.',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                    ),
-                                  ),
-
+                                   Text('-Your Progress in the current active course will show here.',),
                                 ],
                               ),
                             );
@@ -124,39 +90,21 @@ class HomeLayout extends StatelessWidget {
                           context: context,
                           builder: (context)
                           {
-                            return AlertDialog(
-                              title: Text(
-                                'Here You Can add new languages to learn !',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: HexColor('8AA76C'),
-                                  fontWeight: FontWeight.w700,
+                            return defaultAlertDialog(
+                                context: context,
+                                title: 'Here You Can add new languages to learn !',
+                                content: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children:
+                                  const[
+                                    Text('-Press on a language to proceed.',),
+
+                                    Text('-Feeling up to it?\nPress + to take on a new course.',),
+
+                                  ],
                                 ),
-                              ),
-                              content:  Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children:
-                                const[
-                                  Text(
-                                    '-Press on a language to proceed.',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                    ),
-                                  ),
-
-                                  Text(
-                                    '-Feeling up to it?\nPress + to take on a new course.',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                    ),
-                                  ),
-
-                                ],
-                              ),
                             );
                           }
                       );
@@ -176,39 +124,20 @@ class HomeLayout extends StatelessWidget {
                           context: context,
                           builder: (context)
                           {
-                            return AlertDialog(
-                              title: Text(
-                                'Play and Earn !',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: HexColor('8AA76C'),
-                                  fontWeight: FontWeight.w700,
+                            return defaultAlertDialog(
+                                context: context,
+                                title: 'Play and Earn !',
+                                content: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children:
+                                  const[
+                                    Text('-Work hard and get paid !\nFor every achievement you get right you will score points.',),
+
+                                    Text('-You can check the Leaderboards for the rivals with the highest points.',),
+                                  ],
                                 ),
-                              ),
-                              content:  Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children:
-                                const[
-                                  Text(
-                                    '-Work hard and get paid !\nFor every achievement you get right you will score points.',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                    ),
-                                  ),
-
-                                  Text(
-                                    '-You can check the Leaderboards for the rivals with the highest points.',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                    ),
-                                  ),
-
-                                ],
-                              ),
                             );
                           }
                       );
@@ -228,39 +157,20 @@ class HomeLayout extends StatelessWidget {
                           context: context,
                           builder: (context)
                       {
-                        return AlertDialog(
-                          title: Text(
-                            'You can change your personal info too !',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: HexColor('8AA76C'),
-                                fontWeight: FontWeight.w700,
+                        return defaultAlertDialog(
+                            context: context,
+                            title: 'You can change your personal info too !',
+                            content: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children:
+                              const[
+                                Text('If you\'d like to change your name, change the name box here, then click UPDATE.',),
+
+                                Text('Same applies for all the other choices.',),
+                              ],
                             ),
-                          ),
-                          content:  Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children:
-                      const[
-                              Text(
-                                'If you\'d like to change your name, change the name box here, then click UPDATE.',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
-                              ),
-
-                              Text(
-                                'Same applies for all the other choices.',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
-                              ),
-
-                            ],
-                          ),
                         );
                       }
                       );

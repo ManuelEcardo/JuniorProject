@@ -136,7 +136,7 @@ class _MyAppState extends State<MyApp> {
                     nextScreen: widget.homeWidget,
                     splashTransition: SplashTransition.fadeTransition,
                     pageTransitionType: PageTransitionType.fade,
-                    backgroundColor: AppCubit.get(context).isDarkTheme? Colors.black38 : defaultHomeColor,
+                    backgroundColor: AppCubit.get(context).isDarkTheme? defaultHomeDarkColor : defaultHomeColor,
 
                 )),
           );  //homeWidget, //HomeLayout(),

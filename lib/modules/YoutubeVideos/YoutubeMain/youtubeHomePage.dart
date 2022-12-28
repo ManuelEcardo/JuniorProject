@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -158,15 +157,9 @@ class YoutubeHomePage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children:
         [
-          //Old Image Style
-          // Image(
-          //     image: NetworkImage(model.snippet!.thumbnail!.high!.url!),
-          //     width: 110,
-          //     height: 110,
-          //     fit: BoxFit.fitWidth,
-          // ),
 
           ClipRRect(
+            clipBehavior: Clip.antiAliasWithSaveLayer,
             borderRadius: BorderRadius.circular(15), // Image border
             child: SizedBox.fromSize(
               size: const Size.fromRadius(50), // Image radius

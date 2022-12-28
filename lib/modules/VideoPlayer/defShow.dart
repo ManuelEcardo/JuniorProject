@@ -101,24 +101,33 @@ class _DefinitionShowState extends State<DefinitionShow> {
                     //Audio Link differs depending on the name of the word, all the cases are from Merriam Webster API documentation, refer to: https://dictionaryapi.com/products/json
 
                     late String audioLink;
-                    // var regularExpression=RegExp("^[a-zA-Z0-9_]*");
-                    var regularExpression=RegExp("^[^a-zA-Z]*");
+                    var regularExpression=RegExp("[^a-z]");  //Not Alphabetic  //^[^a-zA-Z]*
 
-                    if(model.hwi?.prs?[0]?.sound?.audio?.substring(0,2) == 'gg')
+                    print('Audio name format is : ${model.hwi?.prs?[0]?.sound?.audio}');
+
+                    if(model.hwi?.prs?[0]?.sound?.audio?.substring(0,2) == 'gg')  //Starts with gg
                       {
+                        print('Word Audio Link is gg : ${'https://media.merriam-webster.com/audio/prons/en/us/mp3/gg/${model.hwi?.prs?[0]?.sound?.audio}.mp3'}');
+
                          audioLink='https://media.merriam-webster.com/audio/prons/en/us/mp3/gg/${model.hwi?.prs?[0]?.sound?.audio}.mp3';
                       }
-                    else if (model.hwi?.prs?[0]?.sound?.audio?.substring(0,3) == 'bix')
+
+                    else if (model.hwi?.prs?[0]?.sound?.audio?.substring(0,3) == 'bix') //Starts with bix
                       {
+                        print('Word Audio Link is bix : ${'https://media.merriam-webster.com/audio/prons/en/us/mp3/bix/${model.hwi?.prs?[0]?.sound?.audio}.mp3'}');
                          audioLink='https://media.merriam-webster.com/audio/prons/en/us/mp3/bix/${model.hwi?.prs?[0]?.sound?.audio}.mp3';
                       }
-                    else if(regularExpression.firstMatch(model.hwi!.prs![0]!.sound!.audio!.substring(0,1)) != null)  //was ==true
+
+                    else if(regularExpression.firstMatch(model.hwi!.prs![0]!.sound!.audio!.substring(0,1).toLowerCase()) != null)  // Doesn't Start with Alphabetic
                       {
+                        print('Word Audio Link is : ${'https://media.merriam-webster.com/audio/prons/en/us/mp3/number/${model.hwi?.prs?[0]?.sound?.audio}.mp3'}');
                         audioLink='https://media.merriam-webster.com/audio/prons/en/us/mp3/number/${model.hwi?.prs?[0]?.sound?.audio}.mp3';
                       }
-                    else
+
+                    else //None of the above, then add first char of audio
                       {
                         String? directory=model.hwi?.prs?[0]?.sound?.audio?.substring(0,1);
+                        print('Word Audio Link is : ${'https://media.merriam-webster.com/audio/prons/en/us/mp3/$directory/${model.hwi?.prs?[0]?.sound?.audio}.mp3'}');
                         audioLink='https://media.merriam-webster.com/audio/prons/en/us/mp3/$directory/${model.hwi?.prs?[0]?.sound?.audio}.mp3';
                       }
                     audioUrl=UrlSource(audioLink);
