@@ -102,6 +102,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
 
+
+
     return MultiBlocProvider(
       //Multi BlocProvider will be initialized in the main, so if there is more than one, all can be started here.
       providers: [
@@ -138,7 +140,8 @@ class _MyAppState extends State<MyApp> {
                     pageTransitionType: PageTransitionType.fade,
                     backgroundColor: AppCubit.get(context).isDarkTheme? defaultHomeDarkColor : defaultHomeColor,
 
-                )),
+                ),
+            ),
           );  //homeWidget, //HomeLayout(),
         },
       ),

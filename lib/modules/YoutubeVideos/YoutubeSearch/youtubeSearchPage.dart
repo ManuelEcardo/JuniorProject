@@ -56,6 +56,7 @@ class YoutubeSearchPage extends StatelessWidget {
                             keyboard: TextInputType.text,
                             label: 'Search',
                             prefix: Icons.search,
+                            borderRadius: 10,
                             validate: (String? value)
                             {
                               if(value!.isEmpty)

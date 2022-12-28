@@ -108,6 +108,7 @@ Widget defaultFormField({
   TextStyle? labelStyle,
   Color? prefixIconColor,
   TextInputAction? inputAction,
+  double borderRadius=0,
 }) =>
     TextFormField(
       controller: controller,
@@ -121,11 +122,14 @@ Widget defaultFormField({
       onSaved: onSaved,
       onChanged: onChanged,
       decoration: InputDecoration(
-        border: const OutlineInputBorder(),
+        border:  OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
         focusedBorder: focusedBorderStyle,
         enabledBorder: borderStyle,
         labelStyle: labelStyle,
         labelText: label,
+        contentPadding: const EdgeInsets.symmetric(vertical: 15),
         prefixIcon: Icon(prefix, color: prefixIconColor,),
         suffixIcon: IconButton(
           onPressed: onPressedSuffixIcon,

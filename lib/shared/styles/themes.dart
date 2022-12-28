@@ -130,10 +130,7 @@ ThemeData darkTheme(context)=> ThemeData(
     navigationBarTheme:  NavigationBarThemeData(
       backgroundColor: defaultHomeDarkColor,
       indicatorColor: Colors.white,
-
     ),
-
-
     textTheme: Theme.of(context).textTheme.apply(
       bodyColor: Colors.white,
       fontFamily: 'Jannah',
