@@ -152,6 +152,29 @@ class AppPostUserLanguageSuccessState extends AppStates{}
 
 class AppPostUserLanguageErrorState extends AppStates{}
 
+
+//----------------------
+
+
+// SET UNIT AS COMPLETED FOR A USER:
+
+class AppSetUnitAsCompletedLoadingState extends AppStates{}
+
+class AppSetUnitAsCompletedSuccessState extends AppStates{}
+
+class AppSetUnitAsCompletedErrorState extends AppStates{}
+
+
+// UPDATE THE USER LANGUAGES AND UNITS LIST.
+
+class AppUserLangUnitsLoadingState extends AppStates{}
+
+class AppUserLangUnitsSuccessState extends AppStates{}
+
+class AppUserLangUnitsErrorState extends AppStates{}
+
+
+
 //USER LOGOUT:
 
 class AppUserSignOutLoadingState extends AppStates{}

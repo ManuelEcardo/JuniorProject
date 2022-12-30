@@ -105,13 +105,27 @@ class Units extends StatelessWidget{
                           List.generate(
                             model!.item.length,
                                 (index)=> defaultUnitButton(
-                                function: (){
-                                  cubit.getUnitContent(model!.item[index].id!); //Get the content of this unit and put it in contentModel
-
-                                  // navigateTo(context,const Unit());
-                                  navigateAndSaveRouteSettings(context, const Unit(), 'unit');
+                                function: ()
+                                {
+                                  try
+                                  {
+                                    if(AppCubit.userModel!.user!.userUnits[model!.item[index].languageId]!.contains(model!.item[index].id!))
+                                    {
+                                      cubit.getUnitContent(model!.item[index].id!); //Get the content of this unit and put it in contentModel
+                                      navigateAndSaveRouteSettings(context, const Unit(), 'unit');
+                                    }
+                                    else
+                                    {
+                                      defaultToast(msg: 'Unit is Locked');
+                                    }
+                                  }
+                                  catch(error)
+                                  {
+                                    print('error in opening unit, ${error.toString()}');
+                                  }
                                 },
-                                text: 'Unit ${index+1}'),
+                                text: 'Unit ${index+1}'
+                                ),
                           )
                           ,
                         ),

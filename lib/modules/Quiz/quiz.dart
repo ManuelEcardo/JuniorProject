@@ -23,6 +23,7 @@ class QuizPage extends StatefulWidget {
   State<QuizPage> createState() => _QuizPageState();
 }
 
+//SingleTickerProvideStateMixin is for AnimationController
 class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin{
 
   PageController pageController= PageController();
@@ -270,11 +271,10 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                           {
                             if(cubit.isLastQuiz && pageController.page == model.length -1)   //If the question is the last
                             {
-                              //navigateAndFinish(context, HomeLayout());
+                              openNextUnit(mark: cubit.finalMark, unitId: model[0].unitId!, cubit: cubit);
                               cubit.changeIsBoxTappedQuiz(false);
                               cubit.changeIsAnimation(false);
-                              print('LAST');
-                              //markDialog(context, cubit);
+                              print('Last Question and Showing Result');
                               popupDialog(context,cubit);
                             }
                             else
@@ -798,49 +798,6 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
 
 
-  // Future<void> markDialog(BuildContext context, AppCubit cubit)  //shows dialog contains the final mark for this student.
-  //  async {
-  //   await Dialogs.materialDialog(
-  //     context: context,
-  //     title:'Your Result: ',
-  //     msg:'${messageBuilder(cubit.finalMark)}, You\'ve scored: ${cubit.finalMark}',
-  //     actions:
-  //     [
-  //       TextButton(
-  //         child:const Text(
-  //           'NEXT',
-  //           style: TextStyle(
-  //             fontSize: 20,
-  //           ),
-  //         ),
-  //
-  //         onPressed: ()
-  //         {
-  //           cubit.setFinalMark();
-  //           cubit.changeIsBoxTappedQuiz(false);
-  //           cubit.changeQuizIsVisible(false);
-  //           Navigator.of(context).popUntil((route){
-  //             return route.settings.name == 'unit';
-  //           });  //Go Back to the previous screen.
-  //         },
-  //
-  //       ),
-  //     ],
-  //
-  //     titleAlign: TextAlign.center,
-  //     titleStyle:const TextStyle(
-  //       fontSize: 24,
-  //       color: Colors.black,
-  //     ),
-  //
-  //     msgStyle: const TextStyle(
-  //       fontSize: 18,
-  //       color: Colors.black,
-  //     ),
-  //   );
-  // }
-
-
   Future<void> popupDialog(BuildContext context, AppCubit cubit) //shows dialog contains the final mark for this student.
   async {
 
@@ -884,7 +841,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
                       onPressed: ()
                       {
-                        cubit.setFinalMark();
+                        cubit.setFinalMarkToZero();
                         cubit.changeIsBoxTappedQuiz(false);
                         cubit.changeQuizIsVisible(false);
                         Navigator.of(context).popUntil((route){
@@ -900,7 +857,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
             onWillPop: () async
             {
-              cubit.setFinalMark();
+              cubit.setFinalMarkToZero();
               cubit.changeIsBoxTappedQuiz(false);
               cubit.changeQuizIsVisible(false);
               Navigator.of(context).popUntil((route){
@@ -930,6 +887,19 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     else
       {
         return 'Oops, we think you should repeat the unit';
+      }
+  }
+
+  void openNextUnit({required double mark, required int unitId, required AppCubit cubit}) //Will Open Next Unit for the user if the total mark is above 5
+  {
+    if(mark>5)
+      {
+        cubit.setUnitAsComplete(unitId);
+        defaultToast(msg: 'Next Unit is available');
+      }
+    else
+      {
+        defaultToast(msg: 'Next Unit is still closed');
       }
   }
 

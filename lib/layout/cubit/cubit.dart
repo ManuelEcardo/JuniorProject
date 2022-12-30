@@ -114,6 +114,52 @@ class AppCubit extends Cubit<AppStates>
       }
   }
 
+  void updateUserLanguagesAndUnits()  //Update User Languages and Units when called, in order to lock units for example
+  {
+    print('in updateUserLanguagesAndUnits');
+    emit(AppUserLangUnitsLoadingState());
+    try
+    {
+      userModel?.user?.units?.forEach((element)  //Round each element in his units list and adding languages ids and units ids to a list.
+      {
+        if(userModel!.user?.userLanguages.contains(element.languageId) ==false )  //checking if this language id is not there
+            {
+          userModel!.user?.userLanguages.add(element.languageId!); //Adding the language id to the users languages list.
+
+          userModel!.user?.userUnits[element.languageId!]=[]; //Initializing The List
+
+          if(userModel!.user?.userUnits[element.languageId]!.contains(element.unitId) ==false) //If this unit is not in the UnitList for this Language, then add it
+              {
+            userModel!.user?.userUnits[element.languageId]!.add(element.unitId!);
+          }
+        }
+
+        else //Language is Added, Will check for the new unit
+            {
+          if(userModel!.user!.userUnits[element.languageId]!.contains(element.unitId) ==false) //If this unit is not in the UnitList for this Language, then add it
+              {
+            userModel!.user!.userUnits[element.languageId]!.add(element.unitId!);
+          }
+        }
+      });
+
+      emit(AppUserLangUnitsSuccessState());
+    }
+
+    catch(error)
+    {
+      print('Couldn\'t add units or Languages, ${error.toString()}');
+      emit(AppUserLangUnitsErrorState());
+    }
+
+
+    print('User Registered Languages are: ${userModel!.user?.userLanguages}');
+    print('User Registered Units are: ${userModel!.user?.userUnits}');
+  }
+
+  //-----------------------
+
+  //QUIZ ELEMENTS
 
   bool isLastQuiz=false;    // Is this the last question.
   bool isCorrectQuiz=false; // Is this answer correct.
@@ -191,7 +237,8 @@ class AppCubit extends Cubit<AppStates>
     emit(AppQuizAddMarkState());
   }
 
-   void setFinalMark()
+  //Setting FinalMark back to 0
+   void setFinalMarkToZero()
   {
     finalMark=0;
     emit(AppQuizInitialMarkState());
@@ -200,7 +247,9 @@ class AppCubit extends Cubit<AppStates>
 
   //----------------------------------------------------------------------------------------------------------------\\
 
-  // GET FROM API METHODS.
+  // MAIN APP APIS:
+
+  // GET METHODS:
 
 
   // GET USER DATA
@@ -221,22 +270,8 @@ class AppCubit extends Cubit<AppStates>
 
           emit(AppGetUserDataSuccessState());
 
-          userModel?.user?.units?.forEach((element)  //Round each element in his units list and adding languages ids and units ids to a list.
-          {
-            if(userModel!.user?.userLanguages.contains(element.languageId) ==false )  //checking if this language id is not there
-              {
-                userModel!.user?.userLanguages.add(element.languageId!); //Adding the language id to the users languages list.
+          updateUserLanguagesAndUnits();
 
-                if(userModel!.user?.userUnits[element.languageId] != element.unitId ) //If the this unit for this language isn't added
-                {
-                  userModel!.user?.userUnits.addAll(
-                      {
-                        element.languageId!:element.unitId!
-                      });
-                }
-            }
-            print(userModel!.user?.userUnits);
-          });
         }
         ).catchError((error)
         {
@@ -327,38 +362,7 @@ class AppCubit extends Cubit<AppStates>
       }
   }
 
-  //-----------------
 
-
-  //Get Latest Achievements
-  //
-  // static UserAchievementsModel? newAchievementsModel;
-  //
-  // void getLatestAchievements()
-  // {
-  //   newAchievementsModel=null; //emptying the model.
-  //   emit(AppGetLatestAchievementsLoadingState());
-  //
-  //   MainDioHelper.getData(
-  //     url: latestAchievements,
-  //     token: token,
-  //   ).then((value)
-  //   {
-  //     newAchievementsModel= UserAchievementsModel.fromJson(value.data);
-  //     emit(AppGetLatestAchievementsSuccessState());
-  //
-  //   }).catchError((error)
-  //   {
-  //
-  //     print('ERROR WHILE GETTING USER ACHIEVEMENTS, ${error.toString()}');
-  //     emit(AppGetLatestAchievementsErrorState());
-  //   });
-  // }
-
-
-  //----------------------------------
-
-  //Get Units for a specified Language. LanguageID is passed through.
   static UnitsModel? unitsModel;
 
   void getAllUnits(int languageId)
@@ -409,7 +413,7 @@ class AppCubit extends Cubit<AppStates>
   }
 
 
-  // PUT  API METHODS.
+  // PUT METHODS :
 
   //Update User Info.
   void putUserInfo(String? firstName, String? lastName, String? userPhoto)
@@ -497,6 +501,30 @@ class AppCubit extends Cubit<AppStates>
     {
       print('ERROR WHILE SIGNING OUT, ${error.toString()}');
       emit(AppUserSignOutErrorState());
+    });
+  }
+
+
+  //Set A unit as completed for the user
+  void setUnitAsComplete(int unitId)
+  {
+    print('in SetUnitAsComplete');
+    emit (AppSetUnitAsCompletedLoadingState());
+    
+    MainDioHelper.postData(
+        url: '$setUnitAsCompleted/$unitId',
+        data: {},
+        token: token,
+    ).then((value)
+
+    {
+      print(value.data);
+      userData();
+      emit(AppSetUnitAsCompletedSuccessState());
+    }).catchError((error)
+    {
+      print('ERROR WHILE SETTING UNIT AS COMPLETED, ${error.toString()}');
+      emit(AppSetUnitAsCompletedErrorState());
     });
   }
 

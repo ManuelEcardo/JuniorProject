@@ -129,6 +129,7 @@ class LoginScreen extends StatelessWidget {
                             isObscure: LoginCubit.get(context).isPasswordShown,
                             prefix: Icons.lock_outlined,
                             suffix:  LoginCubit.get(context).suffix,
+                            suffixIconColor: AppCubit.get(context).isDarkTheme ? Colors.white : Colors.black,
                             onPressedSuffixIcon: ()
                             {
                               LoginCubit.get(context).changePasswordVisibility();

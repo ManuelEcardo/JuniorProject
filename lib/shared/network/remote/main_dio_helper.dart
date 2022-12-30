@@ -14,7 +14,7 @@ class MainDioHelper
         receiveDataWhenStatusError: true,
         //receiveTimeout:50000,
         //connectTimeout: 30000,
-        validateStatus: (status)=>true, //Won't throw errors
+        // validateStatus: (status)=>true, //Won't throw errors
 
       ),
     );

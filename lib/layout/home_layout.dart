@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
@@ -20,12 +19,6 @@ class HomeLayout extends StatelessWidget {
       builder: (context,state)
       {
         var cubit=AppCubit.get(context);
-
-        //Navigation Bar Color
-        SystemChrome.setSystemUIOverlayStyle(
-              SystemUiOverlayStyle(
-              systemNavigationBarColor: defaultHomeDarkColor,
-            ));
 
         return WillPopScope(
           child: Scaffold(

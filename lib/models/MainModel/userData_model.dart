@@ -9,16 +9,6 @@ class UserModel {
   }
 }
 
-// class Data {
-//   List<UserData>? user=[];
-//   Data.fromJson(Map<String, dynamic> json)
-//   {
-//       json['user'].forEach((v)
-//       {
-//         user!.add(UserData.fromJson(v));
-//       });
-//   }
-// }
 
 class UserData {
   int? id;
@@ -29,10 +19,10 @@ class UserData {
   String? userPhoto;
   String? email;
   int? roleId;
+  List<UserProgress>? userProgress=[];   // Get User Progress in each Unit
   List<UserUnits>? units=[];
-
-  List<int>userLanguages=[]; //To be filled later in cubit, has the ID's of taken courses
-  Map<int,int>userUnits={}; //To be filled later in cubit, has the ID's of userUnits. first int in the map is language id , second int is the unit ID
+  List<int>userLanguages=[];             //To be filled later in cubit, has the ID's of taken courses
+  Map<int,List<int>>userUnits={};        //To be filled later in cubit, has the ID's of userUnits. first int in the map is language id , second int is the unit ID
 
 
   UserData.fromJson(Map<String, dynamic> json)
@@ -53,6 +43,14 @@ class UserData {
           units?.add(UserUnits.fromJson(element));
         });
       }
+
+    if(json['user_progress'] !=null)
+      {
+        json['user_progress'].forEach((element)
+        {
+          userProgress?.add(UserProgress.fromJson(element));
+        });
+      }
   }
 
 }
@@ -69,5 +67,18 @@ class UserUnits
     unitId= json['id'];
     unitStatus=json['unit_status'];
     languageId=json['language_id'];
+  }
+}
+
+
+class UserProgress
+{
+  int? languageId;
+  String? progress;
+
+  UserProgress.fromJson(Map<String,dynamic> json)
+  {
+    languageId= json['language id'];
+    progress= json['progress'];
   }
 }

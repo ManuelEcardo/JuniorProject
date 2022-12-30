@@ -107,6 +107,7 @@ Widget defaultFormField({
   InputBorder? borderStyle,
   TextStyle? labelStyle,
   Color? prefixIconColor,
+  Color? suffixIconColor,
   TextInputAction? inputAction,
   double borderRadius=0,
 }) =>
@@ -133,7 +134,10 @@ Widget defaultFormField({
         prefixIcon: Icon(prefix, color: prefixIconColor,),
         suffixIcon: IconButton(
           onPressed: onPressedSuffixIcon,
-          icon: Icon(suffix),
+          icon: Icon(
+            suffix,
+            color: suffixIconColor,
+          ),
         ),
       ),
     );

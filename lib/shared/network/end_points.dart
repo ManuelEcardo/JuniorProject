@@ -2,7 +2,7 @@
 
 
 //LOCAL HOSTS:
-const String localhost='https://2c3c-217-20-211-124.eu.ngrok.io';  //local host to connect, it's temporary and will be removed later.
+const String localhost='https://4fda-217-20-211-255.eu.ngrok.io';  //local host to connect, it's temporary and will be removed later.
 
 const String youtubeToken= 'AIzaSyC4-caWZdcZG9x5DtdUOPyij-yv53w2DnI';  //Youtube Default API key
 
@@ -39,6 +39,8 @@ const String userAchievements='achievements/user';  //Get Achievements for this 
 const String latestAchievements= 'achievements/latest'; //Get the new Achievements the user has unlocked.
 
 const String getSrt='youtube'; //Send text and get SRT file .
+
+const String setUnitAsCompleted= 'setUnitComplete'; //Setting a unit as Completed.
 
 
 //----------------------------------------------------------
