@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:juniorproj/models/MainModel/languages_model.dart';
+import 'package:juniorproj/models/MainModel/leaderboards_model.dart';
 import 'package:juniorproj/models/MainModel/units_model.dart';
 
 import 'package:juniorproj/modules/Achievements/achievements.dart';
@@ -432,6 +433,32 @@ class AppCubit extends Cubit<AppStates>
       emit(AppGetLanguagesErrorState());
     });
   }
+
+
+  //Get Leaderboards
+  static LeaderboardsModel? leaderboardsModel;
+
+  void getLeaderboards()
+  {
+    print('Getting Leaderboards');
+    emit(AppGetLeaderboardsLoadingState());
+
+    MainDioHelper.getData(
+        url: leaderboards
+    ).then((value)
+    {
+      print('PRINTING LEADERBOARDS VALUES: ${value.data}');
+
+      leaderboardsModel= LeaderboardsModel.fromJson(value.data);
+      emit(AppGetLeaderboardsSuccessState());
+    }).catchError((error)
+    {
+      print('ERROR WHILE GETTING LEADERBOARDS, ${error.toString()}');
+      emit(AppGetLeaderboardsErrorState());
+    });
+  }
+
+  //--------------------------------------------------------\\
 
 
   // PUT METHODS :

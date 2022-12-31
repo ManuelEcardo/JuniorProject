@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:internet_popup/internet_popup.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/modules/Languages/addLanguage.dart';
@@ -12,6 +13,7 @@ class HomeLayout extends StatelessWidget {
    const HomeLayout({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    InternetPopup().initialize(context: context);  //Show Popup When internet connection is lost
     return BlocConsumer<AppCubit,AppStates>(
       listener: (context,state)
       {},

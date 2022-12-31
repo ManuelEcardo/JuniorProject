@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/modules/YoutubeVideos/cubit/cubit.dart';
 import 'package:juniorproj/modules/YoutubeVideos/cubit/states.dart';
@@ -252,7 +253,7 @@ class YoutubeSearchPage extends StatelessWidget {
         {
           if(videoCaptions is File) //if returned value is file, then subtitles are true
               {
-            defaultToast(msg: 'Captions are Getting Exported');
+            defaultToast(msg: 'Captions are Getting Exported', length: Toast.LENGTH_LONG);
 
             cubit.getSub(
               videoCaptions,
@@ -269,7 +270,7 @@ class YoutubeSearchPage extends StatelessWidget {
 
           if(videoCaptions is String) //If returned value is String, then error
               {
-            print('videoCaptions is STRING');
+            print('videoCaptions is STRING, Error happened');
 
             if(videoCaptions == 'noCaption')
             {

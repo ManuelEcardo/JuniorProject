@@ -1,4 +1,3 @@
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,23 +32,26 @@ class LanguagesPage extends StatelessWidget {
         return ConditionalBuilder(
             condition: model !=null && userModel !=null,
             fallback: (context)=>const Center(child: CircularProgressIndicator(),),
-            builder: (context)=>Column(
-              children: [
+            builder: (context)=>SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
 
-                ListView.separated(
-                  physics: const BouncingScrollPhysics() ,
-                  shrinkWrap: true,
-                  itemBuilder: (context,index)=> languagesToBuild(cubit, context, userModel!.user!.userLanguages[index], model!.item),  //buildCatItem(cubit, model!.item[index], context), 1 should be user languages
-                  separatorBuilder: (context,index)=> myDivider(),
-                  itemCount: userModel!.user!.userLanguages.length,  //model!.item.length
-                ),
+                  ListView.separated(
+                    physics: const NeverScrollableScrollPhysics() ,
+                    shrinkWrap: true,
+                    itemBuilder: (context,index)=> languagesToBuild(cubit, context, userModel!.user!.userLanguages[index], model!.item),  //buildCatItem(cubit, model!.item[index], context), 1 should be user languages
+                    separatorBuilder: (context,index)=> myDivider(),
+                    itemCount: userModel!.user!.userLanguages.length,  //model!.item.length
+                  ),
 
-                if(userModel.user!.userLanguages.isNotEmpty)
-                myDivider(),
+                  if(userModel.user!.userLanguages.isNotEmpty)
+                  myDivider(),
 
-                youtubeLibraryItem(cubit,context),
+                  youtubeLibraryItem(cubit,context),
 
-              ],
+                ],
+              ),
             ),
         );
       },

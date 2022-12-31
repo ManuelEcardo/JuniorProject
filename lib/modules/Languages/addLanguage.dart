@@ -26,6 +26,7 @@ class AddLanguage extends StatelessWidget {
             defaultToast(msg: 'Added Successfully');
           }
       },
+
       builder: (context, state) {
         var cubit= AppCubit.get(context);
         LanguageModel? model= AppCubit.languagesModel;
@@ -36,9 +37,10 @@ class AddLanguage extends StatelessWidget {
               IconButton(onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny)),
             ],
           ),
+
           body: ConditionalBuilder(
               condition: model !=null,
-              builder: (context)=> itemBuilder(cubit,model!),
+              builder: (context)=> itemBuilder(cubit,model!,context),
               fallback: (context) => const Center(child: CircularProgressIndicator(),),
           ),
         );
@@ -46,7 +48,7 @@ class AddLanguage extends StatelessWidget {
     );
   }
 
-  Widget itemBuilder(AppCubit cubit, LanguageModel model)
+  Widget itemBuilder(AppCubit cubit, LanguageModel model, BuildContext context)
   {
     return Padding(
       padding: const EdgeInsetsDirectional.all(24.0),

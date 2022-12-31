@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -257,46 +256,6 @@ void navigateAndFinish(context,Widget widget) => Navigator.pushAndRemoveUntil(
 
 //--------------------------------------------------------------------------------------------------\\
 
-
-//--------------------------------------------------------------------------------------------------\\
-
-//A slider that takes a list of items to slide them and bunch of options.
-Widget defaultCarouselSlider(
-    {
-      required List<Widget>? items,
-      double height=250,
-      int firstPage=0,  //Which page to start from.
-      double viewportFraction=1, //1 will make the image take the whole place, 0.9 will show some of the other pictures from left and right.
-      bool infiniteScroll=true, //Will scroll back to the beginning when ended.
-      bool isReverse=false,
-      bool autoplay=true, //Will slide by it self.
-      Duration autoPlayInterval= const Duration(seconds: 5),
-      Duration autoPlayAnimationDuration= const Duration(seconds: 3),
-      Curve autoPlayCurve= Curves.fastOutSlowIn,
-      Axis scrollDirection=Axis.horizontal,
-    }
-    )
-{
-  return CarouselSlider(
-      items: items,
-      options: CarouselOptions(
-        height: height,
-        initialPage: firstPage,
-        viewportFraction: viewportFraction,
-        enableInfiniteScroll: infiniteScroll,
-        reverse: isReverse,
-        autoPlay: autoplay,
-        autoPlayInterval: autoPlayInterval,
-        autoPlayAnimationDuration:autoPlayAnimationDuration,
-        autoPlayCurve:autoPlayCurve,
-        scrollDirection: scrollDirection,
-
-      ),
-  );
-}
-
-//--------------------------------------------------------------------------------------------------\\
-
 //Default Divider for ListViews ...
 Widget myDivider({Color? c=Colors.grey, double padding=0}) => Container(height: 1, width: double.infinity , color:c, padding: EdgeInsets.symmetric(horizontal: padding),);
 
@@ -359,6 +318,8 @@ async {
     }
 }
 
+
+
 Future<Object> captionsGetter(String videoId, YouTubeCaptionScraper captionScraper )  //Get Captions from link
 async {
 
@@ -378,7 +339,7 @@ async {
         print('CAPTION LINK IS: ${element.baseUrl}');
         var subtitles= await captionScraper.getSubtitles(element);
         for (final subtitle in subtitles) {
-         // print('$i \r\n0${subtitle.start.toString().substring(0,11).replaceAll('.', ',')} --> 0${ (subtitle.duration+ subtitle.start).toString().substring(0,11).replaceAll('.', ',') }\r\n');
+          // print('$i \r\n0${subtitle.start.toString().substring(0,11).replaceAll('.', ',')} --> 0${ (subtitle.duration+ subtitle.start).toString().substring(0,11).replaceAll('.', ',') }\r\n');
           sub= '$sub$i \r\n0${subtitle.start.toString().substring(0,11).replaceAll('.', ',') } --> 0${ (subtitle.duration+ subtitle.start).toString().substring(0,11).replaceAll('.', ',') }\r\n${subtitle.text}\r\n\r\n';  //Append each new subtitle line with the old
           i++; //Increment the counter
 

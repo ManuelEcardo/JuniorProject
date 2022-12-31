@@ -132,6 +132,13 @@ class AppGetQuestionsErrorState extends AppStates{}
 //-----------------------
 
 
+class AppGetLeaderboardsLoadingState extends AppStates{}
+
+class AppGetLeaderboardsSuccessState extends AppStates{}
+
+class AppGetLeaderboardsErrorState extends AppStates{}
+
+
 //PUT USER INFO:
 
 class AppPutUserInfoLoadingState extends AppStates{}

@@ -42,6 +42,8 @@ const String getSrt='youtube'; //Send text and get SRT file .
 
 const String setUnitAsCompleted= 'setUnitComplete'; //Setting a unit as Completed.
 
+const String leaderboards= 'leadboards';
+
 
 //----------------------------------------------------------
 

@@ -1,7 +1,9 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
+import 'package:juniorproj/models/MainModel/leaderboards_model.dart';
 import 'package:juniorproj/shared/components/components.dart';
 
 import '../../shared/styles/styles.dart';
@@ -17,7 +19,7 @@ class Leaderboards extends StatelessWidget {
         builder: (context,state)
         {
           var cubit= AppCubit.get(context);
-
+          var model= AppCubit.leaderboardsModel;
           List<List<String>> list=
           [
             [
@@ -31,6 +33,7 @@ class Leaderboards extends StatelessWidget {
               'assets/images/illustration-4.gif', 'Newbie Robot', '250'
             ],
           ];
+
           return Scaffold(
             appBar: AppBar(
               actions:
@@ -39,39 +42,49 @@ class Leaderboards extends StatelessWidget {
               ],
             ),
 
-            body: Padding(
-              padding: const EdgeInsetsDirectional.all(24.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children:
-                [
-                 Center(
-                   child: Text(
-                     'Leaderboards:',
-                     overflow: TextOverflow.ellipsis,
-                     maxLines: 1,
-                     style: defaultHeadlineTextStyle,
-                      ),
-                 ),
-
-                 const SizedBox(height: 40,),
-
-                  Expanded(
-                    child: ListView.separated(
-                        itemBuilder: (context,index)=> itemBuilder(list[index]),
-                        separatorBuilder: (context,index) => myDivider(),
-                        itemCount: list.length,
-                    ),
-                  ),
-
-                ],
-              ),
+            body: ConditionalBuilder(
+                condition: model !=null,
+                fallback: (context)=> const Center(child: CircularProgressIndicator(),),
+                builder: (context)=> mainBuilder(list, model!),
             ),
           );
         },
     );
   }
+
+  Widget mainBuilder(List<List<String>> list, LeaderboardsModel model)
+  {
+    return Padding(
+      padding: const EdgeInsetsDirectional.all(24.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children:
+        [
+          Center(
+            child: Text(
+              'Leaderboards:',
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: defaultHeadlineTextStyle,
+            ),
+          ),
+
+          const SizedBox(height: 40,),
+
+          Expanded(
+            child: ListView.separated(
+              itemBuilder: (context,index)=> itemBuilder(list[index]),
+              separatorBuilder: (context,index) => myDivider(),
+              itemCount: list.length,
+            ),
+          ),
+
+        ],
+      ),
+    );
+  }
+
 
   Widget itemBuilder(List<String> list)
   {

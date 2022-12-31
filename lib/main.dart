@@ -111,7 +111,7 @@ class _MyAppState extends State<MyApp> {
       //Multi BlocProvider will be initialized in the main, so if there is more than one, all can be started here.
       providers: [
 
-        BlocProvider(create: (BuildContext context) => AppCubit()..changeTheme(themeFromState: widget.isDark)..getLanguages()..getAchievements()..getUserAchievements()..userData()  ),  //Main Cubit for the HomeLayout and most of the Views.
+        BlocProvider(create: (BuildContext context) => AppCubit()..changeTheme(themeFromState: widget.isDark)..getLanguages()..getAchievements()..getUserAchievements()..userData()..getLeaderboards()  ),  //Main Cubit for the HomeLayout and most of the Views.
 
         BlocProvider(create: (BuildContext context) => WordCubit()),  //Getting the definition of words.
 
