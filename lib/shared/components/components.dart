@@ -65,6 +65,9 @@ Widget defaultUnitButton({
   double height = 150.0, // was 40
   required void Function()? function,
   required String text,
+  bool isIcon =false,
+  IconData? icon,
+  Color? iconColor,
 }) =>
     Container(
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -76,15 +79,31 @@ Widget defaultUnitButton({
       height: height,
       child: MaterialButton(
         onPressed: function,
-        child: Text(
-          isUpper ? text.toUpperCase() : text,
+        child:isIconDefaultUnitButton(text,isUpper,icon,isIcon,iconColor),
+      ),
+    );
+
+
+Widget isIconDefaultUnitButton(String text, bool isUpper, IconData? icon, bool isIcon, Color? iconColor )
+{
+  if(isIcon==true && icon !=null)
+    {
+      return Icon(
+        icon,
+        color: iconColor,
+      );
+    }
+  else
+    {
+      return Text(
+          isUpper? text.toUpperCase() :text,
           style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold
           ),
-        ),
-      ),
-    );
+      );
+    }
+}
 
 
 //---------------------------------------------------------------------------------------------------\\

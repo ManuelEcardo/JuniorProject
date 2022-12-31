@@ -95,6 +95,16 @@ Widget buildCatItem(AppCubit cubit, Languages? model, BuildContext context) => P
           width: 80.0,
           height: 80.0,
           fit: BoxFit.contain,
+          errorBuilder: (context,error,stackTrace)
+          {
+            print('Couldn\'t get specified image, setting default image, ${error.toString()} ');
+            return Image.asset(
+              'assets/images/defaultFlag.png',
+              width: 80.0,
+              height: 80.0,
+              fit: BoxFit.contain,
+            );
+          },
         ),
 
         const SizedBox(

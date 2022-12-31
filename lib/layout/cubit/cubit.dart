@@ -363,6 +363,27 @@ class AppCubit extends Cubit<AppStates>
   }
 
 
+  static void staticGetUserAchievements() //Test for statically
+  {
+    if(token != '')
+    {
+      MainDioHelper.getData(
+        url: userAchievements,
+        token: token,
+      ).then((value)
+      {
+        print(value.data);
+
+        userAchievementsModel= UserAchievementsModel.fromJson(value.data);
+      }).catchError((error)
+      {
+        print('ERROR WHILE GETTING USER ACHIEVEMENTS, ${error.toString()}');
+      });
+    }
+
+  }
+
+
   static UnitsModel? unitsModel;
 
   void getAllUnits(int languageId)

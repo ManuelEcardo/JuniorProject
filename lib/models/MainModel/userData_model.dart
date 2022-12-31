@@ -1,12 +1,23 @@
 class UserModel {
   UserData? user;
+  List<UserProgress>? userProgress=[];   // Get User Progress in each Unit
   String? message;
-
   UserModel.fromJson(Map<String, dynamic> json)
   {
     user = UserData.fromJson(json['user']);
     message = json['message'];
+
+    if(json['user_progress'] !=null)
+    {
+      print('in user progress');
+      json['user_progress'].forEach((element)
+      {
+        userProgress?.add(UserProgress.fromJson(element));
+      });
+    }
   }
+
+
 }
 
 
@@ -19,7 +30,7 @@ class UserData {
   String? userPhoto;
   String? email;
   int? roleId;
-  List<UserProgress>? userProgress=[];   // Get User Progress in each Unit
+
   List<UserUnits>? units=[];
   List<int>userLanguages=[];             //To be filled later in cubit, has the ID's of taken courses
   Map<int,List<int>>userUnits={};        //To be filled later in cubit, has the ID's of userUnits. first int in the map is language id , second int is the unit ID
@@ -44,13 +55,6 @@ class UserData {
         });
       }
 
-    if(json['user_progress'] !=null)
-      {
-        json['user_progress'].forEach((element)
-        {
-          userProgress?.add(UserProgress.fromJson(element));
-        });
-      }
   }
 
 }
@@ -74,11 +78,11 @@ class UserUnits
 class UserProgress
 {
   int? languageId;
-  String? progress;
+  double? progress;
 
   UserProgress.fromJson(Map<String,dynamic> json)
   {
     languageId= json['language id'];
-    progress= json['progress'];
+    progress= json['progress'].toDouble();
   }
 }

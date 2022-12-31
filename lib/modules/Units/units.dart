@@ -109,7 +109,7 @@ class Units extends StatelessWidget{
                                 {
                                   try
                                   {
-                                    if(AppCubit.userModel!.user!.userUnits[model!.item[index].languageId]!.contains(model!.item[index].id!))
+                                    if(AppCubit.userModel!.user!.userUnits[model!.item[index].languageId]!.contains(model!.item[index].id!)) //If this unit is not locked, then enable navigation to this unit
                                     {
                                       cubit.getUnitContent(model!.item[index].id!); //Get the content of this unit and put it in contentModel
                                       navigateAndSaveRouteSettings(context, const Unit(), 'unit');
@@ -124,7 +124,10 @@ class Units extends StatelessWidget{
                                     print('error in opening unit, ${error.toString()}');
                                   }
                                 },
-                                text: 'Unit ${index+1}'
+                                text: 'Unit ${index+1}',
+                                isIcon: AppCubit.userModel!.user!.userUnits[model!.item[index].languageId]!.contains(model!.item[index].id!) ? false :true, //If Locked then Lock icon is to be shown
+                                icon: AppCubit.userModel!.user!.userUnits[model!.item[index].languageId]!.contains(model!.item[index].id!) ? null : Icons.lock, //Send Lock Icon
+                                iconColor: AppCubit.userModel!.user!.userUnits[model!.item[index].languageId]!.contains(model!.item[index].id!)? null : Colors.white //Set it's Color to white
                                 ),
                           )
                           ,

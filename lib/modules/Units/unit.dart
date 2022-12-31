@@ -286,8 +286,14 @@ class Unit extends StatelessWidget {
       onTap: ()
       {
           // navigateTo(context,QuizPage(model));
-
-        navigateAndSaveRouteSettings(context, QuizPage(model), 'quiz');
+        if(model.isNotEmpty)
+          {
+            navigateAndSaveRouteSettings(context, QuizPage(model), 'quiz');
+          }
+        else if (model.isEmpty)
+          {
+            defaultToast(msg: 'Quiz is in development');
+          }
       },
       child: Padding(
         padding: const EdgeInsetsDirectional.only(top:8.0),

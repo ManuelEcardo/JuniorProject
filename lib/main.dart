@@ -105,10 +105,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-  Widget build(BuildContext context) {
-
-
-
+  Widget build(BuildContext context)
+  {
     return MultiBlocProvider(
       //Multi BlocProvider will be initialized in the main, so if there is more than one, all can be started here.
       providers: [
@@ -172,8 +170,8 @@ class _MyAppState extends State<MyApp> {
               {
                 if(element.achievementId == e.id)  //Getting the new unlocked achievements name and details from achievementsModel
                 {
+                  AppCubit.staticGetUserAchievements();
                   print('Achievement is ${e.name}'); //Printing it's name
-
                   showOverlayNotification( //Show Notification.
                       (context) => notificationCard(e.name!),
                       duration: const Duration(seconds: 5),
@@ -215,7 +213,7 @@ class _MyAppState extends State<MyApp> {
     return Builder(
       builder: (BuildContext myContext)
       {
-        AppCubit.get(myContext).getUserAchievements(); //Get the new achievements
+        // AppCubit.get(myContext).getUserAchievements(); //Get the new achievements
         return SafeArea(
           child: SwipeDetector(
             onSwipeUp: ()

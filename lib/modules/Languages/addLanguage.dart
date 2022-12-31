@@ -126,7 +126,13 @@ Widget languageItemBuilder({
       children:
       [
         Image(
-          image: AssetImage('assets/images/${model.languagePhoto}'),
+          image: AssetImage('assets/images/${model.languagePhoto}'), //'assets/images/${model.languagePhoto}'
+
+          errorBuilder: (context,error,stackTrace)
+          {
+            print('Couldn\'t get specified image, setting default image, ${error.toString()} ');
+            return Image.asset('assets/images/defaultFlag.png', width: 100, height: 100,);
+          },
           height: 100,
           width: 100,
         ),
@@ -142,4 +148,5 @@ Widget languageItemBuilder({
     ),
   ),
 );
+
 

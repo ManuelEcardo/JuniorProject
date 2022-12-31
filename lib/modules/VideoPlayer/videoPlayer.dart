@@ -256,6 +256,8 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
                               localChewieController.videoPlayerController.pause();  //Pausing the video
 
+                              print('Selected word is ${selectableController.getSelection()!.text!}');
+
                              // navigateTo(context, DefinitionShow());          // Navigating to a new class to show the results.
 
                               selectableController.deselect();  //Deselect the word after searching for it.

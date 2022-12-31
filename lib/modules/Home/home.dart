@@ -281,65 +281,36 @@ class HomePage extends StatelessWidget {
   dynamic getCurrentProgress(String type)
   {
     if(type == 'string')
+    {
+      List<String>? i;
+      double myLangProgress =0.0;
+      int langId;
+
+      try
       {
-        List<String>? i;
-        String myLangProgress='0.0';
-        int langId;
+        i=CacheHelper.getData(key: 'lastAccessedUnit');
 
-        try
+        if(i !=null)
         {
-          print('for Test, ${CacheHelper.getData(key: 'lastAccessedUnits')}');
-          i=CacheHelper.getData(key: 'lastAccessedUnit');
+          print('Getting Cached Progress Bar');
 
-          if(i !=null)
+          AppCubit.userModel!.userProgress?.forEach((element) //Loop Through User's Languages
           {
-            print('Got Cached Unit');
-            print('USER PROGRESS LIST IS: ${AppCubit.userModel!.user!.userProgress}');
-            print('CACHED ITEM IS: ${i[0]}');
-
-            AppCubit.userModel!.user!.userProgress?.forEach((element) //Loop Through User's Languages
+            if(element.languageId == i![0].toInt())
             {
-              if(element.languageId == i![0].toInt())
-              {
-                print('Progress is: ${element.progress!}');
-                myLangProgress = element.progress!;
-              }
-            });
-            print('Current Language Progress is : $myLangProgress');
-
-          }
-
-          else
-          {
-            if(AppCubit.userModel!.user!.userLanguages.isNotEmpty) //There are languages in his list
-                {
-              langId= AppCubit.userModel!.user!.userLanguages[0]; //Take the first one
-
-              AppCubit.userModel!.user!.userProgress?.forEach((element) //Loop Through User's Languages
-              {
-                if(element.languageId == langId)
-                {
-                  myLangProgress = element.progress!;
-                }
-              });
+              print('got String Matched Progress Bar');
+              myLangProgress = element.progress!;
             }
-
-            print('Current Language Progress is : $myLangProgress');
-            return myLangProgress;
-          }
-
+          });
         }
 
-
-        catch (error)
+        else
         {
-          print('Error While Getting Cache, ${error.toString()}');
-
           if(AppCubit.userModel!.user!.userLanguages.isNotEmpty) //There are languages in his list
               {
             langId= AppCubit.userModel!.user!.userLanguages[0]; //Take the first one
 
-            AppCubit.userModel!.user!.userProgress?.forEach((element) //Loop Through User's Languages
+            AppCubit.userModel!.userProgress?.forEach((element) //Loop Through User's Languages
             {
               if(element.languageId == langId)
               {
@@ -347,72 +318,66 @@ class HomePage extends StatelessWidget {
               }
             });
           }
+
+          // print('Current Language Progress is : $myLangProgress');
+          // return myLangProgress;
         }
 
-        print('Current Language Progress is : $myLangProgress');
-        return myLangProgress;
       }
+
+
+      catch (error)
+      {
+        print('Getting Non - Cached Progress Bar');
+
+        if(AppCubit.userModel!.user!.userLanguages.isNotEmpty) //There are languages in his list
+            {
+          langId= AppCubit.userModel!.user!.userLanguages[0]; //Take the first one
+          AppCubit.userModel!.userProgress?.forEach((element) //Loop Through User's Languages
+          {
+            print(element.languageId);
+            if(element.languageId == langId)
+            {
+              myLangProgress = element.progress!;
+            }
+          });
+        }
+      }
+
+      print('Current String Language Progress is : $myLangProgress');
+      return '${myLangProgress.toString()}%';
+    }
 
     else if (type =='double')
+    {
+      List<String>? i;
+      double myLangProgress= 0.0;
+      String toSwitch='';
+      int langId;
+      try
       {
-        List<String>? i;
-        String myLangProgress='0.0';
-        int langId;
-        double finalValue=0.0;
-        try
+        i=CacheHelper.getData(key: 'lastAccessedUnit');
+
+        if(i !=null)
         {
-          print('for Test, ${CacheHelper.getData(key: 'lastAccessedUnits')}');
-          i=CacheHelper.getData(key: 'lastAccessedUnit');
-
-          if(i !=null)
+          print('Getting Double Cached Progress Bar');
+          AppCubit.userModel!.userProgress?.forEach((element) //Loop Through User's Languages
           {
-            print('Got Cached Unit');
-            print('USER PROGRESS LIST IS: ${AppCubit.userModel!.user!.userProgress}');
-            print('CACHED ITEM IS: ${i[0]}');
-
-            AppCubit.userModel!.user!.userProgress?.forEach((element) //Loop Through User's Languages
+            if(element.languageId == i![0].toInt())
             {
-              if(element.languageId == i![0].toInt())
-              {
-                print('Progress is: ${element.progress!}');
-                myLangProgress = element.progress!;
-              }
-            });
-            print('Current Language Progress is : $myLangProgress');
-
-          }
-
-          else
-          {
-            if(AppCubit.userModel!.user!.userLanguages.isNotEmpty) //There are languages in his list
-                {
-              langId= AppCubit.userModel!.user!.userLanguages[0]; //Take the first one
-
-              AppCubit.userModel!.user!.userProgress?.forEach((element) //Loop Through User's Languages
-              {
-                if(element.languageId == langId)
-                {
-                  myLangProgress = element.progress!;
-                }
-              });
+              print('Progress is: ${element.progress!}');
+              myLangProgress = element.progress!;
             }
-
-            print('Current Language Progress is : $myLangProgress');
-            return myLangProgress;
-          }
-
+          });
         }
 
-
-        catch (error)
+        else
         {
-          print('Error While Getting Cache, ${error.toString()}');
-
           if(AppCubit.userModel!.user!.userLanguages.isNotEmpty) //There are languages in his list
               {
             langId= AppCubit.userModel!.user!.userLanguages[0]; //Take the first one
 
-            AppCubit.userModel!.user!.userProgress?.forEach((element) //Loop Through User's Languages
+            AppCubit.userModel!.userProgress?.forEach((element) //Loop Through User's Languages
             {
               if(element.languageId == langId)
               {
@@ -420,15 +385,43 @@ class HomePage extends StatelessWidget {
               }
             });
           }
+          //
+          // print('Current Language Progress is : $myLangProgress');
+          // return myLangProgress;
         }
 
-        print('Current Language Progress is : $myLangProgress');
-        myLangProgress= '0.$myLangProgress';
-        finalValue= double.parse(myLangProgress);
-
-        return finalValue;
       }
+
+
+      catch (error)
+      {
+        print('Getting Double Non-Cached Progress Bar, ${error.toString()}');
+
+        if(AppCubit.userModel!.user!.userLanguages.isNotEmpty) //There are languages in his list
+            {
+          langId= AppCubit.userModel!.user!.userLanguages[0]; //Take the first one
+
+          AppCubit.userModel!.userProgress?.forEach((element) //Loop Through User's Languages
+          {
+            if(element.languageId == langId)
+            {
+              myLangProgress = element.progress!;
+            }
+          });
+        }
+      }
+
+      print('Current Double Language Progress is : $myLangProgress');
+
+      //Adding 0.realValue
+      toSwitch= myLangProgress.toString();
+      toSwitch= '0.$toSwitch'.substring(0,4);
+      myLangProgress= (myLangProgress /100);
+      print('myLANG $myLangProgress');
+      return myLangProgress;
+    }
   }
+
   }
 
 

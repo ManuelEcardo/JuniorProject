@@ -1,7 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/shared/components/components.dart';
@@ -197,66 +196,30 @@ class ProfilePage extends StatelessWidget {
                                 await showDialog(
                                     context: context,
                                     builder: (context) {
-                                      return AlertDialog(
-                                        title: Text(
-                                          'Thanks for Using our App!',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: HexColor('8AA76C'),
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                        content: Column(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: const [
-                                            Text(
-                                              'A work of sincere people',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                            Text(
-                                              '-Mobile Application: Mohammad Bali',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                            Text(
-                                              '-Website: Ayhem Khatib',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                            Text(
-                                              '-Back End: Mostafa Hamwi',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                            Text(
-                                              '-Structure: Yazan Abd Alkarem',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                            Text(
-                                              '-Reports: Ibaa Safieh',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+
+                                      return defaultAlertDialog(
+                                          context: context,
+                                          title: 'Thanks for Using our App!',
+                                          content: Column(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: const [
+                                              Text('A work of sincere people',),
+
+                                              Text('-Mobile Application: Mohammad Bali',),
+
+                                              Text('-Website: Ayhem Khatib',),
+
+                                              Text('-Back End: Mostafa Hamwi',),
+
+                                              Text('-Structure: Yazan Abd Alkarem',),
+
+                                              Text('-Reports: Ibaa Safieh',),
+                                            ],
+                                          )
                                       );
                                     });
                               },
