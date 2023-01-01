@@ -41,7 +41,7 @@ class Leaderboards extends StatelessWidget {
 
   Widget mainBuilder(AppCubit cubit, UserModel userModel,  LeaderboardsModel leaderModel)
   {
-    List<LeaderboardsItem> myModel= leaderboardItemCalculator(userModel, leaderModel);
+    List<LeaderboardsUser> myModel= leaderboardItemCalculator(userModel, leaderModel);
     print('currentModel is ${myModel.length}');
     myModel.sort((a,b) => a.rank!.compareTo(b.rank!));  //Sorting items by their rank.
 
@@ -65,7 +65,17 @@ class Leaderboards extends StatelessWidget {
 
           Expanded(
             child: ListView.separated(
-              itemBuilder: (context,index)=> itemBuilder(cubit, myModel[index], userModel.user!.id!),
+              itemBuilder: (context,index)
+              {
+                if(index==0)
+                  {
+                    return itemBuilder(cubit, myModel[index], userModel.user!.id!,0);
+                  }
+                else
+                  {
+                    return itemBuilder(cubit, myModel[index], userModel.user!.id!, myModel[index-1].rank!);
+                  }
+              },
               separatorBuilder: (context,index) => myDivider(),
               itemCount: myModel.length,
             ),
@@ -78,50 +88,52 @@ class Leaderboards extends StatelessWidget {
 
 
   //Setting the Five Users to show.
-  List<LeaderboardsItem> leaderboardItemCalculator(UserModel userModel, LeaderboardsModel leaderboardsModel)
+  List<LeaderboardsUser> leaderboardItemCalculator(UserModel userModel, LeaderboardsModel leaderboardsModel)
   {
-    List<LeaderboardsItem> modelList= <LeaderboardsItem>[]; //List to be returned containing 5 users.
+    List<LeaderboardsUser> modelList= <LeaderboardsUser>[]; //List to be returned containing 5 users.
 
-    LeaderboardsItem? userRegisteredModel;
+    LeaderboardsUser? userRegisteredModel;
 
     int i=0; //Keep item tracking
 
-    if(leaderboardsModel.item.length >=5)  //There Are 5 Users or more in the list
+    if(leaderboardsModel.item.length >=10)  //There Are 5 Users or more in the list
       {
         for (var element in leaderboardsModel.item) //Looping through user's to find current user.
           {
-            if(i<4) //Start to loop through 4 items
+            if(i<9) //Start to loop through 4 items
                 {
-                  if(element.id == userModel.user!.id)
+                  if(element.user!.id == userModel.user!.id)
                   {
-                    userRegisteredModel= LeaderboardsItem(id: element.id, firstName: element.firstName, lastName: element.lastName, fullName: element.fullName, points: element.points, userPhoto: element.userPhoto, rank: i);
+                    LeaderboardsItem a=LeaderboardsItem(id: element.user!.id, firstName: element.user!.firstName, lastName: element.user!.lastName, fullName: element.user!.fullName, points: element.user!.points, userPhoto: element.user!.userPhoto);
+                    userRegisteredModel= LeaderboardsUser(rank: element.rank, user: a);
                     modelList.add(userRegisteredModel);
-                    print('PHOTO, ${modelList[i].userPhoto}');
+                    print('PHOTO, ${modelList[i].user!.userPhoto}');
                   }
 
                   else
                   {
-                    LeaderboardsItem? newModel= LeaderboardsItem(id: element.id, firstName: element.firstName, lastName: element.lastName, fullName: element.fullName, points: element.points, userPhoto: element.userPhoto, rank: i);
-                    modelList.add(newModel);
+                    LeaderboardsItem? newModel= LeaderboardsItem(id: element.user!.id, firstName: element.user!.firstName, lastName: element.user!.lastName, fullName: element.user!.fullName, points: element.user!.points, userPhoto: element.user!.userPhoto);
+                    modelList.add(LeaderboardsUser(rank: element.rank, user: newModel));
                     newModel =null; //Clearing newModel
                   }
                   i++; //Incrementing the number of registered users.
                 }
 
-            else if (i==4 && userRegisteredModel ==null) //4 Items have been registered and the user isn't among them, then find him and add him
+            else if (i==9 && userRegisteredModel ==null) //4 Items have been registered and the user isn't among them, then find him and add him
                 {
-                  if(element.id == userModel.user!.id)
+                  if(element.user!.id == userModel.user!.id)
                   {
-                    userRegisteredModel= LeaderboardsItem(id: element.id, firstName: element.firstName, lastName: element.lastName, fullName: element.fullName, points: element.points, userPhoto: element.userPhoto, rank: i);
+                    LeaderboardsItem a=LeaderboardsItem(id: element.user!.id, firstName: element.user!.firstName, lastName: element.user!.lastName, fullName: element.user!.fullName, points: element.user!.points, userPhoto: element.user!.userPhoto);
+                    userRegisteredModel= LeaderboardsUser(rank: element.rank, user: a);
                     modelList.add(userRegisteredModel);
                     i++;
                   }
                 }
 
-            else if (i==4 && userRegisteredModel!.firstName!.isNotEmpty) //4 Items have been registered and the user is among them, add the last item.
+            else if (i==9 && userRegisteredModel!.user!.firstName!.isNotEmpty) //4 Items have been registered and the user is among them, add the last item.
                 {
-                  LeaderboardsItem? newModel= LeaderboardsItem(id: element.id, firstName: element.firstName, lastName: element.lastName, fullName: element.fullName, points: element.points, userPhoto: element.userPhoto, rank: i);
-                  modelList.add(newModel);
+                  LeaderboardsItem? newModel= LeaderboardsItem(id: element.user!.id, firstName: element.user!.firstName, lastName: element.user!.lastName, fullName: element.user!.fullName, points: element.user!.points, userPhoto: element.user!.userPhoto);
+                  modelList.add(LeaderboardsUser(rank: element.rank, user: newModel));
                   newModel =null; //Clearing newModel
                   i++;
                 }
@@ -138,13 +150,25 @@ class Leaderboards extends StatelessWidget {
 
 
   //UI Item Builder
-  Widget itemBuilder(AppCubit cubit, LeaderboardsItem model, int userId)
+  Widget itemBuilder(AppCubit cubit, LeaderboardsUser model, int userId, int previousRank)
   {
    return Padding(
      padding: const EdgeInsetsDirectional.only(end: 15.0),
      child: Column(
        children: [
-         const SizedBox(height: 20,),
+         const SizedBox(height: 10,),
+
+         if(model.rank != previousRank + 1)
+
+         RichText(
+           text:  TextSpan(
+               text: '•\r\n•',
+              style: TextStyle(
+                  fontSize: 20,
+                  color: cubit.isDarkTheme? Colors.white : Colors.black
+              ),
+           ),
+         ),
 
          Row(
            mainAxisAlignment: MainAxisAlignment.start,
@@ -152,41 +176,24 @@ class Leaderboards extends StatelessWidget {
            //mainAxisSize: MainAxisSize.max,
            children:
            [
-             Stack(
-               alignment: Alignment.topLeft,
-               children:
-               [
-                 CircleAvatar(
-                   backgroundColor: Colors.black12,
-                   radius: 40,
-                   backgroundImage: AssetImage('assets/images/${model.userPhoto!}',),
+             CircleAvatar(
+               backgroundColor: Colors.black12,
+               radius: 30,
+               backgroundImage: AssetImage('assets/images/${model.user!.userPhoto!}',),
 
-                 ),
-
-                 Padding(
-                   padding: const EdgeInsetsDirectional.only(top: 1.0, start: 1.0 ),
-                   child: Text(
-                       '${model.rank}',
-                     style: TextStyle(
-                       color: cubit.isDarkTheme ? Colors.redAccent : Colors.black,
-                       fontSize: 18
-                     ),
-                   ),
-                 ),
-               ],
              ),
 
              const SizedBox(width: 15,),
 
              Expanded(
                child: Text(
-                 model.fullName!,
+                 '${model.rank}. ${model.user!.fullName!}',
                  maxLines: 1,
                  overflow: TextOverflow.ellipsis,
                  style: TextStyle(
-                   fontSize: 20,
+                   fontSize: 18,
                    fontWeight: FontWeight.w500,
-                   color: userId==model.id! ? goldenColor : null,
+                   color: userId==model.user!.id! ? goldenColor : null,
                  ),
                ),
              ),
@@ -194,7 +201,7 @@ class Leaderboards extends StatelessWidget {
              const SizedBox(width: 5,),
 
              Text(
-             '${model.points!}',
+             '${model.user!.points!}',
              maxLines: 1,
              overflow: TextOverflow.ellipsis,
              style: const TextStyle(
@@ -207,9 +214,10 @@ class Leaderboards extends StatelessWidget {
            ],
          ),
 
-         const SizedBox(height: 20,)
+         const SizedBox(height: 10,)
        ],
      ),
    );
   }
+
 }

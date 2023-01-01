@@ -633,6 +633,8 @@ class AppCubit extends Cubit<AppStates>
 
       changeFav(true); //Change The word to  favourite.
 
+      favouritesModel=null;
+
       getFavourites();
 
       defaultToast(msg: 'Added successfully');
@@ -663,6 +665,8 @@ class AppCubit extends Cubit<AppStates>
 
       changeFav(false); //Change The word to non favourite.
 
+      favouritesModel=null;
+
       getFavourites();
 
       defaultToast(msg: 'Deleted successfully');
@@ -680,7 +684,7 @@ class AppCubit extends Cubit<AppStates>
 
   void changeFav(bool fav) //Change Fav to false or true
   {
-    if(fav)
+    if(fav == true)
     {
       isWordFav=true;
       emit(AppWordChangeTrueFav());
