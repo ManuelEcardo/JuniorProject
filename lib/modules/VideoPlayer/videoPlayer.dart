@@ -410,8 +410,6 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
     );
   }
 
-
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {  //If the user pressed home or moved to another app, then the video will be paused by implementing the callbacks.
     super.didChangeAppLifecycleState(state);
