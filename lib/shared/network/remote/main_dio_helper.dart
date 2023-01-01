@@ -14,7 +14,7 @@ class MainDioHelper
         receiveDataWhenStatusError: true,
         //receiveTimeout:50000,
         //connectTimeout: 30000,
-        // validateStatus: (status)=>true, //Won't throw errors
+        validateStatus: (status)=>true, //Won't throw errors
 
       ),
     );
@@ -97,13 +97,28 @@ class MainDioHelper
     dio?.options.headers=
     {
       'Connection' : 'keep-alive',
-      //'token': token,
+      // 'Authorization': 'Bearer $token',
     };
     print('in Main Dio patchData');
     return await dio!.patch(
       url,
       queryParameters: query,
       data: data,
+    );
+  }
+
+  static Future<Response> deleteData({required String url, Map<String,dynamic>?query,  required Map<String,dynamic> data, String? token,})
+  async {
+    dio?.options.headers=
+    {
+      'Accept' : 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    print('in Main Dio deleteData');
+    return await dio!.delete(
+      url,
+      data: data,
+      queryParameters: query,
     );
   }
 

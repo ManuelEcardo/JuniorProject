@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
+import 'package:juniorproj/modules/Favourites/favourites.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/styles.dart';
 
@@ -236,6 +237,34 @@ class ProfilePage extends StatelessWidget {
                               },
                             ),
                           ],
+                        ),
+
+                        TextButton(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children:const
+                              [
+                                Text(
+                                  'Likes',
+                                  style:TextStyle(
+                                    color: Colors.redAccent,
+                                    fontSize: 25,
+                                  ),
+                                ),
+
+                                SizedBox(width: 10,),
+
+                                Icon(
+                                  Icons.favorite_border_outlined,
+                                  color: Colors.redAccent,
+                                  size: 30,
+                                ),
+                              ],
+                            ),
+                            onPressed: ()
+                            {
+                              navigateTo(context, Favourites());
+                            },
                         ),
                       ],
                     ),

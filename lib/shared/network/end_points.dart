@@ -2,7 +2,7 @@
 
 
 //LOCAL HOSTS:
-const String localhost='https://991c-217-20-211-117.eu.ngrok.io';  //local host to connect, it's temporary and will be removed later.
+const String localhost='https://1659-217-20-208-35.eu.ngrok.io';  //local host to connect, it's temporary and will be removed later.
 
 const String youtubeToken= 'AIzaSyC4-caWZdcZG9x5DtdUOPyij-yv53w2DnI';  //Youtube Default API key
 
@@ -42,7 +42,13 @@ const String getSrt='youtube'; //Send text and get SRT file .
 
 const String setUnitAsCompleted= 'setUnitComplete'; //Setting a unit as Completed.
 
-const String leaderboards= 'leadboards';
+const String leaderboards= 'leadboards'; //Get Leaderboards
+
+const String favourites='favourites'; //Get User Favourites List of Words.
+
+const String vocabulary= 'vocabulary';
+
+const String delete='delete'; //delete a word from favourites.
 
 
 //----------------------------------------------------------

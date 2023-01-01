@@ -152,7 +152,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
             if(WordCubit.model !=null)
               {
-                popupDialog(WordCubit.model); //Show Popup that contains the word meaning.
+                popupDialog(WordCubit.model, context); //Show Popup that contains the word meaning.
               }
           }
       },
@@ -368,12 +368,13 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
   }
 
 
-  popupDialog(MerriamModel? model)  //Show Brief Translation
+  popupDialog(MerriamModel? model, BuildContext context)  //Show Brief Translation
   async {
     await Dialogs.materialDialog(
       context: context,
       title: WordCubit.get(context).currentWord.capitalize,
       msg: model!.shortdef!.isNotEmpty ? model.shortdef![0] : '', //model?.shortdef?[0]
+
       actions:
       [
         TextButton(
@@ -387,6 +388,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
           onPressed: ()
           {
+            Navigator.of(context, rootNavigator: true).pop();  //Close the Popup then go to full translation page.
             navigateTo(context, const DefinitionShow());
           },
         ),

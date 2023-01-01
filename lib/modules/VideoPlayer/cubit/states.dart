@@ -13,6 +13,10 @@ class WordsErrorState extends WordStates{
   WordsErrorState(this.error);
 }
 
+//--------------------------------------
+
 class WordsIsModelTrue extends WordStates{}
 
 class WordsClearModel extends WordStates{}
+
+//----------------------------------------

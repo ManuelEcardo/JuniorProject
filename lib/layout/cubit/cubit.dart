@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:juniorproj/models/MainModel/favourites_model.dart';
 import 'package:juniorproj/models/MainModel/languages_model.dart';
 import 'package:juniorproj/models/MainModel/leaderboards_model.dart';
 import 'package:juniorproj/models/MainModel/units_model.dart';
@@ -18,6 +19,7 @@ import '../../models/MainModel/content_model.dart';
 import '../../models/MainModel/userAchievements_model.dart';
 import '../../models/MainModel/userData_model.dart';
 import '../../modules/Languages/languages.dart';
+import '../../shared/components/components.dart';
 import '../../shared/components/constants.dart';
 import '../../shared/network/end_points.dart';
 
@@ -273,6 +275,8 @@ class AppCubit extends Cubit<AppStates>
 
           updateUserLanguagesAndUnits();
 
+          getFavourites();
+
         }
         ).catchError((error)
         {
@@ -449,7 +453,7 @@ class AppCubit extends Cubit<AppStates>
     {
       print('PRINTING LEADERBOARDS VALUES: ${value.data}');
 
-      leaderboardsModel= LeaderboardsModel.fromJson(value.data);
+      leaderboardsModel= LeaderboardsModel?.fromJson(value.data);
       emit(AppGetLeaderboardsSuccessState());
     }).catchError((error)
     {
@@ -457,6 +461,40 @@ class AppCubit extends Cubit<AppStates>
       emit(AppGetLeaderboardsErrorState());
     });
   }
+
+
+  //FAVOURITES:
+
+  //1. Get User Favourites List.
+
+  static FavouritesModel? favouritesModel;
+
+  void getFavourites()
+  {
+    if(token != '')
+      {
+        emit(AppGetFavouritesLoadingState());
+
+        MainDioHelper.getData(
+          url: 'user/$favourites',
+          token: token,
+        ).then((value)
+        {
+          print('Favourites are: ${value.data}');
+          favouritesModel= FavouritesModel.fromJson(value.data);
+          emit(AppGetFavouritesSuccessState());
+        }).catchError((error)
+        {
+          print('ERROR WHILE GETTING FAVOURITES, ${error.toString()}');
+          emit(AppGetFavouritesErrorState());
+        });
+      }
+  }
+
+  //--------------
+
+
+
 
   //--------------------------------------------------------\\
 
@@ -574,6 +612,98 @@ class AppCubit extends Cubit<AppStates>
       print('ERROR WHILE SETTING UNIT AS COMPLETED, ${error.toString()}');
       emit(AppSetUnitAsCompletedErrorState());
     });
+  }
+
+  // Add A Favourite Word to the user's list.
+
+  void addFavourites(String text)
+  {
+    emit(AppAddFavouritesLoadingState());
+    MainDioHelper.postData(
+        url: 'user/$favourites/add',
+        data: {},
+        token: token,
+        query:
+        {
+          'vocabulary':text
+        },
+    ).then((value)
+    {
+      print(value.data);
+
+      changeFav(true); //Change The word to  favourite.
+
+      getFavourites();
+
+      defaultToast(msg: 'Added successfully');
+      emit(AppAddFavouritesSuccessState());
+    }).catchError((error)
+    {
+      defaultToast(msg: 'Error while adding');
+      print('ERROR WHILE ADDING WORD TO FAVOURITES, ${error.toString()}');
+      emit(AppAddFavouritesErrorState());
+    });
+  }
+
+  // Delete a word from favourites list.
+  void deleteFavourite(String text)
+  {
+    emit(AppDeleteFavouritesLoadingState());
+
+    MainDioHelper.deleteData(
+        url: 'user/$favourites/$delete',
+        data: {},
+        token: token,
+        query: {
+          'vocabulary':text
+        },
+    ).then((value)
+    {
+      print(value.data);
+
+      changeFav(false); //Change The word to non favourite.
+
+      getFavourites();
+
+      defaultToast(msg: 'Deleted successfully');
+      emit(AppDeleteFavouritesSuccessState());
+    }).catchError((error)
+    {
+      defaultToast(msg: 'Error while deleting');
+      emit(AppDeleteFavouritesErrorState());
+    });
+  }
+
+
+
+  bool isWordFav=false;
+
+  void changeFav(bool fav) //Change Fav to false or true
+  {
+    if(fav)
+    {
+      isWordFav=true;
+      emit(AppWordChangeTrueFav());
+    }
+    else
+    {
+      isWordFav=false;
+      emit(AppWordChangeFalseFav());
+    }
+  }
+
+  bool checkWordAtUser(FavouritesModel? favouritesModel, String word)  //Search for the word set isWordFav
+  {
+    for( var element in favouritesModel!.item)
+    {
+      if(element.vocabulary == word)
+      {
+        changeFav(true);
+        return true;
+      }
+    }
+    changeFav(false);
+    return false;
   }
 
 

@@ -131,6 +131,7 @@ class AppGetQuestionsErrorState extends AppStates{}
 
 //-----------------------
 
+// GET LEADERBOARDS:
 
 class AppGetLeaderboardsLoadingState extends AppStates{}
 
@@ -138,6 +139,35 @@ class AppGetLeaderboardsSuccessState extends AppStates{}
 
 class AppGetLeaderboardsErrorState extends AppStates{}
 
+//----------------------
+
+// GET USER FAVOURITES WORDS.
+
+class AppGetFavouritesLoadingState extends AppStates{}
+
+class AppGetFavouritesSuccessState extends AppStates{}
+
+class AppGetFavouritesErrorState extends AppStates{}
+
+//------------------------
+
+// ADD FAVOURITES
+class AppAddFavouritesLoadingState extends AppStates{}
+
+class AppAddFavouritesSuccessState extends AppStates{}
+
+class AppAddFavouritesErrorState extends AppStates{}
+
+
+//----------------------
+
+// DELETE A FAVOURITE WORD
+
+class AppDeleteFavouritesLoadingState extends AppStates{}
+
+class AppDeleteFavouritesSuccessState extends AppStates{}
+
+class AppDeleteFavouritesErrorState extends AppStates{}
 
 //PUT USER INFO:
 
@@ -146,6 +176,16 @@ class AppPutUserInfoLoadingState extends AppStates{}
 class AppPutUserInfoSuccessState extends AppStates{}
 
 class AppPutUserInfoErrorState extends AppStates{}
+
+
+
+//----------------------------------------
+
+// CHANGING FAV:
+
+class AppWordChangeTrueFav extends AppStates{}
+
+class AppWordChangeFalseFav extends AppStates{}
 
 
 //----------------------

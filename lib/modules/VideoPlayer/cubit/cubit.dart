@@ -3,6 +3,8 @@ import 'package:juniorproj/models/MerriamWebster_model/merriam_model.dart';
 import 'package:juniorproj/modules/VideoPlayer/cubit/states.dart';
 import 'package:juniorproj/shared/network/remote/merriam_dio_helper.dart';
 
+import '../../../models/MainModel/favourites_model.dart';
+
 class WordCubit extends Cubit<WordStates>
 {
   WordCubit():super(InitialWordsState());
@@ -33,4 +35,6 @@ class WordCubit extends Cubit<WordStates>
     }
     );
   }
+
+
 }

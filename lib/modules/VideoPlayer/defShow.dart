@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:juniorproj/models/MainModel/favourites_model.dart';
 import 'package:juniorproj/models/MerriamWebster_model/merriam_model.dart';
 import 'package:juniorproj/modules/VideoPlayer/cubit/cubit.dart';
 import 'package:juniorproj/modules/VideoPlayer/cubit/states.dart';
@@ -26,6 +27,7 @@ class _DefinitionShowState extends State<DefinitionShow> {
   void dispose()
   {
     myAudioPlayer.dispose();
+    WordCubit.model=null;
     super.dispose();
   }
 
@@ -38,9 +40,12 @@ class _DefinitionShowState extends State<DefinitionShow> {
 
       builder: (context,state)
       {
+        var appCubit= AppCubit.get(context);
+        var favouritesModel= AppCubit.favouritesModel;
+
         var cubit= WordCubit.get(context);
         var model= WordCubit.model;
-        WordCubit.model=null;
+        // WordCubit.model=null;
         return Scaffold(
           appBar: AppBar(
             actions:
@@ -57,7 +62,7 @@ class _DefinitionShowState extends State<DefinitionShow> {
               child: ConditionalBuilder(
                 condition: model !=null,
                 fallback: (context)=> const Center(child: LinearProgressIndicator(),),
-                builder: (context)=> itemBuilder(cubit, model!),
+                builder: (context)=> itemBuilder(cubit, model!, favouritesModel, appCubit),
               ),
             ),
           ),
@@ -66,7 +71,7 @@ class _DefinitionShowState extends State<DefinitionShow> {
     );
   }
 
-  Widget itemBuilder(WordCubit cubit, MerriamModel model)
+  Widget itemBuilder(WordCubit cubit, MerriamModel model, FavouritesModel? favouritesModel, AppCubit appCubit)
   {
     return SingleChildScrollView(
       child: Column(
@@ -88,13 +93,34 @@ class _DefinitionShowState extends State<DefinitionShow> {
 
               const Spacer(),
 
+              IconButton(
+                  icon: Icon(
+                    AppCubit.get(context).isWordFav ? Icons.favorite : Icons.favorite_border_outlined, size: 30, color: Colors.redAccent,),
+                  onPressed: ()
+                  {
+                    if(appCubit.isWordFav ==true) //Delete Word
+                      {
+                        // appCubit.changeFav(false);
+                        appCubit.deleteFavourite(cubit.currentWord!);
+                      }
+                    else if (appCubit.isWordFav ==false) //Add Word
+                      {
+                        appCubit.addFavourites(cubit.currentWord!);
+                        // appCubit.changeFav(true);
+                      }
+                  },
+
+              ),
+
+              const SizedBox(width: 10,),
+
               //Audio Button
               if(model.hwi!.prs!.isNotEmpty)
               if(model.hwi?.prs?[0]?.sound?.audio !=null)
                 IconButton(
                   icon: const Icon(
                     Icons.volume_up,
-                    size: 40,
+                    size: 30,
                   ),
                   onPressed: () async
                   {
@@ -225,4 +251,5 @@ class _DefinitionShowState extends State<DefinitionShow> {
       ),
     );
   }
+
 }
