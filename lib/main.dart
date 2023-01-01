@@ -171,6 +171,8 @@ class _MyAppState extends State<MyApp> {
                 if(element.achievementId == e.id)  //Getting the new unlocked achievements name and details from achievementsModel
                 {
                   AppCubit.staticGetUserAchievements();
+                  AppCubit.staticGetLeaderboards();
+
                   print('Achievement is ${e.name}'); //Printing it's name
                   showOverlayNotification( //Show Notification.
                       (context) => notificationCard(e.name!),
@@ -213,7 +215,6 @@ class _MyAppState extends State<MyApp> {
     return Builder(
       builder: (BuildContext myContext)
       {
-        // AppCubit.get(myContext).getUserAchievements(); //Get the new achievements
         return SafeArea(
           child: SwipeDetector(
             onSwipeUp: ()

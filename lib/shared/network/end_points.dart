@@ -2,9 +2,11 @@
 
 
 //LOCAL HOSTS:
-const String localhost='https://1659-217-20-208-35.eu.ngrok.io';  //local host to connect, it's temporary and will be removed later.
+const String localhost='https://223c-217-20-209-77.eu.ngrok.io';  //local host to connect, it's temporary and will be removed later.
 
 const String youtubeToken= 'AIzaSyC4-caWZdcZG9x5DtdUOPyij-yv53w2DnI';  //Youtube Default API key
+
+const String merriamWebsterToken='dc4e63df-1cd8-4853-863d-cc32dfa6cbcf'; //Merriam Webster API key.
 
 //-----------------------------------
 

@@ -9,6 +9,7 @@ import 'package:juniorproj/modules/VideoPlayer/defShow.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/styles.dart';
 import 'package:string_extensions/string_extensions.dart';
+import '../../layout/cubit/states.dart';
 import '../../shared/styles/colors.dart';
 
 class Favourites extends StatelessWidget {
@@ -32,7 +33,9 @@ class Favourites extends StatelessWidget {
                 IconButton(onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny)),
               ],
             ),
-            body: ConditionalBuilder(
+            body: BlocConsumer<AppCubit,AppStates>(
+              listener: (context,state){},
+              builder: (context,state)=>ConditionalBuilder(
                 condition: AppCubit.favouritesModel !=null,
                 fallback: (context)=> const Center(child: CircularProgressIndicator(),),
                 builder: (context)=>  SingleChildScrollView(
@@ -62,6 +65,7 @@ class Favourites extends StatelessWidget {
                   ),
                 ),
 
+              ),
             ),
           );
         },

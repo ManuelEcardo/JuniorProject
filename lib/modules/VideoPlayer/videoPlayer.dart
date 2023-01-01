@@ -242,6 +242,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                       scrollController: scrollController,
                       selectWordOnLongPress: true,
                       selectWordOnDoubleTap: true,
+
                       popupMenuItems:
                       [
                          SelectableMenuItem(
@@ -303,13 +304,15 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                             textColor: Colors.white,
                             hasBorder: true,
                             fontSize: 25,
-                            position: SubtitlePosition(
-                              right: 5,
-                              left: 5,
-                              top: 5,
-                              bottom: 5
-                            ),
-                            borderStyle: SubtitleBorderStyle(style: PaintingStyle.stroke),
+
+                            //Opening this will cause bugs on selection
+                            // position: SubtitlePosition(
+                            //   right: 5,
+                            //   left: 5,
+                            //   top: 5,
+                            //   bottom: 5
+                            // ),
+                            // borderStyle: SubtitleBorderStyle(style: PaintingStyle.stroke),
                           ),
 
                           videoChild: Container(  //Here the child isn't a video because I want to show the subtitles below the video => Container

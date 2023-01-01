@@ -42,7 +42,6 @@ class Leaderboards extends StatelessWidget {
   Widget mainBuilder(AppCubit cubit, UserModel userModel,  LeaderboardsModel leaderModel)
   {
     List<LeaderboardsUser> myModel= leaderboardItemCalculator(userModel, leaderModel);
-    print('currentModel is ${myModel.length}');
     myModel.sort((a,b) => a.rank!.compareTo(b.rank!));  //Sorting items by their rank.
 
     return Padding(
@@ -107,7 +106,6 @@ class Leaderboards extends StatelessWidget {
                     LeaderboardsItem a=LeaderboardsItem(id: element.user!.id, firstName: element.user!.firstName, lastName: element.user!.lastName, fullName: element.user!.fullName, points: element.user!.points, userPhoto: element.user!.userPhoto);
                     userRegisteredModel= LeaderboardsUser(rank: element.rank, user: a);
                     modelList.add(userRegisteredModel);
-                    print('PHOTO, ${modelList[i].user!.userPhoto}');
                   }
 
                   else
@@ -158,7 +156,7 @@ class Leaderboards extends StatelessWidget {
        children: [
          const SizedBox(height: 10,),
 
-         if(model.rank != previousRank + 1)
+         if(model.rank != previousRank + 1)  //If It's not the next ex 9-> 12  --> put ... , otherwise it's 1->2  or 9->10 , but if there is a jump then add ...
 
          RichText(
            text:  TextSpan(

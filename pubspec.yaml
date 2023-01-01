@@ -59,7 +59,7 @@ dependencies:
   youtube_caption_scraper: ^0.1.3
   overlay_support: ^2.1.0
   internet_popup: ^1.0.8+5
-  selectable:
+  selectable: ^0.2.9
 
 
 

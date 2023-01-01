@@ -463,6 +463,24 @@ class AppCubit extends Cubit<AppStates>
   }
 
 
+  static void staticGetLeaderboards()
+  {
+    print('Getting Leaderboards');
+
+    MainDioHelper.getData(
+        url: leaderboards
+    ).then((value)
+    {
+      print('PRINTING LEADERBOARDS VALUES: ${value.data}');
+
+      leaderboardsModel= LeaderboardsModel?.fromJson(value.data);
+    }).catchError((error)
+    {
+      print('ERROR WHILE GETTING LEADERBOARDS, ${error.toString()}');
+    });
+  }
+
+
   //FAVOURITES:
 
   //1. Get User Favourites List.
