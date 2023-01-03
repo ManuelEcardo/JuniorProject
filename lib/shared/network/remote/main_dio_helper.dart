@@ -24,6 +24,7 @@ class MainDioHelper
   {
     dio?.options.headers=
     {
+      'Accept':'application/json',
       'Connection' : 'keep-alive',
       'Authorization': 'Bearer $token',
     };
@@ -41,6 +42,7 @@ class MainDioHelper
   {
     dio?.options.headers=
     {
+      'Accept':'application/json',
       'Connection' : 'keep-alive',
       'Authorization': 'Bearer $token',
     };
@@ -60,6 +62,7 @@ class MainDioHelper
   {
     dio?.options.headers=
     {
+      'Accept':'application/json',
       'Connection' : 'keep-alive',
       'Authorization': 'Bearer $token',
     };
@@ -79,6 +82,7 @@ class MainDioHelper
   {
     dio?.options.headers=
     {
+      'Accept':'application/json',
       'Connection' : 'keep-alive',
       'token': 'Bearer $token',
     };
@@ -96,6 +100,7 @@ class MainDioHelper
   {
     dio?.options.headers=
     {
+      'Accept':'application/json',
       'Connection' : 'keep-alive',
       // 'Authorization': 'Bearer $token',
     };
@@ -111,6 +116,7 @@ class MainDioHelper
   async {
     dio?.options.headers=
     {
+
       'Accept' : 'application/json',
       'Authorization': 'Bearer $token',
     };

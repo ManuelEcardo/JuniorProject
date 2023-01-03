@@ -62,6 +62,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 AppCubit().getUserAchievements(); //Get The User Achievements.
 
+                AppCubit().getLeaderboards(); //Get Leaderboards because new registered user so we need to update the leaderboards model.
+
                 navigateAndFinish(context, const HomeLayout());
               });
             }

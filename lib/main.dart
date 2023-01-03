@@ -12,6 +12,8 @@ import 'package:juniorproj/modules/on_boarding/on_boarding_screen.dart';
 import 'package:juniorproj/shared/bloc_observer.dart';
 import 'package:juniorproj/shared/components/constants.dart';
 import 'package:juniorproj/shared/network/end_points.dart';
+import 'package:juniorproj/shared/network/local/NotificationServices/notificationservice.dart';
+import 'package:timezone/data/latest.dart' as tz;
 import 'package:juniorproj/shared/network/local/cache_helper.dart';
 import 'package:juniorproj/shared/network/remote/main_dio_helper.dart';
 import 'package:juniorproj/shared/network/remote/merriam_dio_helper.dart';
@@ -43,6 +45,8 @@ void main() async {
 
   await CacheHelper.init(); //Starting CacheHelper, await for it since there is async,await in .init().
 
+  NotificationService().initNotification(); //Initializing the Notification Service
+
   bool? isDark = CacheHelper.getData(key: 'isDarkTheme'); //Caching the last ThemeMode
   isDark ??= false;
 
@@ -63,7 +67,7 @@ void main() async {
     }
     else  //OnBoarding has been shown before but the token is empty => Login is required.
     {
-      widget = LoginScreen();
+      widget = const LoginScreen();
     }
   } else //Not shown onBoarding before, First lunch of app
   {
@@ -95,6 +99,8 @@ class _MyAppState extends State<MyApp> {
   {
     super.initState();
     timer= Timer.periodic(const Duration(minutes: 2), (Timer t) => checkAchievements()); //Set Timer to check for new achievements every 2 Minutes.
+
+    tz.initializeTimeZones();  //Get Time for Notifications.
   }
 
   @override
@@ -174,10 +180,14 @@ class _MyAppState extends State<MyApp> {
                   AppCubit.staticGetLeaderboards();
 
                   print('Achievement is ${e.name}'); //Printing it's name
-                  showOverlayNotification( //Show Notification.
+                  showOverlayNotification( //Show in App Notification.
                       (context) => notificationCard(e.name!),
                       duration: const Duration(seconds: 5),
                   );
+
+                  NotificationService().showNotification(1, "Achievement Unlocked ! ", e.name!, 10);  //Send Global Notification For The unlocked achievement.
+
+                  newAchievementsModel=null; //Clear the Model after showing notification.
                 }
               }
             }

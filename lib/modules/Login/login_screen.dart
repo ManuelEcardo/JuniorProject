@@ -12,14 +12,29 @@ import '../../shared/network/local/cache_helper.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 
-//ignore: must_be_immutable
-class LoginScreen extends StatelessWidget {
 
+//ignore: must_be_immutable
+class LoginScreen extends StatefulWidget {
+
+
+  const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
    var emailController= TextEditingController();
+
    var passwordController= TextEditingController();
+
    var formKey= GlobalKey<FormState>();
 
-  LoginScreen({Key? key}) : super(key: key);
+   @override
+   void initState()
+   {
+     super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
