@@ -42,6 +42,7 @@ class LoginCubit extends Cubit<LoginStates>
         'email':email,
         'password':password,
       },
+      isStatusCheck: true
     ).then((value)  //when we get the data.
     {
       print(value.data);

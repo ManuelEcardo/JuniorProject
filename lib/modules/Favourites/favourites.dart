@@ -30,9 +30,40 @@ class Favourites extends StatelessWidget {
             appBar: AppBar(
               actions:
               [
+                IconButton(
+                  icon:const Icon(Icons.question_mark_rounded),
+                  onPressed: ()
+                  async {
+                    await showDialog(
+                        context: context,
+                        builder: (context)
+                        {
+
+                          return defaultAlertDialog(
+                            context: context,
+                            title: 'Favourite Words',
+                            content: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children:
+                              const[
+                                Text('Each time you translate a word, you can add it to your favourites list!',),
+
+                                Text('-By Clicking the Like Button you can add a new word or remove it',),
+                              ],
+                            ),
+                          );
+                        }
+                    );
+                  },
+                ),
+
+
                 IconButton(onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny)),
               ],
             ),
+
             body: BlocConsumer<AppCubit,AppStates>(
               listener: (context,state){},
               builder: (context,state)=>ConditionalBuilder(
@@ -47,13 +78,23 @@ class Favourites extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(24.0),
                         child: Text(
-                          'Favourite Words:',
+                          'Favourite Words',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: defaultHeadlineTextStyle,
                         ),
                       ),
 
+                      if(AppCubit.favouritesModel!.item.isEmpty)  //If list is empty then show a text
+                        const Center(
+                            child: Text(
+                              'Wow,Such Empty!',
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            )),
+
+                      if(AppCubit.favouritesModel!.item.isNotEmpty) //If there are items, then show them.
                       ListView.separated(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,

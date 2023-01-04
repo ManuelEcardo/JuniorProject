@@ -42,9 +42,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
         listener: (context,state) async
         {
-          if(state is RegisterSuccessState)  //The Right way of handling the api, here if login is successful and there is such record then it will print message and token, else message only since there is no token.
+          if(state is RegisterSuccessState)  //The Right way of handling the api, here if register is successful and there is such record then it will print message and token, else message only since there is no token.
               {
-            if(state.registerModel.message == null)
+            if(state.registerModel.message == 'success')
             {
               print(state.registerModel.message);
               print(state.registerModel.token);
@@ -67,6 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 navigateAndFinish(context, const HomeLayout());
               });
             }
+
             else
             {
               print(state.registerModel.message);
@@ -194,6 +195,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             keyboard: TextInputType.datetime,
                             label: 'Birth Date',
                             prefix: Icons.date_range,
+                            readOnly: true, //User Cannot Type in it.
                             onTap: ()
                             {
                               showDatePicker(

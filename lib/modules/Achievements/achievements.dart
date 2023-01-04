@@ -40,7 +40,7 @@ class AchievementsPage extends StatelessWidget {
                 children:
                 [
                   Text(
-                    'Achievements:',
+                    'Achievements',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: defaultHeadlineTextStyle,

@@ -61,7 +61,11 @@ class HomePage extends StatelessWidget {
                                   'Welcome Back, ${model.user!.firstName}!',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
-                                  style: defaultHeadlineTextStyle,
+                                  style: const TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: 1,
+                                  ),
                                 ),
                               ),
                             ],
@@ -135,7 +139,7 @@ class HomePage extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'Daily Challenge:',
+                            'Daily Challenge',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: defaultHeadlineTextStyle,

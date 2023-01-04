@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/models/MainModel/leaderboards_model.dart';
@@ -51,13 +52,29 @@ class Leaderboards extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children:
         [
-          Center(
-            child: Text(
-              'Leaderboards:',
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              style: defaultHeadlineTextStyle,
-            ),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Leaderboards',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: defaultHeadlineTextStyle,
+              ),
+
+              const SizedBox(width: 15,),
+
+              SvgPicture.asset(
+                'assets/images/crown.svg',
+                color: cubit.isDarkTheme? Colors.white : Colors.black,
+                fit: BoxFit.cover,
+                width: 30,
+                height: 30,
+                semanticsLabel: 'Crown',
+
+              ),
+            ],
           ),
 
           const SizedBox(height: 40,),

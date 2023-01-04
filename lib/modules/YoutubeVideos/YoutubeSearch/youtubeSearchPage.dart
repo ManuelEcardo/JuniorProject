@@ -84,7 +84,7 @@ class YoutubeSearchPage extends StatelessWidget {
                           ConditionalBuilder(
                               condition: YoutubeCubit.youtubeSearchModel !=null,
                               fallback: (context)=> const Center(child: LinearProgressIndicator(),),
-                              builder: (context)=> videoListViewBuilder(context, YoutubeCubit.youtubeSearchModel!,cubit, yt, captionScraper, searchController.value.text),
+                              builder: (context)=> videoListViewBuilder(context, YoutubeCubit.youtubeSearchModel!,cubit, yt, captionScraper, searchController.value.text, state),
                           ),
                       ],
                     ),
@@ -103,7 +103,7 @@ class YoutubeSearchPage extends StatelessWidget {
     );
   }
 
-  Widget videoListViewBuilder(BuildContext myContext, YoutubeSearchModel model, YoutubeCubit cubit, YoutubeExplode yt, YouTubeCaptionScraper captionScraper, String query)
+  Widget videoListViewBuilder(BuildContext myContext, YoutubeSearchModel model, YoutubeCubit cubit, YoutubeExplode yt, YouTubeCaptionScraper captionScraper, String query, YoutubeStates currentState )
   {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -120,10 +120,25 @@ class YoutubeSearchPage extends StatelessWidget {
             itemCount: model.items!.length),
 
         Row(
+          mainAxisSize: MainAxisSize.min,
           children:
           [
+
+            //If Video is Being Loaded (Waiting for SRT file from main server) => then show Linear Progress Indicator
             Visibility(
-              visible: model.prevPageToken!=null,
+              visible: currentState is YoutubeGetSrtLoadingState,
+              child: Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                    width: MediaQuery.of(myContext).size.width /1.5,
+                    child: const LinearProgressIndicator()
+                ),
+              ),
+            ),
+
+
+            Visibility(
+              visible: model.prevPageToken!=null && currentState is! YoutubeGetSrtLoadingState,
               child: Align(
                 alignment: AlignmentDirectional.bottomStart,
                 child: TextButton(
@@ -141,10 +156,13 @@ class YoutubeSearchPage extends StatelessWidget {
               ),
             ),
 
-            const Spacer(),
+            Visibility(
+              visible: (model.prevPageToken!=null || model.nextPageToken !=null) && currentState is! YoutubeGetSrtLoadingState,
+              child: const Spacer(),
+            ),
 
             Visibility(
-              visible: model.nextPageToken !=null,
+              visible: model.nextPageToken !=null && currentState is! YoutubeGetSrtLoadingState,
               child: Align(
                 alignment: AlignmentDirectional.bottomEnd,
                 child: TextButton(

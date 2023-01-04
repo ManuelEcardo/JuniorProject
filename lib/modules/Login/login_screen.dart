@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
         {
           if(state is LoginSuccessState)  //The Right way of handling the api, here if login is successful and there is such record then it will print message and token, else message only since there is no token.
             {
-              if(state.loginModel.message == null)  //state.loginModel.status == true
+              if(state.loginModel.message == 'success')  //Logged in Successfully
               {
                 print(state.loginModel.message);
                 print(state.loginModel.token);
@@ -70,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   navigateAndFinish(context,const HomeLayout());
                 });
               }
+
               else
               {
                 print(state.loginModel.message);

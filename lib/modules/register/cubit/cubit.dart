@@ -51,6 +51,7 @@ class RegisterCubit extends Cubit<RegisterStates>
         'password':password,
         'password_confirmation':password,
       },
+      isStatusCheck: true,
     ).then((value)  //when we get the data.
     {
       print(value.data);

@@ -53,7 +53,7 @@ class YoutubeHomePage extends StatelessWidget {
                   child: ConditionalBuilder(
                     condition: model !=null,
                     fallback: (context)=>const Center(child: LinearProgressIndicator(),),
-                    builder: (context)=> videoListViewBuilder(context, model!,cubit, yt, captionScraper),
+                    builder: (context)=> videoListViewBuilder(context, model!,cubit, yt, captionScraper, state),
                   ),
                 ),
               ),
@@ -70,7 +70,7 @@ class YoutubeHomePage extends StatelessWidget {
     );
   }
 
-  Widget videoListViewBuilder(BuildContext context, PopularYoutubeVideos model, YoutubeCubit cubit, YoutubeExplode yt, YouTubeCaptionScraper captionScraper)
+  Widget videoListViewBuilder(BuildContext context, PopularYoutubeVideos model, YoutubeCubit cubit, YoutubeExplode yt, YouTubeCaptionScraper captionScraper, YoutubeStates currentState)
   {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -97,10 +97,24 @@ class YoutubeHomePage extends StatelessWidget {
             itemCount: model.items!.length),
 
         Row(
+          mainAxisSize: MainAxisSize.min,
           children:
           [
+            //If Video is Being Loaded (Waiting for SRT file from main server) => then show Linear Progress Indicator
             Visibility(
-              visible: model.prevPageToken!=null,
+              visible: currentState is YoutubeGetSrtLoadingState,
+              child: Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width /1.5,
+                  child: const LinearProgressIndicator()
+                ),
+              ),
+            ),
+
+            //Show Next List if Available and not Waiting for SRT Files
+            Visibility(
+              visible: model.prevPageToken!=null && currentState is! YoutubeGetSrtLoadingState,
               child: Align(
                 alignment: AlignmentDirectional.bottomStart,
                 child: TextButton(
@@ -118,10 +132,16 @@ class YoutubeHomePage extends StatelessWidget {
               ),
             ),
 
-            const Spacer(),
 
+            //Put Spacer Between Previous and Next if one of the two lists is available at least AND not waiting for SRT Files
             Visibility(
-              visible: model.nextPageToken !=null,
+              visible: (model.prevPageToken!=null || model.nextPageToken !=null) && currentState is! YoutubeGetSrtLoadingState,
+              child: const Spacer(),
+            ),
+
+            //Show Previous List if Available and not Waiting for SRT Files.
+            Visibility(
+              visible: model.nextPageToken !=null && currentState is! YoutubeGetSrtLoadingState,
               child: Align(
                 alignment: AlignmentDirectional.bottomEnd,
                 child: TextButton(

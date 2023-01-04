@@ -14,7 +14,8 @@ class MainDioHelper
         receiveDataWhenStatusError: true,
         //receiveTimeout:50000,
         //connectTimeout: 30000,
-        validateStatus: (status)=>true, //Won't throw errors
+        // validateStatus: (status)=>true, //Won't throw errors
+
 
       ),
     );
@@ -38,7 +39,7 @@ class MainDioHelper
 
 
   static Future<Response> postData(
-      {required String url, Map<String,dynamic>?query,  required Map<String,dynamic> data, String lang='en', String? token,}) async
+      {required String url, Map<String,dynamic>?query,  required Map<String,dynamic> data, String lang='en', String? token, bool isStatusCheck=false}) async
   {
     dio?.options.headers=
     {
@@ -46,6 +47,20 @@ class MainDioHelper
       'Connection' : 'keep-alive',
       'Authorization': 'Bearer $token',
     };
+
+    if(isStatusCheck == true)  //Allow Status 422,200,201 for Register and Login Errors.
+      {
+        dio?.options.validateStatus= (status) {
+          if([200,201,422].contains(status))
+          {
+            return true;
+          }
+          else
+          {
+            return false;
+          }
+        };
+      }
 
     print('in Main Dio postData');
     return await dio!.post(

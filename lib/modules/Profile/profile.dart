@@ -77,37 +77,100 @@ class ProfilePage extends StatelessWidget {
 
                         const SizedBox(height: 10,),
 
-                        InkWell(
-                          borderRadius: BorderRadius.circular(30),
-                          highlightColor: Colors.grey,
-                          onTap: ()
-                          {
-                            navigateTo(context, const ChangeProfilePicture());
-                          },
-                          child: Stack(
-                            alignment: Alignment.bottomRight,
-                            children:
-                            [
-                              CircleAvatar(
-                                backgroundColor: Colors.black12,
-                                radius: 55,
-                                backgroundImage:
-                                AssetImage('assets/images/${model!.user!.userPhoto}'),
-                              ),
+                        Row(
+                          // mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
 
-                               const Padding(
-                                padding: EdgeInsetsDirectional.only(end:6, bottom: 2),
-                                child: Icon(
-                                    Icons.camera_alt_outlined,
+                            const Align(
+                              alignment: AlignmentDirectional.bottomEnd,
+                              child: RotatedBox(
+                                quarterTurns: 1,
+                                child: TextButton(
+                                  onPressed:null,
+                                  child: SizedBox(),),
+                              ),
+                            ),
+
+                            const Spacer(),
+
+                            Align(
+                              alignment: AlignmentDirectional.center,
+                              child: Column(
+                                children: [
+                                  InkWell(
+                                    borderRadius: BorderRadius.circular(30),
+                                    highlightColor: Colors.grey,
+                                    onTap: ()
+                                    {
+                                      navigateTo(context, const ChangeProfilePicture());
+                                    },
+                                    child: Stack(
+                                      alignment: Alignment.bottomRight,
+                                      children:
+                                      [
+                                        CircleAvatar(
+                                          backgroundColor: Colors.black12,
+                                          radius: 55,
+                                          backgroundImage:
+                                          AssetImage('assets/images/${model!.user!.userPhoto}'),
+                                        ),
+
+                                         const Padding(
+                                          padding: EdgeInsetsDirectional.only(end:6, bottom: 2),
+                                          child: Icon(
+                                              Icons.camera_alt_outlined,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Text(
+                                    model.user!.firstName!,
+                                    style: defaultHeadlineTextStyle,
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            const Spacer(),
+
+                            Align(
+                              alignment: AlignmentDirectional.bottomEnd,
+                              child: RotatedBox(
+                                quarterTurns: 1,
+                                child: TextButton(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children:const
+                                    [
+                                      Text(
+                                        'Likes',
+                                        style:TextStyle(
+                                          color: Colors.redAccent,
+                                          fontSize: 25,
+                                        ),
+                                      ),
+
+                                      SizedBox(width: 10,),
+
+                                      Icon(
+                                        Icons.favorite_border_outlined,
+                                        color: Colors.redAccent,
+                                        size: 30,
+                                      ),
+                                    ],
+                                  ),
+                                  onPressed: ()
+                                  {
+                                    navigateTo(context, Favourites());
+                                  },
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-
-                        Text(
-                          model.user!.firstName!,
-                          style: defaultHeadlineTextStyle,
+                            ),
+                          ],
                         ),
 
                         const SizedBox(
@@ -239,33 +302,7 @@ class ProfilePage extends StatelessWidget {
                           ],
                         ),
 
-                        TextButton(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children:const
-                              [
-                                Text(
-                                  'Likes',
-                                  style:TextStyle(
-                                    color: Colors.redAccent,
-                                    fontSize: 25,
-                                  ),
-                                ),
 
-                                SizedBox(width: 10,),
-
-                                Icon(
-                                  Icons.favorite_border_outlined,
-                                  color: Colors.redAccent,
-                                  size: 30,
-                                ),
-                              ],
-                            ),
-                            onPressed: ()
-                            {
-                              navigateTo(context, Favourites());
-                            },
-                        ),
                       ],
                     ),
                   ),

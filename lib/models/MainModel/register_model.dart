@@ -4,8 +4,17 @@ class RegisterModel {
   String? message;
 
   RegisterModel.fromJson(Map<String, dynamic> json) {
-    user = User.fromJson(json['user']);
-    token = json['token'];
+
+    if(json['user']!=null)
+      {
+        user = User.fromJson(json['user']);
+      }
+
+    if(json['token']!=null)
+    {
+      token = json['token'];
+    }
+
     message= json['message'];
   }
 }

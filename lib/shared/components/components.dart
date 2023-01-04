@@ -128,6 +128,7 @@ Widget defaultFormField({
   Color? suffixIconColor,
   TextInputAction? inputAction,
   double borderRadius=0,
+  bool readOnly=false,
 }) =>
     TextFormField(
       controller: controller,
@@ -137,6 +138,7 @@ Widget defaultFormField({
       textInputAction: inputAction,
       validator: validate,
       enabled: isClickable,
+      readOnly: readOnly,
       onTap: onTap,
       onSaved: onSaved,
       onChanged: onChanged,

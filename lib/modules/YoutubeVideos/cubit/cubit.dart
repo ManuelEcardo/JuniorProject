@@ -114,6 +114,7 @@ class YoutubeCubit extends Cubit<YoutubeStates>
 
     }).catchError((error)
     {
+      defaultToast(msg: 'Error While Exporting Subtitles');
       print('ERROR WHILE GETTING SRT,${error.toString()}');
       emit(YoutubeGetSrtErrorState());
     });
