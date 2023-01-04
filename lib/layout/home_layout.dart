@@ -8,9 +8,37 @@ import 'package:juniorproj/modules/Languages/addLanguage.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/components/constants.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
+import 'package:showcaseview/showcaseview.dart';
 
-class HomeLayout extends StatelessWidget {
+class HomeLayout extends StatefulWidget {
+
+  final String homeLayoutCache='homeLayoutCache';  //Page Cache name, in order to not show again after first app launch
    const HomeLayout({Key? key}) : super(key: key);
+
+  @override
+  State<HomeLayout> createState() => _HomeLayoutState();
+}
+
+class _HomeLayoutState extends State<HomeLayout> {
+
+
+  @override
+  void initState()
+  {
+    super.initState();
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp)
+    // {
+    //   isFirstLaunch(widget.homeLayoutCache).then((value)
+    //   {
+    //     if(value)
+    //     {
+    //       print('SHOWING SHOWCASE');
+    //       ShowCaseWidget.of(context).startShowCase([darkThemeKey]);
+    //     }
+    //   });
+    // });
+  }
+
   @override
   Widget build(BuildContext context) {
     InternetPopup().initialize(context: context);  //Show Popup When internet connection is lost
@@ -181,7 +209,8 @@ class HomeLayout extends StatelessWidget {
                   ),
                 ),
 
-                IconButton(onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny)),
+                IconButton(onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny))
+
               ],
             ),
 
@@ -254,7 +283,4 @@ class HomeLayout extends StatelessWidget {
       },
     );
   }
-
-
-
 }

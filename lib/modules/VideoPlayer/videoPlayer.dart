@@ -30,7 +30,8 @@ class VideoGetter extends StatefulWidget {
   State<VideoGetter> createState() => _VideoGetterState();
 }
 
-class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
+class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver
+{
 
 
   late SubtitleController subtitleController= SubtitleController(  //SubtitleController Helps to manage the subtitles for the video. //WAS FINAL INSTEAD OF LATE
@@ -50,7 +51,6 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
   var _isTextSelected = false;
 
   final GlobalKey boxGlobalKey= GlobalKey();
-  final GlobalKey subtitleGlobalKey = GlobalKey();
   final GlobalKey videoGlobalKey= GlobalKey();
 
 
@@ -118,7 +118,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
         if(value)
         {
           print('SHOWING SHOWCASE IN VIDEOS');
-          ShowCaseWidget.of(context).startShowCase([videoGlobalKey, boxGlobalKey, subtitleGlobalKey]);
+          ShowCaseWidget.of(context).startShowCase([videoGlobalKey, boxGlobalKey]);
         }
       });
     });
@@ -252,10 +252,11 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                     AspectRatio(
                       aspectRatio: 16/9,
                       child: ShowCaseView(
-                        globalKey:videoGlobalKey,
-                        title: 'Video Player',
-                        description: 'You can stop,play the video and you can change video speed from options',
-                        child: Chewie(controller: localChewieController,)
+                          globalKey:videoGlobalKey,
+                          title: 'Video Player',
+                          description: 'You can stop,play the video and you can change video speed from options',
+                          shapeBorder: const Border(),
+                          child: Chewie(controller: localChewieController,)
                       ),
                     ),
 
@@ -270,7 +271,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
                       popupMenuItems:
                       [
-                         SelectableMenuItem(
+                        SelectableMenuItem(
                             title: 'Translate',
                             type: SelectableMenuItemType.other,  //Type is other because it does something different than the available
                             isEnabled: (selectableController)=>selectableController!.isTextSelected,  //Will check if this item is enabled
@@ -284,7 +285,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
                               print('Selected word is ${selectableController.getSelection()!.text!}');
 
-                             // navigateTo(context, DefinitionShow());          // Navigating to a new class to show the results.
+                              // navigateTo(context, DefinitionShow());          // Navigating to a new class to show the results.
 
                               selectableController.deselect();  //Deselect the word after searching for it.
 
@@ -311,15 +312,15 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                           //   }
                           // }
                           if(localChewieController.isPlaying)
-                            {
-                                  defaultToast(msg: 'Paused');
-                                  localChewieController.videoPlayerController.pause();
-                            }
+                          {
+                            defaultToast(msg: 'Paused');
+                            localChewieController.videoPlayerController.pause();
+                          }
                           else if (localChewieController.isPlaying ==false)
-                            {
-                              defaultToast(msg: 'Playing');
-                              localChewieController.videoPlayerController.play();
-                            }
+                          {
+                            defaultToast(msg: 'Playing');
+                            localChewieController.videoPlayerController.play();
+                          }
 
                         },
 
@@ -344,7 +345,8 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                           videoChild: ShowCaseView(
                             globalKey: boxGlobalKey,
                             title: 'Box Can Be Tapped !',
-                            description: 'Tap on the box to stop the video, press again to start the video\n use to stop the video easily and translate the words.',
+                            description: 'Tap on the box to stop the video, press again to start the video\nSubtitles Will be shown here too, click on a word to translate it',
+                            shapeBorder: const Border(),
                             child: Container(  //Here the child isn't a video because I want to show the subtitles below the video => Container
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
@@ -423,7 +425,10 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
           onPressed: ()
           {
             Navigator.of(context, rootNavigator: true).pop();  //Close the Popup then go to full translation page.
-            navigateTo(context, const DefinitionShow());
+            navigateTo(
+                context,
+                ShowCaseWidget(builder: Builder(builder: (context)=>const DefinitionShow())),
+            );
           },
         ),
       ],

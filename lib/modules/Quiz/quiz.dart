@@ -894,7 +894,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
   {
     if(mark>5)
       {
-        cubit.setUnitAsComplete(unitId);
+        cubit.setUnitAsComplete(unitId,mark);
         defaultToast(msg: 'Next Unit is available');
       }
     else

@@ -38,9 +38,15 @@ class _YoutubeHomePageState extends State<YoutubeHomePage> {
       {
         if(value)
         {
-          print('SHOWING SHOWCASE');
+          print('SHOWING SHOWCASE IN YOUTUBE');
           ShowCaseWidget.of(context).startShowCase([searchGlobalKey]);
         }
+
+        else
+        {
+            print('NO SHOWCASE IN YOUTUBE');
+          }
+
       });
     });
   }

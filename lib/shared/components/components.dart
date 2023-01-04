@@ -397,8 +397,8 @@ class ShowCaseView extends StatelessWidget {
       title: title,
       description: description,
       targetShapeBorder: shapeBorder,
-
       child: child,
+
     );
   }
 }
@@ -406,6 +406,8 @@ class ShowCaseView extends StatelessWidget {
 
 
 //------------------------------------------------
+
+//Check if it's the first launch so we will know if we will show the hints
 
 Future<bool> isFirstLaunch(String cacheName) async{
   bool isFirstLaunch = CacheHelper.getData(key: cacheName) ?? true;

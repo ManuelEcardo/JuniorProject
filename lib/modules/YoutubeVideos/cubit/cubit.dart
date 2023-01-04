@@ -10,6 +10,7 @@ import 'package:juniorproj/modules/YoutubeVideos/cubit/states.dart';
 import 'package:juniorproj/shared/network/end_points.dart';
 import 'package:juniorproj/shared/network/remote/main_dio_helper.dart';
 import 'package:juniorproj/shared/network/remote/youtube_dio_helper.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 import '../../../models/MainModel/content_model.dart';
 import '../../../shared/components/components.dart';
@@ -110,7 +111,14 @@ class YoutubeCubit extends Cubit<YoutubeStates>
         videoTitle: videoTitle,
         videoSubtitle: value.data,
       );
-      navigateTo(context, VideoGetter(v1));  //Show the video with it's subtitle
+      navigateTo(
+          context,
+          ShowCaseWidget(
+              builder: Builder(
+                builder: (context)=>VideoGetter(v1),
+              )
+          ),
+      );  //Show the video with it's subtitle
 
     }).catchError((error)
     {

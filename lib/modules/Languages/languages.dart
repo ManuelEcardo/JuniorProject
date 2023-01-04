@@ -9,6 +9,7 @@ import 'package:juniorproj/modules/YoutubeVideos/cubit/cubit.dart';
 import 'package:juniorproj/modules/YoutubeVideos/YoutubeMain/youtubeHomePage.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/network/local/cache_helper.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 import '../../shared/styles/colors.dart';
 
@@ -138,7 +139,14 @@ Widget youtubeLibraryItem(AppCubit cubit,BuildContext context) => Padding(
       onTap: ()
       {
         YoutubeCubit.get(context).youtubeGetVideos(); //Get Youtube Videos
-        navigateTo(context, const YoutubeHomePage());
+        navigateTo(
+            context,
+            ShowCaseWidget(
+                builder: Builder(
+                  builder: (context)=>const YoutubeHomePage(),
+                ),
+            ),
+        );
       },
 
       child: Row(

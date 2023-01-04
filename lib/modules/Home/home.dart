@@ -49,6 +49,7 @@ class _HomePageState extends State<HomePage> {
         }
       });
     });
+
   }
 
   @override
@@ -134,6 +135,7 @@ class _HomePageState extends State<HomePage> {
                                       globalKey: continueKey,
                                       title: 'Continue your course',
                                       description: 'When pressed, it will take you to the last accessed course',
+                                      shapeBorder: const Border(),
                                       child: defaultButton(
                                           function: ()
                                           {
@@ -208,6 +210,7 @@ class _HomePageState extends State<HomePage> {
 
                               Expanded(
                                   child: ShowCaseView(
+                                    shapeBorder: const Border(),
                                     globalKey: challengeKey,
                                     title: 'Challenges',
                                     description: 'Daily Challenges to increase your points',

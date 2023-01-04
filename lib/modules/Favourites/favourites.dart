@@ -8,6 +8,7 @@ import 'package:juniorproj/modules/VideoPlayer/cubit/states.dart';
 import 'package:juniorproj/modules/VideoPlayer/defShow.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/styles.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:string_extensions/string_extensions.dart';
 import '../../layout/cubit/states.dart';
 import '../../shared/styles/colors.dart';
@@ -123,7 +124,10 @@ class Favourites extends StatelessWidget {
         appCubit.checkWordAtUser(favouritesModel, model.vocabulary!);
         cubit.currentWord=model.vocabulary;
         cubit.search(model.vocabulary!);
-        navigateTo(context, const DefinitionShow());
+        navigateTo(
+            context,
+            ShowCaseWidget(builder: Builder(builder: (context)=>const DefinitionShow())),
+        );
       },
 
       child: Row(

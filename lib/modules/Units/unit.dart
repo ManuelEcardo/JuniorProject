@@ -9,12 +9,25 @@ import 'package:juniorproj/modules/Quiz/quiz.dart';
 import 'package:juniorproj/modules/Units/unitOverview.dart';
 import 'package:juniorproj/modules/VideoPlayer/videoPlayer.dart';
 import 'package:juniorproj/shared/components/components.dart';
+import 'package:showcaseview/showcaseview.dart';
 
-class Unit extends StatelessWidget {
+class Unit extends StatefulWidget {
 
-  // int? unitId;  //Get The Unit ID.
 
   const Unit({Key? key}) : super(key: key);
+
+  @override
+  State<Unit> createState() => _UnitState();
+}
+
+class _UnitState extends State<Unit> {
+
+
+  @override
+  void initState()
+  {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +198,14 @@ class Unit extends StatelessWidget {
     return GestureDetector(
       onTap: ()
       {
-          navigateTo(context,VideoGetter(model));
+          navigateTo(
+              context,
+              ShowCaseWidget(
+                  builder: Builder(
+                    builder: (context)=>VideoGetter(model),
+                  )
+              ),
+          );
 
       },
       child: Padding(

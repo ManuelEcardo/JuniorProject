@@ -11,7 +11,7 @@ void signOut(BuildContext context)  // A constant SignOut button
   {
     if(value==true)
     {
-      navigateAndFinish(context, LoginScreen());
+      navigateAndFinish(context, const LoginScreen());
     }
   });
 }

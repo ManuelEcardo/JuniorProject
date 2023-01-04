@@ -9,11 +9,16 @@ import 'package:juniorproj/modules/VideoPlayer/cubit/cubit.dart';
 import 'package:juniorproj/modules/VideoPlayer/cubit/states.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:string_extensions/string_extensions.dart';
 
 import '../../layout/cubit/cubit.dart';
 
 class DefinitionShow extends StatefulWidget {
+
+  final String definitionCache='myDefinitionCache';  //Page Cache name, in order to not show again after first app launch
+
+
   const DefinitionShow({Key? key}) : super(key: key);
 
   @override
@@ -23,6 +28,31 @@ class DefinitionShow extends StatefulWidget {
 class _DefinitionShowState extends State<DefinitionShow> {
   final AudioPlayer myAudioPlayer = AudioPlayer();
   late Source audioUrl;
+
+  GlobalKey favKey = GlobalKey();
+
+  @override
+  void initState()
+  {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp)
+    {
+      isFirstLaunch(widget.definitionCache).then((value)
+      {
+        if(value)
+        {
+          print('SHOWING SHOWCASE IN PROFILE');
+          ShowCaseWidget.of(context).startShowCase([favKey]);
+        }
+
+        else
+        {
+          print('NO SHOWING SHOWCASE IN PROFILE');
+        }
+      });
+    });
+  }
 
   @override
   void dispose() {
@@ -57,6 +87,7 @@ class _DefinitionShowState extends State<DefinitionShow> {
                     icon: const Icon(Icons.sunny)),
               ],
             ),
+
             body: Padding(
               padding: const EdgeInsets.all(24.0),
               child: SizedBox(
@@ -78,8 +109,8 @@ class _DefinitionShowState extends State<DefinitionShow> {
     );
   }
 
-  Widget itemBuilder(WordCubit cubit, MerriamModel model,
-      FavouritesModel? favouritesModel, AppCubit appCubit) {
+  Widget itemBuilder(WordCubit cubit, MerriamModel model, FavouritesModel? favouritesModel, AppCubit appCubit)
+  {
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -98,25 +129,30 @@ class _DefinitionShowState extends State<DefinitionShow> {
               const Spacer(),
 
               //Show Favourite Icon if the word is favourite, else will show non filled favourite icon
-              IconButton(
-                icon: Icon(
-                  appCubit.isWordFav
-                      ? Icons.favorite
-                      : Icons.favorite_border_outlined,
-                  size: 30,
-                  color: Colors.redAccent,
+              ShowCaseView(
+                globalKey: favKey,
+                title: 'Favourite Words!',
+                description: 'Click to add a new word to your favourite list.\nCan also be pressed to remove a word from the list. ',
+                child: IconButton(
+                  icon: Icon(
+                    appCubit.isWordFav
+                        ? Icons.favorite
+                        : Icons.favorite_border_outlined,
+                    size: 30,
+                    color: Colors.redAccent,
+                  ),
+                  onPressed: () {
+                    if (appCubit.isWordFav == true) //Delete Word
+                    {
+                      // appCubit.changeFav(false);
+                      appCubit.deleteFavourite(cubit.currentWord!);
+                    } else if (appCubit.isWordFav == false) //Add Word
+                    {
+                      appCubit.addFavourites(cubit.currentWord!);
+                      // appCubit.changeFav(true);
+                    }
+                  },
                 ),
-                onPressed: () {
-                  if (appCubit.isWordFav == true) //Delete Word
-                  {
-                    // appCubit.changeFav(false);
-                    appCubit.deleteFavourite(cubit.currentWord!);
-                  } else if (appCubit.isWordFav == false) //Add Word
-                  {
-                    appCubit.addFavourites(cubit.currentWord!);
-                    // appCubit.changeFav(true);
-                  }
-                },
               ),
 
               const SizedBox(

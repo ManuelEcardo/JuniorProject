@@ -13,6 +13,7 @@ import 'package:juniorproj/modules/Profile/profile.dart';
 import 'package:juniorproj/shared/network/local/cache_helper.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/shared/network/remote/main_dio_helper.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 import '../../models/MainModel/achievements_model.dart';
 import '../../models/MainModel/content_model.dart';
@@ -31,14 +32,34 @@ class AppCubit extends Cubit<AppStates>
 
   List<Widget> list= //List of the widgets each bottomNav item will open.
   [
-    const HomePage(),
-    const LanguagesPage(),
-    const AchievementsPage(),
-    ProfilePage(),
+    ShowCaseWidget(
+        builder: Builder(
+          builder: (context)=>const HomePage(),)
+    ),
+
+    ShowCaseWidget(
+        builder: Builder(
+          builder: (context)=>const LanguagesPage(),)
+    ),
+
+    ShowCaseWidget(
+        builder: Builder(
+          builder: (context)=>const AchievementsPage(),)
+    ),
+
+    ShowCaseWidget(
+        builder: Builder(
+          builder: (context)=>const ProfilePage(),)
+    ),
+
+    // const HomePage(),
+    // const LanguagesPage(),
+    // const AchievementsPage(),
+    // const ProfilePage(),
   ];
 
 
-  int currentIndex=0;  //The Index of the BottomNavBar item.
+  int currentIndex=1;  //The Index of the BottomNavBar item.
 
   void changeBottom(int index) //Function will be called when the bottom navigation bar item has changed, which will change the index and emit the state.
   {
@@ -151,7 +172,7 @@ class AppCubit extends Cubit<AppStates>
 
     catch(error)
     {
-      print('Couldn\'t add units or Languages, ${error.toString()}');
+      print("Couldn't add units or Languages, ${error.toString()}");
       emit(AppUserLangUnitsErrorState());
     }
 
@@ -177,20 +198,20 @@ class AppCubit extends Cubit<AppStates>
       {
         isLastQuiz=true;
         isVisibleQuiz=false;
-        emit(AppQuizChangeisLastState());
+        emit(AppQuizChangeIsLastState());
       }
     else
       {
         isLastQuiz=false;
         isVisibleQuiz=false;
-        emit(AppQuizChangeisLastState());
+        emit(AppQuizChangeIsLastState());
       }
   }
 
   void changeQuizIsVisible(bool b)
   {
       isVisibleQuiz=b;
-      emit(AppQuizChangeisVisibleState());
+      emit(AppQuizChangeIsVisibleState());
   }
 
   void changeIsCorrectQuiz(bool b)
@@ -198,25 +219,25 @@ class AppCubit extends Cubit<AppStates>
     if(b==true)
       {
         isCorrectQuiz=true;
-        emit(AppQuizChangeisCorrectState());
+        emit(AppQuizChangeIsCorrectState());
       }
     else
       {
         isCorrectQuiz=false;
-        emit(AppQuizChangeisCorrectState());
+        emit(AppQuizChangeIsCorrectState());
       }
   }
 
   void changeIsBoxTappedQuiz(bool b)  //If True then other choices can't be pressed, meaning the user has already chosen a choice.
   {
     isBoxTappedQuiz=b;
-    emit(AppQuizChangeisBoxTappedState());
+    emit(AppQuizChangeIsBoxTappedState());
   }
 
   void changeIsAnimation(bool b)
   {
     isAnimationQuiz=b;
-    emit(AppQuizChangeisAnimationState());
+    emit(AppQuizChangeIsAnimationState());
   }
 
   //Calculating Quiz marks
@@ -610,14 +631,16 @@ class AppCubit extends Cubit<AppStates>
 
 
   //Set A unit as completed for the user
-  void setUnitAsComplete(int unitId)
+  void setUnitAsComplete(int unitId, double mark)
   {
     print('in SetUnitAsComplete');
     emit (AppSetUnitAsCompletedLoadingState());
     
     MainDioHelper.postData(
         url: '$setUnitAsCompleted/$unitId',
-        data: {},
+        data: {
+          'quiz_mark':mark,
+        },
         token: token,
     ).then((value)
 

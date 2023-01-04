@@ -51,9 +51,14 @@ class _ProfilePageState extends State<ProfilePage> {
       {
         if(value)
         {
-          print('SHOWING SHOWCASE');
+          print('SHOWING SHOWCASE IN PROFILE');
           ShowCaseWidget.of(context).startShowCase([imageGlobalKey, likesGlobalKey, firstNameGlobalKey, lastNameGlobalKey]);
         }
+
+        else
+        {
+            print('NO SHOWING SHOWCASE IN PROFILE');
+          }
       });
     });
   }
@@ -179,14 +184,15 @@ class _ProfilePageState extends State<ProfilePage> {
 
                             const Spacer(),
 
-                            Align(
-                              alignment: AlignmentDirectional.bottomEnd,
-                              child: RotatedBox(
-                                quarterTurns: 1,
-                                child: ShowCaseView(
-                                  globalKey: likesGlobalKey,
-                                  title: 'Likes',
-                                  description: 'Add your favourite words and check them out here!',
+                            ShowCaseView(
+                              globalKey: likesGlobalKey,
+                              title: 'Likes',
+                              description: 'Add your favourite words and check them out here!',
+                              shapeBorder: const Border(),
+                              child: Align(
+                                alignment: AlignmentDirectional.bottomEnd,
+                                child: RotatedBox(
+                                  quarterTurns: 1,
                                   child: TextButton(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
@@ -211,7 +217,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                     onPressed: ()
                                     {
-                                      navigateTo(context, Favourites());
+                                      navigateTo(context, const Favourites());
                                     },
                                   ),
                                 ),
@@ -228,6 +234,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           globalKey: firstNameGlobalKey,
                           title: 'First Name',
                           description: 'You Can Change your first name here, then click update',
+                          shapeBorder: const Border(),
                           child: defaultFormField(
                               controller: firstNameController,
                               keyboard: TextInputType.text,
@@ -251,14 +258,15 @@ class _ProfilePageState extends State<ProfilePage> {
                           globalKey: lastNameGlobalKey,
                           title: 'Last Name',
                           description: 'Change your last name as well !',
+                          shapeBorder: const Border(),
                           child: defaultFormField(
                               controller: lastNameController,
-                              keyboard: TextInputType.phone,
+                              keyboard: TextInputType.text,
                               label: 'Last Name',
                               prefix: Icons.person_rounded,
                               validate: (String? value) {
                                 if (value!.isEmpty) {
-                                  return 'Phone is Empty';
+                                  return 'Last Name is Empty';
                                 }
                                 return null;
                               }
