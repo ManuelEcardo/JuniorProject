@@ -9,11 +9,41 @@ import 'package:juniorproj/modules/YoutubeVideos/cubit/cubit.dart';
 import 'package:juniorproj/modules/YoutubeVideos/cubit/states.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:youtube_caption_scraper/youtube_caption_scraper.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
-class YoutubeHomePage extends StatelessWidget {
+class YoutubeHomePage extends StatefulWidget {
+
+  final String youtubeMainCache='myYoutubeMainCache';  //Page Cache name, in order to not show again after first app launch
+
   const YoutubeHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<YoutubeHomePage> createState() => _YoutubeHomePageState();
+}
+
+class _YoutubeHomePageState extends State<YoutubeHomePage> {
+
+  final GlobalKey searchGlobalKey = GlobalKey();
+
+  @override
+  void initState()
+  {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp)
+    {
+      isFirstLaunch(widget.youtubeMainCache).then((value)
+      {
+        if(value)
+        {
+          print('SHOWING SHOWCASE');
+          ShowCaseWidget.of(context).startShowCase([searchGlobalKey]);
+        }
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +61,17 @@ class YoutubeHomePage extends StatelessWidget {
               appBar: AppBar(
                 actions:
                 [
-                  IconButton(
-                      onPressed: ()
-                      {
-                        navigateTo(context, const YoutubeSearchPage());
-                      },
-                      icon: const Icon(Icons.search_rounded)),
+                  ShowCaseView(
+                    globalKey: searchGlobalKey,
+                    title: 'Youtube Search',
+                    description: 'Search for your favourite items here.\nRemember, only videos with english subtitles will be played',
+                    child: IconButton(
+                        onPressed: ()
+                        {
+                          navigateTo(context, const YoutubeSearchPage());
+                        },
+                        icon: const Icon(Icons.search_rounded)),
+                  ),
 
                   IconButton(
                       onPressed: ()
@@ -290,7 +325,4 @@ class YoutubeHomePage extends StatelessWidget {
       },
     );
   }
-
-
-
 }

@@ -13,6 +13,7 @@ import 'package:juniorproj/shared/bloc_observer.dart';
 import 'package:juniorproj/shared/components/constants.dart';
 import 'package:juniorproj/shared/network/end_points.dart';
 import 'package:juniorproj/shared/network/local/NotificationServices/notificationservice.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:juniorproj/shared/network/local/cache_helper.dart';
 import 'package:juniorproj/shared/network/remote/main_dio_helper.dart';
@@ -47,7 +48,7 @@ void main() async {
 
   NotificationService().initNotification(); //Initializing the Notification Service
 
-  bool? isDark = CacheHelper.getData(key: 'isDarkTheme'); //Caching the last ThemeMode
+  bool? isDark = CacheHelper.getData(key: 'isDarkTheme'); //Getting the last Cached ThemeMode
   isDark ??= false;
 
   bool? onBoarding = CacheHelper.getData(key: 'onBoarding'); //To get if OnBoarding screen has been shown before, if true then straight to Login Screen.
@@ -144,7 +145,7 @@ class _MyAppState extends State<MyApp> {
                       fit: BoxFit.contain,
                       semanticsLabel: 'Logo',
                     ),
-                    nextScreen: widget.homeWidget,
+                    nextScreen: ShowCaseWidget(builder: Builder(builder: (context)=> widget.homeWidget),),
                     splashTransition: SplashTransition.fadeTransition,
                     pageTransitionType: PageTransitionType.fade,
                     backgroundColor: AppCubit.get(context).isDarkTheme? defaultHomeDarkColor : defaultHomeColor,

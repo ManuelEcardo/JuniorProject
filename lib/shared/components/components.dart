@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
+import 'package:juniorproj/shared/network/local/cache_helper.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_caption_scraper/youtube_caption_scraper.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
@@ -370,4 +372,47 @@ void printFullText(String text) {
   pattern.allMatches(text).forEach((match) => print(match.group(0)));
 }
 
-//------------------------
+//----------------------------------------------
+
+//Show Hints
+class ShowCaseView extends StatelessWidget {
+  const ShowCaseView(
+      {Key? key,
+        required this.globalKey,
+        required this.title,
+        required this.description,
+        required this.child,
+        this.shapeBorder = const CircleBorder()})
+      : super(key: key);
+
+  final GlobalKey globalKey;
+  final String title;
+  final String description;
+  final Widget child;
+  final ShapeBorder shapeBorder;
+  @override
+  Widget build(BuildContext context) {
+    return Showcase(
+      key: globalKey,
+      title: title,
+      description: description,
+      targetShapeBorder: shapeBorder,
+
+      child: child,
+    );
+  }
+}
+
+
+
+//------------------------------------------------
+
+Future<bool> isFirstLaunch(String cacheName) async{
+  bool isFirstLaunch = CacheHelper.getData(key: cacheName) ?? true;
+
+  if(isFirstLaunch) {
+    CacheHelper.putBoolean(key: cacheName, value: false);
+  }
+
+  return isFirstLaunch;
+}

@@ -10,6 +10,7 @@ import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:selectable/selectable.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:string_extensions/string_extensions.dart';
 import 'package:subtitle_wrapper_package/subtitle_wrapper_package.dart';
 import 'package:video_player/video_player.dart';
@@ -19,6 +20,7 @@ import '../../shared/styles/styles.dart';
 
 class VideoGetter extends StatefulWidget {
 
+  final String videoCache='myVideoCache';  //Page Cache name, in order to not show again after first app launch
 
   final Videos video;
 
@@ -33,7 +35,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
   late SubtitleController subtitleController= SubtitleController(  //SubtitleController Helps to manage the subtitles for the video. //WAS FINAL INSTEAD OF LATE
 
-    subtitleUrl: widget.video.videoSubtitle!, //'https://drive.google.com/u/0/uc?id=1x0Qt5gurTM11RDWiuKRCqPrQMlwjgEqp&export=download'
+    subtitleUrl: widget.video.videoSubtitle!,
     showSubtitles: true,
     subtitleType: SubtitleType.srt,
   );
@@ -46,6 +48,10 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
   var selectableKey=GlobalKey<FormState>();
 
   var _isTextSelected = false;
+
+  final GlobalKey boxGlobalKey= GlobalKey();
+  final GlobalKey subtitleGlobalKey = GlobalKey();
+  final GlobalKey videoGlobalKey= GlobalKey();
 
 
   VideoPlayerController get videoController  //Setting a getter for the videoController
@@ -100,8 +106,22 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
   void initState()
   {
     super.initState();
+
     selectableController.addListener(_selectionChangedListener);
+
     WidgetsBinding.instance.addObserver(this); //In Order to implement the application life cycle.
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp)
+    {
+      isFirstLaunch(widget.videoCache).then((value)
+      {
+        if(value)
+        {
+          print('SHOWING SHOWCASE IN VIDEOS');
+          ShowCaseWidget.of(context).startShowCase([videoGlobalKey, boxGlobalKey, subtitleGlobalKey]);
+        }
+      });
+    });
   }
 
   @override
@@ -231,7 +251,12 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
                     AspectRatio(
                       aspectRatio: 16/9,
-                      child: Chewie(controller: localChewieController,),
+                      child: ShowCaseView(
+                        globalKey:videoGlobalKey,
+                        title: 'Video Player',
+                        description: 'You can stop,play the video and you can change video speed from options',
+                        child: Chewie(controller: localChewieController,)
+                      ),
                     ),
 
                     const SizedBox(height: 40,),
@@ -268,6 +293,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
 
                         ),
                       ],
+
                       child: GestureDetector(  //If the Subtitles has been pressed, the gesture detector allows taps.
                         onTap: ()
                         {
@@ -315,13 +341,18 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver {
                             // borderStyle: SubtitleBorderStyle(style: PaintingStyle.stroke),
                           ),
 
-                          videoChild: Container(  //Here the child isn't a video because I want to show the subtitles below the video => Container
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.blueGrey.withOpacity(0.2),
+                          videoChild: ShowCaseView(
+                            globalKey: boxGlobalKey,
+                            title: 'Box Can Be Tapped !',
+                            description: 'Tap on the box to stop the video, press again to start the video\n use to stop the video easily and translate the words.',
+                            child: Container(  //Here the child isn't a video because I want to show the subtitles below the video => Container
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.blueGrey.withOpacity(0.2),
+                              ),
+                              width: double.infinity,
+                              height: 180,
                             ),
-                            width: double.infinity,
-                            height: 180,
                           ),
                         ),
                       ),

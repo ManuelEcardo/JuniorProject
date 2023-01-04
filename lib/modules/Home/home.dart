@@ -9,10 +9,47 @@ import 'package:juniorproj/shared/network/local/cache_helper.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
 import 'package:juniorproj/shared/styles/styles.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:string_extensions/string_extensions.dart';
 
-class HomePage extends StatelessWidget {
+import '../../shared/network/local/cache_helper.dart';
+
+class HomePage extends StatefulWidget {
+
+   final String homeCache='myHomeCache';  //Page Cache name, in order to not show again after first app launch
+
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  //Three Global keys for ShowCaseView
+  final GlobalKey continueKey= GlobalKey();
+
+  final GlobalKey progressKey= GlobalKey();
+
+  final GlobalKey challengeKey= GlobalKey();
+
+  @override
+  void initState()
+  {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp)
+    {
+      isFirstLaunch(widget.homeCache).then((value)
+      {
+        if(value)
+        {
+          print('SHOWING SHOWCASE');
+          ShowCaseWidget.of(context).startShowCase([continueKey, challengeKey, progressKey]);
+        }
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,18 +76,18 @@ class HomePage extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                               GestureDetector(
-                                 child: CircleAvatar(
-                                  backgroundColor: Colors.black12,
-                                  radius: 50,
-                                  backgroundImage: AssetImage(
-                                      'assets/images/${model!.user!.userPhoto}'), //assets/images/profile.jpg
+                              GestureDetector(
+                                child: CircleAvatar(
+                                 backgroundColor: Colors.black12,
+                                 radius: 50,
+                                 backgroundImage: AssetImage(
+                                     'assets/images/${model!.user!.userPhoto}'), //assets/images/profile.jpg
                               ),
-                                 onTap: ()
-                                 {
-                                   cubit.changeBottom(3);
-                                 },
-                               ),
+                                onTap: ()
+                                {
+                                  cubit.changeBottom(3);
+                                },
+                              ),
 
                               const SizedBox(
                                 width: 50,
@@ -70,6 +107,7 @@ class HomePage extends StatelessWidget {
                               ),
                             ],
                           ),
+
                           const SizedBox(
                             height: 20,
                           ),
@@ -92,31 +130,36 @@ class HomePage extends StatelessWidget {
                               children: [
                                 const Spacer(),
                                 Expanded(
-                                    child: defaultButton(
-                                        function: ()
-                                        {
-                                          List<String>? i;
-                                          try
+                                    child: ShowCaseView(
+                                      globalKey: continueKey,
+                                      title: 'Continue your course',
+                                      description: 'When pressed, it will take you to the last accessed course',
+                                      child: defaultButton(
+                                          function: ()
                                           {
-                                            i=CacheHelper.getData(key: 'lastAccessedUnit'); //Get Cached Data
-                                            if(i !=null) //If units has been accessed before
-                                                {
-                                              cubit.getAllUnits(i[0].toInt()!);  // i[0] contains the language Id, i[1] contains the name of the language
-                                              navigateTo(context, Units(i[1]));
+                                            List<String>? i;
+                                            try
+                                            {
+                                              i=CacheHelper.getData(key: 'lastAccessedUnit'); //Get Cached Data
+                                              if(i !=null) //If units has been accessed before
+                                                  {
+                                                cubit.getAllUnits(i[0].toInt()!);  // i[0] contains the language Id, i[1] contains the name of the language
+                                                navigateTo(context, Units(i[1]));
+                                              }
+                                              else //No Cached Data, will move user to Languages Page.
+                                                  {
+                                                cubit.changeBottom(1);
+                                              }
                                             }
-                                            else //No Cached Data, will move user to Languages Page.
-                                                {
-                                              cubit.changeBottom(1);
+                                            catch(error)
+                                            {
+                                              print('Error, ${error.toString()}');
+                                              defaultToast(msg: 'You Haven\'t opened a unit yet.');
                                             }
-                                          }
-                                          catch(error)
-                                          {
-                                            print('Error, ${error.toString()}');
-                                            defaultToast(msg: 'You Haven\'t opened a unit yet.');
-                                          }
 
-                                        },
-                                        text: "Let's Go",
+                                          },
+                                          text: "Let's Go",
+                                      ),
                                     )
                                 ),
                               ],
@@ -162,9 +205,15 @@ class HomePage extends StatelessWidget {
                           Row(
                             children: [
                               const Spacer(),
+
                               Expanded(
-                                  child: defaultButton(
-                                      function: () {}, text: 'Go Now !')),
+                                  child: ShowCaseView(
+                                    globalKey: challengeKey,
+                                    title: 'Challenges',
+                                    description: 'Daily Challenges to increase your points',
+                                    child: defaultButton(
+                                        function: () {}, text: 'Go Now !'),
+                                  )),
                             ],
                           ),
                         ],
@@ -198,19 +247,24 @@ class HomePage extends StatelessWidget {
                             const Spacer(),
                             Padding(
                                 padding: const EdgeInsetsDirectional.only(start: 10, top: 5),
-                                child: CircularPercentIndicator(
-                                  radius: 45.0,
-                                  lineWidth: 8.0,
-                                  animation: true,
-                                  percent: getCurrentProgress('double'),
-                                  animationDuration: 800,
-                                  progressColor: Colors.redAccent,
-                                  backgroundColor: Colors.grey,
-                                  center: Text(
-                                    getCurrentProgress('string'),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
+                                child: ShowCaseView(
+                                  globalKey: progressKey,
+                                  title: 'Progress',
+                                  description: 'You can see your last accessed course progress here!',
+                                  child: CircularPercentIndicator(
+                                    radius: 45.0,
+                                    lineWidth: 8.0,
+                                    animation: true,
+                                    percent: getCurrentProgress('double'),
+                                    animationDuration: 800,
+                                    progressColor: Colors.redAccent,
+                                    backgroundColor: Colors.grey,
+                                    center: Text(
+                                      getCurrentProgress('string'),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.0,
+                                      ),
                                     ),
                                   ),
                                 )
@@ -425,8 +479,7 @@ class HomePage extends StatelessWidget {
       return myLangProgress;
     }
   }
-
-  }
+}
 
 
 
