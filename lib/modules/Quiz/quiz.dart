@@ -651,6 +651,8 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                 width: 250,
                 height: 250,
                 fit: BoxFit.contain,
+                errorBuilder:(context,error,stackTrace){
+                  return Image.asset('assets/images/defaultFlag.png', width: 250, height: 250, fit: BoxFit.contain,);} ,
               ),
             ),
 
@@ -823,7 +825,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                 children:
                 [
                   Text(
-                    '${messageBuilder(cubit.finalMark)}, You\'ve scored: ${cubit.finalMark}',
+                    '${messageBuilder(cubit.finalMark)}, You\'ve scored: ${cubit.finalMark.toString().substring(0,3)}',
                     style: const TextStyle(
                       fontSize: 18,
                       color: Colors.black,

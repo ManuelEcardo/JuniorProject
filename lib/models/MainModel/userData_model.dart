@@ -1,12 +1,14 @@
 class UserModel {
   UserData? user;
   List<UserProgress>? userProgress=[];   // Get User Progress in each Unit
+  int? rank;
   String? message;
+
   UserModel.fromJson(Map<String, dynamic> json)
   {
     user = UserData.fromJson(json['user']);
     message = json['message'];
-
+    rank = json['rank'];
     if(json['user_progress'] !=null)
     {
       print('in user progress');
@@ -30,6 +32,7 @@ class UserData {
   String? userPhoto;
   String? email;
   int? roleId;
+  int? points;
 
   List<UserUnits>? units=[];
   List<int>userLanguages=[];             //To be filled later in cubit, has the ID's of taken courses
@@ -46,7 +49,7 @@ class UserData {
     userPhoto = json['user_photo'];
     email = json['email'];
     roleId = json['role_id'];
-
+    points= json ['points'];
     if(json['units'] !=null)
       {
         json['units'].forEach((element)

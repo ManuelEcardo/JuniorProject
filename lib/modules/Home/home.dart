@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
           var model=AppCubit.userModel;
           var cubit= AppCubit.get(context);
           return ConditionalBuilder(
-            condition: model !=null, //was AppCubit.userModel != null
+            condition: AppCubit.userModel !=null, //was AppCubit.userModel != null
             fallback: (context)=>const Center(child: CircularProgressIndicator(),),
             builder: (context)=>SingleChildScrollView(
               child: Padding(

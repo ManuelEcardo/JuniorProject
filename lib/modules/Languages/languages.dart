@@ -31,7 +31,7 @@ class LanguagesPage extends StatelessWidget {
         var userModel= AppCubit.userModel;
 
         return ConditionalBuilder(
-            condition: model !=null && userModel !=null,
+            condition: AppCubit.languagesModel !=null && AppCubit.userModel !=null,
             fallback: (context)=>const Center(child: CircularProgressIndicator(),),
             builder: (context)=>SingleChildScrollView(
               physics: const BouncingScrollPhysics(),

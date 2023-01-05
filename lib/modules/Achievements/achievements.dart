@@ -29,7 +29,7 @@ class AchievementsPage extends StatelessWidget {
         var cubit= AppCubit.get(context);
 
         return ConditionalBuilder(
-            condition: userAchievements !=null,
+            condition: AppCubit.userAchievementsModel !=null,
             fallback: (context)=> const Center(child: CircularProgressIndicator(),),
             builder: (context)=> Padding(
               padding: const EdgeInsets.all(24.0),
