@@ -8,7 +8,6 @@ import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
 import 'package:juniorproj/shared/styles/styles.dart';
 import 'package:showcaseview/showcaseview.dart';
-
 import '../Settings/settings.dart';
 import 'change_profile_picture.dart';
 
@@ -124,6 +123,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ],
                               ),
                             ),
+
                             Text(
                               model.user!.firstName!,
                               style: defaultHeadlineTextStyle,

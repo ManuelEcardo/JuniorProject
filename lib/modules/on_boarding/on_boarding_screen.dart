@@ -70,6 +70,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
     return Scaffold(
       appBar: AppBar(
         actions:
@@ -93,7 +94,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   {
                     if(index==list.length-1)  //if it is the last Screen => set IsLast to true
                       {
-                        print('Last');
+                        print('Last on_boarding screen');
 
                         setState(()
                         {
@@ -103,7 +104,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       }
                     else
                       {
-                        print('not last');
+                        print('not last on_boarding screen');
 
                         setState(()
                         {
@@ -112,8 +113,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         );
                       }
                   },
+
                   itemBuilder:(context,index) => buildBoardingItem(list[index]),
                   itemCount: 3,
+
                 )
             ),
 
