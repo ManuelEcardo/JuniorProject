@@ -12,11 +12,9 @@ class MainDioHelper
       BaseOptions(
         baseUrl: '$localhost/api/',   // JuniorProject default url.
         receiveDataWhenStatusError: true,
-        //receiveTimeout:50000,
-        //connectTimeout: 30000,
+        receiveTimeout: 0, //50000,
+        connectTimeout: 0, //30000,
         // validateStatus: (status)=>true, //Won't throw errors
-
-
       ),
     );
   }

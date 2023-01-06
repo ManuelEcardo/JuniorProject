@@ -94,6 +94,7 @@ flutter:
     - assets/images/
     - assets/videos/
     - assets/subtitles/
+    - assets/ca/
 
 
   fonts:

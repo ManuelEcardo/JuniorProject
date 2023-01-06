@@ -59,7 +59,7 @@ class AppCubit extends Cubit<AppStates>
   ];
 
 
-  int currentIndex=0;  //The Index of the BottomNavBar item.
+  int currentIndex=1;  //The Index of the BottomNavBar item.
 
   void changeBottom(int index) //Function will be called when the bottom navigation bar item has changed, which will change the index and emit the state.
   {

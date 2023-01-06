@@ -32,13 +32,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   List<OnBoardingModel> list=
   [
     OnBoardingModel(
-        image: 'https://drive.google.com/u/4/uc?id=1RnyNbGddeIgbLZdYxHk4GvCLMq-CmIQv&export=download',
+        image: 'https://drive.google.com/u/4/uc?id=1ISd_GjKE1kdZjPLLsvUfca2IQr6pgYRg&export=download',
         title: 'Feeling Bored with Classic Learning?',
         body: 'Reading grammar books and listening to teachers lecture can be quiet a drag.'
     ),
 
     OnBoardingModel(
-        image: 'https://drive.google.com/u/4/uc?id=1RnyNbGddeIgbLZdYxHk4GvCLMq-CmIQv&export=download',
+        image: 'https://drive.google.com/u/4/uc?id=1xmFu8NwLmSki0Rck21HqH00vXkwdD8TQ&export=download',
         title: 'Learn with Videos is The New Way of Learning !',
         body: 'Scientific researches has proven that videos contributes to a much more efficient learning than plain text'
     ),
@@ -85,7 +85,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
