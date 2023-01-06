@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,6 +85,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                 icon: const Icon(Icons.arrow_back_rounded),
                 onPressed: ()
                 {
+                  cubit.setFinalMarkToZero(); //Returning the mark to zero if the student leaves in the middle of the exam. NEWLY ADDED
                   cubit.changeIsBoxTappedQuiz(false);
                   cubit.changeQuizIsVisible(false);
                   Navigator.pop(context);
@@ -306,6 +308,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
           onWillPop: ()async   //When The user presses back, Correct/False will be invisible.
           {
+            cubit.setFinalMarkToZero(); //Returning the mark to zero if the student leaves in the middle of the exam.
             cubit.changeIsBoxTappedQuiz(false);
             cubit.changeQuizIsVisible(false);
             return true;
@@ -646,13 +649,13 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
             const SizedBox(height: 30,),
 
             Center(
-              child: Image(
-                image: NetworkImage(questionModel.link!=null ? questionModel.link! : ''),
+              child: CachedNetworkImage(
+                imageUrl: questionModel.link!=null ? questionModel.link! : '',
                 width: 250,
                 height: 250,
                 fit: BoxFit.contain,
-                errorBuilder:(context,error,stackTrace){
-                  return Image.asset('assets/images/defaultFlag.png', width: 250, height: 250, fit: BoxFit.contain,);} ,
+                placeholder: (context,url)=>const Center(child: CircularProgressIndicator()),
+                errorWidget: (context,url,error)=> Image.asset('assets/images/defaultFlag.png', width: 250, height: 250, fit: BoxFit.contain,),
               ),
             ),
 

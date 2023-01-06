@@ -222,6 +222,7 @@ class _HomeLayoutState extends State<HomeLayout> {
 
               onTap: (index)
               {
+                const Duration(milliseconds: 800);
                 cubit.changeBottom(index);
               },
 
@@ -244,7 +245,10 @@ class _HomeLayoutState extends State<HomeLayout> {
                 onPressed: ()
                 {
                   cubit.getLanguages(); //Get The Languages available to be taken.
-                  navigateTo(context, const AddLanguage());
+                  navigateTo(
+                      context,
+                      ShowCaseWidget(builder: Builder(builder: (context)=> const AddLanguage(),)),
+                  );
                 },
                 child: const Icon(Icons.add,),
 

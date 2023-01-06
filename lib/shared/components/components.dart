@@ -18,6 +18,8 @@ Widget defaultButton({
   bool isUpper = true,
   double radius = 5.0,  //was 10
   double height = 45.0, // was 40
+  double elevation=2,
+  bool shadow=false,
   required void Function()? function,
   required String text,
 }) =>
@@ -26,11 +28,19 @@ Widget defaultButton({
       decoration: BoxDecoration(
         color: background,
         borderRadius: BorderRadius.circular(radius),
+        boxShadow: shadow? [BoxShadow(
+          color: Colors.black.withOpacity(0.3),
+          spreadRadius: 4,
+          blurRadius: 10,
+          offset: const Offset(0, 3),
+        )] : null,
       ),
+
       width: width,
       height: height,
       child: MaterialButton(
         onPressed: function,
+        elevation: elevation,
         child: Text(
           isUpper ? text.toUpperCase() : text,
           style: const TextStyle(
@@ -233,7 +243,6 @@ Future<void> defaultLaunchUrl(String ur) async
 void navigateTo( BuildContext context, Widget widget) =>Navigator.push(
     context,
     MaterialPageRoute(builder: (context)=>widget),
-
 );
 
 
@@ -382,6 +391,7 @@ class ShowCaseView extends StatelessWidget {
         required this.title,
         required this.description,
         required this.child,
+        this.isNotAnimated=false,
         this.shapeBorder = const CircleBorder()})
       : super(key: key);
 
@@ -390,6 +400,7 @@ class ShowCaseView extends StatelessWidget {
   final String description;
   final Widget child;
   final ShapeBorder shapeBorder;
+  final bool isNotAnimated;
   @override
   Widget build(BuildContext context) {
     return Showcase(
@@ -397,6 +408,7 @@ class ShowCaseView extends StatelessWidget {
       title: title,
       description: description,
       targetShapeBorder: shapeBorder,
+      disableMovingAnimation: isNotAnimated,
       child: child,
 
     );

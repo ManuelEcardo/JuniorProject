@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:juniorproj/layout/home_layout.dart';
 import 'package:juniorproj/modules/register/cubit/cubit.dart';
 import 'package:juniorproj/modules/register/cubit/states.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 import '../../layout/cubit/cubit.dart';
 import '../../shared/components/constants.dart';
 import '../../shared/network/local/cache_helper.dart';
+import '../Languages/addLanguage.dart';
 
 
 class RegisterScreen extends StatefulWidget {
@@ -64,7 +65,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 AppCubit().getLeaderboards(); //Get Leaderboards because new registered user so we need to update the leaderboards model.
 
-                navigateAndFinish(context, const HomeLayout());
+                // navigateAndFinish(context, const HomeLayout());
+
+                navigateAndFinish(context, ShowCaseWidget(builder: Builder(builder: (context)=> const AddLanguage(),)),);  //Go To add A Language then it will go to home after adding.
               });
             }
 

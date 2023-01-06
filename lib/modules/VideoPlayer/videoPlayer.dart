@@ -256,6 +256,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver
                           title: 'Video Player',
                           description: 'You can stop,play the video and you can change video speed from options',
                           shapeBorder: const Border(),
+                          isNotAnimated: true,
                           child: Chewie(controller: localChewieController,)
                       ),
                     ),

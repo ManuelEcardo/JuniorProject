@@ -3,13 +3,44 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
+import 'package:juniorproj/layout/home_layout.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
+import 'package:showcaseview/showcaseview.dart';
 import '../../models/MainModel/languages_model.dart';
 import '../../shared/styles/styles.dart';
 
-class AddLanguage extends StatelessWidget {
+class AddLanguage extends StatefulWidget {
+
+  final String addLanguageCache = 'myAddLanguageCache'; //Page Cache name, in order to not show again after first app launch
+
   const AddLanguage({Key? key}) : super(key: key);
+
+  @override
+  State<AddLanguage> createState() => _AddLanguageState();
+}
+
+class _AddLanguageState extends State<AddLanguage> {
+
+  GlobalKey addLanguageKey= GlobalKey();
+
+  @override
+  void initState()
+  {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      isFirstLaunch(widget.addLanguageCache).then((value) {
+        if (value)
+        {
+          print('SHOWING SHOWCASE IN addLanguage');
+          ShowCaseWidget.of(context).startShowCase([addLanguageKey,]);
+        }
+        else {
+          print('NO SHOWING SHOWCASE IN PROFILE');
+        }
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +55,7 @@ class AddLanguage extends StatelessWidget {
         if(state is AppPostUserLanguageSuccessState)
           {
             defaultToast(msg: 'Added Successfully');
+            navigateAndFinish(context, ShowCaseWidget(builder: Builder(builder: (context)=> const HomeLayout(),)));  //After adding a language, go to home page.
           }
       },
 
@@ -59,11 +91,16 @@ class AddLanguage extends StatelessWidget {
 
           children:
           [
-            Text(
-              'Choose a Language:',
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              style: defaultHeadlineTextStyle,
+            ShowCaseView(
+              globalKey: addLanguageKey,
+              title: 'Add a Language',
+              description: 'Choose a language to start learning now!',
+              child: Text(
+                'Choose a Language:',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: defaultHeadlineTextStyle,
+              ),
             ),
 
             const SizedBox(height: 50,),
@@ -95,7 +132,6 @@ class AddLanguage extends StatelessWidget {
       ),
     );
   }
-
 }
 
 //Default Builder for new Languages to add

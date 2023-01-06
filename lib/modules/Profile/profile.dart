@@ -13,8 +13,7 @@ import 'change_profile_picture.dart';
 
 //ignore: must_be_immutable
 class ProfilePage extends StatefulWidget {
-  final String profileCache =
-      'myProfileCache'; //Page Cache name, in order to not show again after first app launch
+  final String profileCache = 'myProfileCache'; //Page Cache name, in order to not show again after first app launch
 
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -32,9 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
   var firstNameController = TextEditingController();
 
   //Four Global keys for ShowCaseView
-  final GlobalKey firstNameGlobalKey = GlobalKey();
-
-  final GlobalKey lastNameGlobalKey = GlobalKey();
+  final GlobalKey settingsGlobalKey = GlobalKey();
 
   final GlobalKey likesGlobalKey = GlobalKey();
 
@@ -51,9 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ShowCaseWidget.of(context).startShowCase([
             imageGlobalKey,
             likesGlobalKey,
-            firstNameGlobalKey,
-            lastNameGlobalKey
-          ]);
+            settingsGlobalKey,]);
         } else {
           print('NO SHOWING SHOWCASE IN PROFILE');
         }
@@ -211,30 +206,43 @@ class _ProfilePageState extends State<ProfilePage> {
 
                       Row(
                         children: [
-                          defaultButtonItem(
-                              mainText: 'Favourites',
-                              icon: Icons.favorite,
-                              description: 'Check Your Library',
-                              backgroundColor: Colors.redAccent.withOpacity(0.8),
-                              function: ()
-                              {
-                                navigateTo(context, const Favourites());
-                              }),
+
+                          ShowCaseView(
+                            globalKey: likesGlobalKey,
+                            title: 'Favourite Words',
+                            description: 'View your favourite added words here !',
+                            shapeBorder: const Border(),
+                            child: defaultButtonItem(
+                                mainText: 'Favourites',
+                                icon: Icons.favorite,
+                                description: 'Check Your Library',
+                                backgroundColor: Colors.redAccent.withOpacity(0.8),
+                                function: ()
+                                {
+                                  navigateTo(context, const Favourites());
+                                }),
+                          ),
 
                           const Spacer(),
 
-                          defaultButtonItem(
-                              mainText: 'Settings',
-                              icon: Icons.settings,
-                              description: 'Go To Settings',
-                              backgroundColor: Colors.grey,
-                              iconColor: Colors.grey,
-                              function: ()
-                              {
-                                navigateTo(
-                                    context,
-                                    ShowCaseWidget(builder: Builder(builder: (context)=>const Settings(),)));
-                              })
+                          ShowCaseView(
+                            globalKey: settingsGlobalKey,
+                            title: 'Settings Page',
+                            description: 'You can change your personal information and logout',
+                            shapeBorder: const Border(),
+                            child: defaultButtonItem(
+                                mainText: 'Settings',
+                                icon: Icons.settings,
+                                description: 'Go To Settings',
+                                backgroundColor: Colors.grey,
+                                iconColor: Colors.grey,
+                                function: ()
+                                {
+                                  navigateTo(
+                                      context,
+                                      ShowCaseWidget(builder: Builder(builder: (context)=>const Settings(),)));
+                                }),
+                          )
                         ],
                       ),
 

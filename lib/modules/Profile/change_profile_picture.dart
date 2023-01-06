@@ -14,7 +14,20 @@ class ChangeProfilePicture extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(
         listener: (context,state)
-        {},
+        {
+          if(state is AppPutUserInfoLoadingState)
+            {
+              defaultToast(msg: 'Updating...');
+            }
+          if(state is AppPutUserInfoSuccessState)
+            {
+              defaultToast(msg: 'Success !');
+            }
+          if(state is AppPutUserInfoErrorState)
+            {
+              defaultToast(msg: 'Error While Updating');
+            }
+        },
 
         builder: (context,state)
         {

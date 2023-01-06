@@ -359,7 +359,7 @@ class _HomePageState extends State<HomePage> {
           {
             if(element.languageId == i![0].toInt())
             {
-              print('got String Matched Progress Bar');
+              // print('got String Matched Progress Bar');
               myLangProgress = element.progress!;
             }
           });
@@ -405,7 +405,7 @@ class _HomePageState extends State<HomePage> {
         }
       }
 
-      print('Current String Language Progress is : $myLangProgress');
+      // print('Current String Language Progress is : $myLangProgress');
       return '${myLangProgress.toString()}%';
     }
 
@@ -472,13 +472,12 @@ class _HomePageState extends State<HomePage> {
         }
       }
 
-      print('Current Double Language Progress is : $myLangProgress');
+      // print('Current Double Language Progress is : $myLangProgress');
 
       //Adding 0.realValue
       toSwitch= myLangProgress.toString();
       toSwitch= '0.$toSwitch'.substring(0,4);
       myLangProgress= (myLangProgress /100);
-      print('myLANG $myLangProgress');
       return myLangProgress;
     }
   }

@@ -70,13 +70,15 @@ void main() async {
     {
       widget = const LoginScreen();
     }
-  } else //Not shown onBoarding before, First lunch of app
+
+  }
+  else //Not shown onBoarding before, First lunch of app
   {
     widget = const OnBoardingScreen();
   }
 
   runApp(
-      MyApp(isDark: isDark, homeWidget: widget,)
+      MyApp(isDark: isDark, homeWidget: widget,) //widget
   );
 }
 
