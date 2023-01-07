@@ -319,7 +319,7 @@ class _YoutubeHomePageState extends State<YoutubeHomePage> {
 
           if(videoCaptions is String) //If returned value is String, then error
           {
-            print('videoCaptions is STRING');
+            print('videoCaptions is STRING, error happened when getting youtube captions');
 
             if(videoCaptions == 'noCaption')
             {

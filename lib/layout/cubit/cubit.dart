@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -59,7 +60,7 @@ class AppCubit extends Cubit<AppStates>
   ];
 
 
-  int currentIndex=1;  //The Index of the BottomNavBar item.
+  int currentIndex=0;  //The Index of the BottomNavBar item.
 
   void changeBottom(int index) //Function will be called when the bottom navigation bar item has changed, which will change the index and emit the state.
   {
@@ -192,7 +193,7 @@ class AppCubit extends Cubit<AppStates>
 
   bool isAnimationQuiz=false;
 
-  void changeQuizIsLast(int index, int tbd)  //TBD SHOULD BE THE MODEL IN THIS CUBIT>>>>
+  void changeQuizIsLast(int index, int tbd) //Setting the question to last or no, depending on current index and number of questions
   {
     if(index == tbd-1)
       {
@@ -303,6 +304,14 @@ class AppCubit extends Cubit<AppStates>
         {
           print('ERROR IN GETTING USER DATA, ${error.toString()}');
           emit(AppGetUserDataErrorState());
+
+          print('Asking for userData again after failure');
+
+          Future.delayed(
+              const Duration(seconds: 4),() {
+                userData(); //Ask for the userData Again.
+              } );
+
         }
         );
       }
@@ -330,6 +339,12 @@ class AppCubit extends Cubit<AppStates>
     {
       print('ERROR IN GETTING LANGUAGES : ${error.toString()}');
       emit(AppGetLanguagesErrorState());
+
+      print('Asking for getLanguages data again after failure');
+      Future.delayed(
+          const Duration(seconds: 4),() {
+        getLanguages(); //Ask for the getLanguages Again.
+      } );
     });
   }
 
@@ -355,6 +370,13 @@ class AppCubit extends Cubit<AppStates>
     {
       print('ERROR WHILE GETTING ACHIEVEMENTS, ${error.toString()}');
       emit(AppGetAchievementsErrorState());
+
+      print('Asking for getAchievements data again after failure');
+
+      Future.delayed(
+          const Duration(seconds: 4),() {
+        getAchievements(); //Ask for the getAchievements Again.
+      } );
     });
   }
   
@@ -384,6 +406,13 @@ class AppCubit extends Cubit<AppStates>
         {
           print('ERROR WHILE GETTING USER ACHIEVEMENTS, ${error.toString()}');
           emit(AppGetUserAchievementsErrorState());
+
+          print('Asking for getUserAchievements data again after failure');
+
+          Future.delayed(
+              const Duration(seconds: 4),() {
+            getUserAchievements(); //Ask for the getUserAchievements Again.
+          });
         });
       }
   }
@@ -480,6 +509,13 @@ class AppCubit extends Cubit<AppStates>
     {
       print('ERROR WHILE GETTING LEADERBOARDS, ${error.toString()}');
       emit(AppGetLeaderboardsErrorState());
+
+      print('Asking for getLeaderboards data again after failure');
+
+      Future.delayed(
+          const Duration(seconds: 4),() {
+        getLeaderboards(); //Ask for the getLeaderboards Again.
+      });
     });
   }
 
@@ -530,9 +566,6 @@ class AppCubit extends Cubit<AppStates>
       }
   }
 
-  //--------------
-
-
 
 
   //--------------------------------------------------------\\
@@ -574,10 +607,7 @@ class AppCubit extends Cubit<AppStates>
     });
   }
 
-
-
   //--------------------------------
-
 
   //POST API METHODS
 

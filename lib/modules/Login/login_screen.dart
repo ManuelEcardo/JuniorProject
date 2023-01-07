@@ -66,7 +66,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 {
                   token=state.loginModel.token!;  //To renew the token if I logged out and went in again.
                   AppCubit().userData(); //If the user Logged out and then signed in again, it will get the user data model.
+
                   AppCubit().getUserAchievements(); //Get The User Achievements.
+                  AppCubit.get(context).changeBottom(1); //Go To Languages Screen when signed in.
+
                   navigateAndFinish(context,const HomeLayout());
                 });
               }

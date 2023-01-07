@@ -319,14 +319,16 @@ async {
   try
     {
       StreamManifest manifest = await yt.videos.streamsClient.getManifest(videoId); //Get Manifest of this video
-      var streamInfo = StreamManifest(manifest.streams).muxed.withHighestBitrate(); //Video and Audio
+      var streamInfo = StreamManifest(manifest.streams).muxed.withHighestBitrate(); //Video and Audio with Highest bitRate available
+
+      var lowestStreamInfo = StreamManifest(manifest.streams).muxed.sortByBitrate().last; //Video and Audio with Lowest Settings available
 
       return streamInfo.url.toString();
     }
 
     catch(error)
     {
-      print('Couldn\'t Get Stream, ${error.toString()}');
+      print("Couldn't Get Stream, ${error.toString()}");
       return 'no stream';
     }
 }
@@ -408,9 +410,13 @@ class ShowCaseView extends StatelessWidget {
       title: title,
       description: description,
       targetShapeBorder: shapeBorder,
-      disableMovingAnimation: isNotAnimated,
+      disableMovingAnimation: true,
+      disableScaleAnimation: false,
+      tooltipPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+      descriptionAlignment: TextAlign.left,
+      titleTextStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+      descTextStyle: const TextStyle(fontSize: 14,),
       child: child,
-
     );
   }
 }

@@ -1,10 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:juniorproj/modules/Login/login_screen.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/network/local/cache_helper.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
+import 'package:material_dialogs/material_dialogs.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingModel
@@ -32,25 +32,25 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   List<OnBoardingModel> list=
   [
     OnBoardingModel(
-        image: 'https://drive.google.com/u/4/uc?id=1ISd_GjKE1kdZjPLLsvUfca2IQr6pgYRg&export=download',
+        image: 'assets/json/on_board_1.json',
         title: 'Feeling Bored with Classic Learning?',
         body: 'Reading grammar books and listening to teachers lecture can be quiet a drag.'
     ),
 
     OnBoardingModel(
-        image: 'https://drive.google.com/u/4/uc?id=1xmFu8NwLmSki0Rck21HqH00vXkwdD8TQ&export=download',
+        image: 'assets/json/on_board_2.json',
         title: 'Learn with Videos is The New Way of Learning !',
         body: 'Scientific researches has proven that videos contributes to a much more efficient learning than plain text'
     ),
 
     OnBoardingModel(
-        image: 'https://drive.google.com/u/4/uc?id=1TJF6-ZY71Mx5CIN_UaO4rK-VAvBfWF_w&export=download',
+        image: 'assets/json/on_board_3.json',
         title: 'A Revolution in Language Learning',
         body: 'We offer a variety of video types to learn from, including movie scenes, songs, interviews and much more fun content!'
     ),
 
     OnBoardingModel(
-        image: 'https://drive.google.com/u/4/uc?id=1RnyNbGddeIgbLZdYxHk4GvCLMq-CmIQv&export=download',
+        image: 'assets/json/on_board_4.json',
         title: 'Are You Ready ?',
         body: ''
     ),
@@ -209,13 +209,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     mainAxisAlignment: MainAxisAlignment.start,
     children:
      [
-      CachedNetworkImage(
-         imageUrl: list.image,
-         width: 500,
-         height: 250,
-         placeholder: (context,url)=>const Center(child: CircularProgressIndicator()),
-         errorWidget: (context,url,error)=> const Center (child: Icon(Icons.error, size: 100,)),
-       ),
+      Lottie.asset(
+        list.image,
+        width: 500,
+        height: 250,
+        repeat: true,
+        filterQuality: FilterQuality.high,
+        errorBuilder: (context,error,stackTrace)
+        {
+          print('Error in onBoarding Screen, ${error.toString()}');
+          return const Center (child: Icon(Icons.error, size: 100,));
+        },
+      ),
 
       SizedBox(height: heightFromPicture),
 

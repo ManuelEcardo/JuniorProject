@@ -50,6 +50,12 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
       {
       });
     });
+
+    widget.model.shuffle(); //Shuffling Questions
+    for (var element in widget.model)
+    {
+      element.choices!.shuffle(); //Shuffling Each Question Answers.
+    }
   }
 
   @override
@@ -70,14 +76,14 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     ]);
     var cubit= AppCubit.get(context);
     List<Questions> model= widget.model;
-
+    cubit.markCalculator(model.length);
     return BlocConsumer<AppCubit,AppStates>(
       listener: (context,state)
       {},
 
       builder: (context,state)
       {
-        cubit.markCalculator(model.length);
+        // cubit.markCalculator(model.length);
         return WillPopScope(
           child: Scaffold(
             appBar: AppBar(
@@ -231,7 +237,10 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                     child: PageView.builder(
                       scrollDirection: Axis.horizontal,
                       controller: pageController,
-                      itemBuilder: (context,index) => determineType(cubit,model[index],index),
+                      itemBuilder: (context,index)
+                      {
+                        return determineType(cubit,model[index],index);
+                      },
                       itemCount: model.length,
                       physics: const NeverScrollableScrollPhysics(),
                       onPageChanged: (index)
@@ -321,6 +330,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
   Widget determineType(AppCubit cubit, Questions questionModel, int answerId) //Will Check for the type if video, audio, photo or normal question.
   {
+
     if(questionModel.type =='t')        //type is Text, example: What is the color of the sun?  yellow,green,blue
       {
         return completeTheSentenceItemBuilder(cubit, questionModel, answerId);

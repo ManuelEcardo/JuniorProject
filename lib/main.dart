@@ -83,7 +83,7 @@ void main() async {
   }
 
   runApp(
-      MyApp(isDark: isDark, homeWidget: widget,) //widget
+      MyApp(isDark: isDark, homeWidget: widget,) //widget //const OnBoardingScreen()
   );
 }
 

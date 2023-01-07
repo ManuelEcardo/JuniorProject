@@ -64,6 +64,7 @@ dependencies:
   timezone: ^0.9.1
   showcaseview: ^2.0.0+1
   cached_network_image: ^3.2.1
+  lottie: ^1.4.2
 
 
 
@@ -95,6 +96,7 @@ flutter:
     - assets/videos/
     - assets/subtitles/
     - assets/ca/
+    - assets/json/
 
 
   fonts:

@@ -346,7 +346,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver
                           videoChild: ShowCaseView(
                             globalKey: boxGlobalKey,
                             title: 'Box Can Be Tapped !',
-                            description: 'Tap on the box to stop the video, press again to start the video\nSubtitles Will be shown here too, click on a word to translate it',
+                            description: 'Tap on the box to stop the video, press again to start the video. Subtitles Will be shown here too, click on a word to translate it',
                             shapeBorder: const Border(),
                             child: Container(  //Here the child isn't a video because I want to show the subtitles below the video => Container
                               decoration: BoxDecoration(
