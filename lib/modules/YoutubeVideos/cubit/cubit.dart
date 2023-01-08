@@ -14,7 +14,7 @@ import 'package:showcaseview/showcaseview.dart';
 
 import '../../../models/MainModel/content_model.dart';
 import '../../../shared/components/components.dart';
-import '../../VideoPlayer/videoPlayer.dart';
+import '../../Videos/VideoPlayer/videoPlayer.dart';
 
 class YoutubeCubit extends Cubit<YoutubeStates>
 {

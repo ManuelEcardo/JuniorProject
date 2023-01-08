@@ -313,17 +313,30 @@ Widget defaultAlertDialog(
 
 //FOR YOUTUBE
 
-Future<String> videoStreamGetter(String videoId, YoutubeExplode yt ) //Get Stream from link
+Future<String> videoStreamGetter(String videoId, YoutubeExplode yt ) //Get Video Streams from link, we can take 720p or 360p or 144p
 async {
 
   try
     {
       StreamManifest manifest = await yt.videos.streamsClient.getManifest(videoId); //Get Manifest of this video
-      var streamInfo = StreamManifest(manifest.streams).muxed.withHighestBitrate(); //Video and Audio with Highest bitRate available
 
-      var lowestStreamInfo = StreamManifest(manifest.streams).muxed.sortByBitrate().last; //Video and Audio with Lowest Settings available
+      // var streamInfo = StreamManifest(manifest.streams).muxed.withHighestBitrate(); //Video and Audio with Highest bitRate available
 
-      return streamInfo.url.toString();
+      var allStreamInfo = StreamManifest(manifest.streams).muxed.sortByBitrate(); //Video and Audio with Lowest Settings available
+      var mediumStreamInfo;
+
+      if(allStreamInfo.length==3) //Three Available Bitrates, since we know that the streamGetter won't get further than 720, three available => getting 360p
+        {
+          mediumStreamInfo= allStreamInfo[1];
+        }
+      else
+        {
+          mediumStreamInfo= allStreamInfo[0]; //Getting 720p
+        }
+
+      print('Chosen Bitrate is: $mediumStreamInfo');
+
+      return mediumStreamInfo.url.toString();
     }
 
     catch(error)
@@ -335,7 +348,7 @@ async {
 
 
 
-Future<Object> captionsGetter(String videoId, YouTubeCaptionScraper captionScraper )  //Get Captions from link
+Future<Object> captionsGetter(String videoId, YouTubeCaptionScraper captionScraper )  //Get Captions from link, Now Allowing English Subtitles only
 async {
 
   final Directory directory = await getApplicationDocumentsDirectory();

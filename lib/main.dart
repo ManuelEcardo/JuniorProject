@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/modules/Login/login_screen.dart';
-import 'package:juniorproj/modules/VideoPlayer/cubit/cubit.dart';
+import 'package:juniorproj/modules/Videos/VideoPlayer/cubit/cubit.dart';
 import 'package:juniorproj/modules/YoutubeVideos/cubit/cubit.dart';
 import 'package:juniorproj/modules/on_boarding/on_boarding_screen.dart';
 import 'package:juniorproj/shared/bloc_observer.dart';
@@ -28,6 +28,7 @@ import 'package:swipedetector_nullsafety/swipedetector_nullsafety.dart';
 import 'layout/cubit/states.dart';
 import 'layout/home_layout.dart';
 import 'models/MainModel/userAchievements_model.dart';
+import 'modules/Videos/VideoPlayer/cubit/cubit.dart';
 
 
 void main() async {

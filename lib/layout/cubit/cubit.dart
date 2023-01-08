@@ -243,14 +243,14 @@ class AppCubit extends Cubit<AppStates>
 
   //Calculating Quiz marks
 
-  final totalMark= 10; //Total quiz mark
-  late double eachQuestionMark; //each question mark
-  double finalMark=0; //student mark
+  static const totalMark= 10; //Total quiz mark
+  static late double eachQuestionMark; //each question mark
+  static double finalMark=0; //student mark
 
-  void markCalculator(int questionsNumber)
+  static void markCalculator(int questionsNumber)
   {
     eachQuestionMark= totalMark/questionsNumber; //setting each question mark by dividing the total mark to the number of questions we have.
-    emit(AppQuizTotalMarkState());
+    // emit(AppQuizTotalMarkState());
   }
 
   void markAdder(bool isCorrect)

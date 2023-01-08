@@ -51,6 +51,8 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
       });
     });
 
+    AppCubit.markCalculator(widget.model.length);  //Setting Each Question's mark
+
     widget.model.shuffle(); //Shuffling Questions
     for (var element in widget.model)
     {
@@ -76,7 +78,9 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     ]);
     var cubit= AppCubit.get(context);
     List<Questions> model= widget.model;
-    cubit.markCalculator(model.length);
+
+    // cubit.markCalculator(model.length);
+
     return BlocConsumer<AppCubit,AppStates>(
       listener: (context,state)
       {},
@@ -282,7 +286,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                           {
                             if(cubit.isLastQuiz && pageController.page == model.length -1)   //If the question is the last
                             {
-                              openNextUnit(mark: cubit.finalMark, unitId: model[0].unitId!, cubit: cubit);
+                              openNextUnit(mark: AppCubit.finalMark, unitId: model[0].unitId!, cubit: cubit);
                               cubit.changeIsBoxTappedQuiz(false);
                               cubit.changeIsAnimation(false);
                               print('Last Question and Showing Result');
@@ -838,7 +842,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                 children:
                 [
                   Text(
-                    '${messageBuilder(cubit.finalMark)}, You\'ve scored: ${cubit.finalMark.toString().substring(0,3)}',
+                    '${messageBuilder(AppCubit.finalMark)}, You\'ve scored: ${AppCubit.finalMark.toString().substring(0,3)}',
                     style: const TextStyle(
                       fontSize: 18,
                       color: Colors.black,
