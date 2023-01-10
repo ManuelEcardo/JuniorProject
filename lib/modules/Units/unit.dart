@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/models/MainModel/content_model.dart';
+import 'package:juniorproj/modules/Lessons/UnitLessons.dart';
 // import 'package:juniorproj/modules/Lessons/lesson.dart';
 import 'package:juniorproj/modules/Quiz/quiz.dart';
 import 'package:juniorproj/modules/Units/unitOverview.dart';
@@ -147,7 +148,17 @@ class _UnitState extends State<Unit> {
                           Row(
                             children:
                             [
-                              Expanded(child: defaultButtonItem(function: (){}, mainText: 'Lessons', iconColor: cubit.isDarkTheme? defaultColor : defaultDarkColor, description: "Unit's Lessons", icon: Icons.play_lesson_outlined)),
+                              Expanded(child: defaultButtonItem(
+                                  function: ()
+                                  {
+                                    navigateTo(context, const UnitLessons());
+                                  },
+                                  mainText: 'Lessons',
+                                  iconColor: cubit.isDarkTheme? defaultColor : defaultDarkColor,
+                                  description: "Unit's Lessons",
+                                  icon: Icons.play_lesson_outlined,
+                              )
+                              ),
 
                               const SizedBox(width: 15,),
 

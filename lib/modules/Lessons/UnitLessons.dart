@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
+import 'package:juniorproj/modules/Lessons/paragraph.dart';
+import 'package:juniorproj/shared/components/components.dart';
 
 class UnitLessons extends StatelessWidget {
   const UnitLessons({Key? key}) : super(key: key);
@@ -19,7 +21,20 @@ class UnitLessons extends StatelessWidget {
                 IconButton(onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny)),
               ],
             ),
-            body: Container(),
+
+            body: SingleChildScrollView(
+              child: Column(
+                children:
+                [
+                  Center(child: defaultTextButton(
+                  onPressed: ()
+                  {
+                    navigateTo(context, const Paragraph(isSubmitted: true, isChecked: true, mark: 'A+',));
+                  },
+                  text: 'Admit'),),
+                ],
+              ),
+            ),
           );
         }
     );
