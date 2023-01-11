@@ -29,7 +29,7 @@ class UnitLessons extends StatelessWidget {
                   Center(child: defaultTextButton(
                   onPressed: ()
                   {
-                    navigateTo(context, const Paragraph(isSubmitted: true, isChecked: true, mark: 'A+',));
+                    navigateTo(context, const Paragraph(isSubmitted: true, isChecked: true, mark: 'A+',)); //Values should come from UserData, aka userModel
                   },
                   text: 'Admit'),),
                 ],

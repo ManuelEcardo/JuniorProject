@@ -12,6 +12,8 @@ import 'package:juniorproj/modules/Videos/UnitsVideos.dart';
 // import 'package:juniorproj/modules/Videos/VideoPlayer/videoPlayer.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
+
+import '../Lessons/Curve Painter/CurvePainter.dart';
 // import 'package:showcaseview/showcaseview.dart';
 
 class Unit extends StatefulWidget {
@@ -91,142 +93,145 @@ class _UnitState extends State<Unit> {
               builder: (context)
                 {
                   return SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children:
-                        [
-                          Center(
-                            child: Text(
-                              'Unit Content',
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1,
-                                color: pistachioColor,
+                    child: CustomPaint(
+                      painter: CurvePainter(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children:
+                          [
+                            Center(
+                              child: Text(
+                                'Unit Content',
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1,
+                                  color: pistachioColor,
+                                ),
                               ),
                             ),
-                          ),
 
-                          const SizedBox(height: 45,),
+                            const SizedBox(height: 40,),
 
-                          Row(
-                            children:
-                            [
-                              Expanded(child: defaultButtonItem(
-                                  function: ()
-                                  {
-                                    navigateTo(context,UnitOverview(model!.unitOverview!));
-                                  },
-                                  mainText: 'Unit Overview',
-                                  description: "Unit's Goal",
-                                  backgroundColor: Colors.grey,
-                                  iconColor: cubit.isDarkTheme? defaultDarkColor : defaultColor,
-                                  icon: Icons.view_agenda_outlined),
+                            Padding(
+                              padding: const EdgeInsetsDirectional.only(start: 7.0, end: 35.0),
+                              child: Column(
+                                children: [
 
+                                  Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: defaultButtonItem(
+                                        function: ()
+                                        {
+                                          navigateTo(context,UnitOverview(model!.unitOverview!));
+                                        },
+                                        mainText: 'Overview',
+                                        backgroundColor: Colors.grey,
+                                        iconColor: cubit.isDarkTheme? defaultDarkColor : defaultColor,
+                                        icon: Icons.view_agenda_outlined),
+                                  ),
+
+                                  const SizedBox(height: 10,),
+
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: defaultButtonItem(
+                                      function: ()
+                                      {
+                                        navigateTo(context, const UnitLessons());
+                                      },
+                                      mainText: 'Lessons',
+                                      iconColor: cubit.isDarkTheme? defaultColor : defaultDarkColor,
+                                      icon: Icons.play_lesson_outlined,),
+                                  ),
+
+
+                                  const SizedBox(height: 10,),
+
+                                  Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: defaultButtonItem(
+                                        function: ()
+                                        {
+                                          navigateTo(context, UnitVideos(model!.videos!));
+                                        },
+                                        mainText: 'Videos',
+                                        iconColor: cubit.isDarkTheme? defaultColor : defaultDarkColor,
+                                        icon: Icons.ondemand_video_outlined),
+                                  ),
+
+                                  const SizedBox(height: 10,),
+
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: defaultButtonItem(
+                                      function: ()
+                                      {
+                                        if(model!.questions!.isNotEmpty)
+                                        {
+                                          navigateAndSaveRouteSettings(context, QuizPage(model!.questions!), 'quiz');
+                                        }
+                                        else if (model!.questions!.isEmpty)
+                                        {
+                                          defaultToast(msg: 'Quiz is in development');
+                                        }
+                                      },
+                                      mainText: 'Quiz',
+                                      backgroundColor: Colors.grey,
+                                      iconColor: cubit.isDarkTheme? defaultDarkColor : defaultColor,
+                                      icon: Icons.quiz_outlined,),
+                                  ),
+                                ],
                               ),
+                            ),
 
-                              const SizedBox(width: 15,),
 
-                              Expanded(child: defaultButtonItem(
-                                  function: ()
-                                  {
-                                    navigateTo(context, UnitVideos(model!.videos!));
-                                  },
-                                  mainText: 'Videos',
-                                  description: "Unit's Videos",
-                                  iconColor: cubit.isDarkTheme? defaultColor : defaultDarkColor,
-                                  icon: Icons.ondemand_video_outlined)
-                              ),
-                            ],
-                          ),
+                            // ListView.separated(
+                            //     shrinkWrap: true,
+                            //     physics: const NeverScrollableScrollPhysics(),
+                            //     itemBuilder: (context,index) => unitOverViewBuilder(context,model!.unitOverview!),
+                            //     separatorBuilder: (context,index) => const SizedBox(height: 20,),
+                            //     itemCount: 1),
+                            //
+                            // //NON USED VISIBILITY
+                            // // Visibility(
+                            // //     visible: model!.unitOverview !=null,
+                            // //     child: const SizedBox(height: 20,)),
+                            //
+                            // ListView.separated(
+                            //     shrinkWrap: true,
+                            //     physics: const NeverScrollableScrollPhysics(),
+                            //     itemBuilder: (context,index) => lessonBuilder(context,model!.lessons![index], index+1),
+                            //     separatorBuilder: (context,index) => const SizedBox(height: 20,),
+                            //     itemCount: model!.lessons!.length),
+                            //
+                            //  Visibility(
+                            //   visible: model!.lessons !=null,
+                            //   child: const SizedBox(height: 20,)),
+                            //
+                            // ListView.separated(
+                            //     shrinkWrap: true,
+                            //     physics: const NeverScrollableScrollPhysics(),
+                            //     itemBuilder: (context,index) => videoBuilder(context,model!.videos![index], index+1),
+                            //     separatorBuilder: (context,index) => const SizedBox(height: 20,),
+                            //     itemCount: model!.videos!.length),
+                            //
+                            // Visibility(
+                            //     visible: model!.videos !=null,
+                            //     child: const SizedBox(height: 20,)),
+                            //
+                            // ListView.separated(
+                            //     shrinkWrap: true,
+                            //     physics: const NeverScrollableScrollPhysics(),
+                            //     itemBuilder: (context,index) => quizBuilder(context,model!.questions!),
+                            //     separatorBuilder: (context,index) => const SizedBox(height: 20,),
+                            //     itemCount: 1),
 
-                          const SizedBox(height: 15,),
-
-                          Row(
-                            children:
-                            [
-                              Expanded(child: defaultButtonItem(
-                                  function: ()
-                                  {
-                                    navigateTo(context, const UnitLessons());
-                                  },
-                                  mainText: 'Lessons',
-                                  iconColor: cubit.isDarkTheme? defaultColor : defaultDarkColor,
-                                  description: "Unit's Lessons",
-                                  icon: Icons.play_lesson_outlined,
-                              )
-                              ),
-
-                              const SizedBox(width: 15,),
-
-                              Expanded(child:defaultButtonItem(
-                                  function: ()
-                                  {
-                                    if(model!.questions!.isNotEmpty)
-                                    {
-                                      navigateAndSaveRouteSettings(context, QuizPage(model!.questions!), 'quiz');
-                                    }
-                                    else if (model!.questions!.isEmpty)
-                                    {
-                                      defaultToast(msg: 'Quiz is in development');
-                                    }
-                                  },
-                                  mainText: 'Quiz',
-                                  description: "Unit's Quiz",
-                                  backgroundColor: Colors.grey,
-                                  iconColor: cubit.isDarkTheme? defaultDarkColor : defaultColor,
-                                  icon: Icons.quiz_outlined,
-
-                              )
-                              ),
-                            ],
-                          ),
-
-                          // ListView.separated(
-                          //     shrinkWrap: true,
-                          //     physics: const NeverScrollableScrollPhysics(),
-                          //     itemBuilder: (context,index) => unitOverViewBuilder(context,model!.unitOverview!),
-                          //     separatorBuilder: (context,index) => const SizedBox(height: 20,),
-                          //     itemCount: 1),
-                          //
-                          // //NON USED VISIBILITY
-                          // // Visibility(
-                          // //     visible: model!.unitOverview !=null,
-                          // //     child: const SizedBox(height: 20,)),
-                          //
-                          // ListView.separated(
-                          //     shrinkWrap: true,
-                          //     physics: const NeverScrollableScrollPhysics(),
-                          //     itemBuilder: (context,index) => lessonBuilder(context,model!.lessons![index], index+1),
-                          //     separatorBuilder: (context,index) => const SizedBox(height: 20,),
-                          //     itemCount: model!.lessons!.length),
-                          //
-                          //  Visibility(
-                          //   visible: model!.lessons !=null,
-                          //   child: const SizedBox(height: 20,)),
-                          //
-                          // ListView.separated(
-                          //     shrinkWrap: true,
-                          //     physics: const NeverScrollableScrollPhysics(),
-                          //     itemBuilder: (context,index) => videoBuilder(context,model!.videos![index], index+1),
-                          //     separatorBuilder: (context,index) => const SizedBox(height: 20,),
-                          //     itemCount: model!.videos!.length),
-                          //
-                          // Visibility(
-                          //     visible: model!.videos !=null,
-                          //     child: const SizedBox(height: 20,)),
-                          //
-                          // ListView.separated(
-                          //     shrinkWrap: true,
-                          //     physics: const NeverScrollableScrollPhysics(),
-                          //     itemBuilder: (context,index) => quizBuilder(context,model!.questions!),
-                          //     separatorBuilder: (context,index) => const SizedBox(height: 20,),
-                          //     itemCount: 1),
-
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -453,7 +458,6 @@ class _UnitState extends State<Unit> {
   Widget defaultButtonItem({
     required void Function()? function,
     required String mainText,
-    required String description,
     required IconData icon,
     Color backgroundColor= Colors.redAccent,
     Color iconColor= Colors.redAccent
@@ -463,74 +467,38 @@ class _UnitState extends State<Unit> {
         highlightColor: Colors.grey.withOpacity(0.5),
         onTap: function,
         child: Container(
-          width: 150,
-          height: 175,
+          width: 130,
+          height: 130,
           clipBehavior: Clip.antiAliasWithSaveLayer,
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 15,
-              ),
-
-              Padding(
-                padding: const EdgeInsetsDirectional.only(start: 15.0),
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Icon(
-                    icon,
-                    color: iconColor,
-                  ),
+              Container(
+                width: 50,
+                height: 50,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Icon(
+                  icon,
+                  color: iconColor,
+                  size: 28,
                 ),
               ),
 
-              Padding(
-                padding: const EdgeInsetsDirectional.only(start: 15.0),
-                child: Text(
-                  mainText,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsetsDirectional.only(start: 15.0),
-                child: Text(
-                  description,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-
-              const Spacer(),
-
-              Padding(
-                padding: const EdgeInsetsDirectional.only(end: 8.0, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
-                    Icon(
-                      Icons.arrow_forward_rounded,
-                      color: Colors.white,
-                    ),
-                  ],
+              Text(
+                mainText,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
               ),
             ],
