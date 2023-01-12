@@ -11,7 +11,10 @@ class Paragraph extends StatelessWidget {
   final bool isSubmitted;  //Is Submitted to be checked
   final bool isChecked;   // Is it checked.
   final String mark;     // Mark
-  const Paragraph({Key? key, required this.isSubmitted, required this.isChecked, required this.mark}) : super(key: key);
+  final int unitId; //This Unit Id.
+  final String? previousParagraph;  //Written paragraph to show.
+
+  const Paragraph({Key? key,required this.unitId, required this.isSubmitted, required this.isChecked, required this.mark, required this.previousParagraph}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +23,33 @@ class Paragraph extends StatelessWidget {
     GlobalKey<FormState> formKey= GlobalKey<FormState>();
 
     return BlocConsumer<AppCubit,AppStates>(
-      listener: (context,state){},
+      listener: (context,state)
+      {
+        if(state is AppSubmitParagraphErrorState)
+          {
+            defaultToast(msg: 'Error While Uploading Paragraph');
+          }
+
+        if(state is AppSubmitParagraphSuccessState)
+          {
+            defaultToast(msg: 'Submitted Successfully');
+            Navigator.pop(context);
+          }
+
+        if(state is AppSubmitParagraphLoadingState)
+          {
+            defaultToast(msg: 'Uploading..');
+          }
+      },
 
       builder: (context,state)
       {
         var cubit=AppCubit.get(context);
 
+        if(previousParagraph != '')
+          {
+            textEditingController.text=previousParagraph!;  //If previous paragraph is not empty, then show it in the box.
+          }
         return Scaffold(
           appBar: AppBar(
             actions:
@@ -154,7 +178,9 @@ class Paragraph extends StatelessWidget {
                                 }
                               else
                                 {
-                                  print(textEditingController.value.text);
+                                  // print(textEditingController.value.text);
+                                  cubit.submitParagraph(textEditingController.value.text, unitId);
+
                                   //SUBMIT AND SEND TO TEACHERS.
                                 }
                             }

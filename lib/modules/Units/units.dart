@@ -112,7 +112,7 @@ class Units extends StatelessWidget{
                                     if(AppCubit.userModel!.user!.userUnits[model!.item[index].languageId]!.contains(model!.item[index].id!)) //If this unit is not locked, then enable navigation to this unit
                                     {
                                       cubit.getUnitContent(model!.item[index].id!); //Get the content of this unit and put it in contentModel
-                                      navigateAndSaveRouteSettings(context, const Unit(), 'unit');
+                                      navigateAndSaveRouteSettings(context, Unit(model!.item[index].id!), 'unit');
                                     }
                                     else
                                     {

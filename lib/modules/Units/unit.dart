@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/models/MainModel/content_model.dart';
@@ -18,8 +19,9 @@ import '../Lessons/Curve Painter/CurvePainter.dart';
 
 class Unit extends StatefulWidget {
 
+  final int unitId;
 
-  const Unit({Key? key}) : super(key: key);
+  const Unit(this.unitId, {Key? key}) : super(key: key);
 
   @override
   State<Unit> createState() => _UnitState();
@@ -36,7 +38,6 @@ class _UnitState extends State<Unit> {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocConsumer<AppCubit,AppStates>(
       listener: (context,state)
       {},
@@ -44,7 +45,6 @@ class _UnitState extends State<Unit> {
       {
         var cubit=AppCubit.get(context);
         ContentModel? model=AppCubit.contentModel; //Get the content of this unit, UnitOverview, Lessons, Questions and videos
-
         return WillPopScope(
           child: Scaffold(
             appBar: AppBar(
@@ -129,8 +129,8 @@ class _UnitState extends State<Unit> {
                                           navigateTo(context,UnitOverview(model!.unitOverview!));
                                         },
                                         mainText: 'Overview',
-                                        backgroundColor: Colors.grey,
-                                        iconColor: cubit.isDarkTheme? defaultDarkColor : defaultColor,
+                                        backgroundColor: HexColor('623b5a'),
+                                        iconColor: HexColor('623b5a'),
                                         icon: Icons.view_agenda_outlined),
                                   ),
 
@@ -141,10 +141,11 @@ class _UnitState extends State<Unit> {
                                     child: defaultButtonItem(
                                       function: ()
                                       {
-                                        navigateTo(context, const UnitLessons());
+                                        navigateTo(context, UnitLessons(widget.unitId));
                                       },
                                       mainText: 'Lessons',
-                                      iconColor: cubit.isDarkTheme? defaultColor : defaultDarkColor,
+                                      iconColor: HexColor('2a7f62'),
+                                      backgroundColor: HexColor('2a7f62'),
                                       icon: Icons.play_lesson_outlined,),
                                   ),
 
@@ -159,8 +160,8 @@ class _UnitState extends State<Unit> {
                                           navigateTo(context, UnitVideos(model!.videos!));
                                         },
                                         mainText: 'Videos',
-                                        iconColor: cubit.isDarkTheme? defaultColor : defaultDarkColor,
-                                        icon: Icons.ondemand_video_outlined),
+                                        icon: Icons.ondemand_video_outlined
+                                    ),
                                   ),
 
                                   const SizedBox(height: 10,),
@@ -181,55 +182,12 @@ class _UnitState extends State<Unit> {
                                       },
                                       mainText: 'Quiz',
                                       backgroundColor: Colors.grey,
-                                      iconColor: cubit.isDarkTheme? defaultDarkColor : defaultColor,
+                                      iconColor: Colors.grey,
                                       icon: Icons.quiz_outlined,),
                                   ),
                                 ],
                               ),
                             ),
-
-
-                            // ListView.separated(
-                            //     shrinkWrap: true,
-                            //     physics: const NeverScrollableScrollPhysics(),
-                            //     itemBuilder: (context,index) => unitOverViewBuilder(context,model!.unitOverview!),
-                            //     separatorBuilder: (context,index) => const SizedBox(height: 20,),
-                            //     itemCount: 1),
-                            //
-                            // //NON USED VISIBILITY
-                            // // Visibility(
-                            // //     visible: model!.unitOverview !=null,
-                            // //     child: const SizedBox(height: 20,)),
-                            //
-                            // ListView.separated(
-                            //     shrinkWrap: true,
-                            //     physics: const NeverScrollableScrollPhysics(),
-                            //     itemBuilder: (context,index) => lessonBuilder(context,model!.lessons![index], index+1),
-                            //     separatorBuilder: (context,index) => const SizedBox(height: 20,),
-                            //     itemCount: model!.lessons!.length),
-                            //
-                            //  Visibility(
-                            //   visible: model!.lessons !=null,
-                            //   child: const SizedBox(height: 20,)),
-                            //
-                            // ListView.separated(
-                            //     shrinkWrap: true,
-                            //     physics: const NeverScrollableScrollPhysics(),
-                            //     itemBuilder: (context,index) => videoBuilder(context,model!.videos![index], index+1),
-                            //     separatorBuilder: (context,index) => const SizedBox(height: 20,),
-                            //     itemCount: model!.videos!.length),
-                            //
-                            // Visibility(
-                            //     visible: model!.videos !=null,
-                            //     child: const SizedBox(height: 20,)),
-                            //
-                            // ListView.separated(
-                            //     shrinkWrap: true,
-                            //     physics: const NeverScrollableScrollPhysics(),
-                            //     itemBuilder: (context,index) => quizBuilder(context,model!.questions!),
-                            //     separatorBuilder: (context,index) => const SizedBox(height: 20,),
-                            //     itemCount: 1),
-
                           ],
                         ),
                       ),

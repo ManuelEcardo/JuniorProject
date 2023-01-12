@@ -69,11 +69,26 @@ class UserUnits
   String? unitStatus;
   int? languageId; //The Language that contains this unit.
 
+  UserPivot? pivot;
+
   UserUnits.fromJson(Map<String,dynamic>json)
   {
     unitId= json['id'];
     unitStatus=json['unit_status'];
     languageId=json['language_id'];
+    pivot=UserPivot.fromJson(json['pivot']);
+  }
+}
+
+class UserPivot
+{
+  String? paragraph;
+  String? evaluation;
+
+  UserPivot.fromJson(Map<String,dynamic>json)
+  {
+    paragraph= json['paragraph'];
+    evaluation= json['evaluation'];
   }
 }
 

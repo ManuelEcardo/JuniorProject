@@ -233,6 +233,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver
                 padding: const EdgeInsetsDirectional.only(start: 24.0,end: 24.0, bottom: 24.0, top: 40.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children:
                   [
                     Align(
@@ -366,6 +367,34 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver
 
                     const SizedBox(height: 40,),
 
+                    Visibility(
+                      visible: widget.video.newWordsList!.isNotEmpty,
+                      child: Align(
+                        alignment: AlignmentDirectional.topStart,
+                        child: Text(
+                          "Video's Bizarre Words: ",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 4,
+                          style: defaultHeadlineTextStyle,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 10,),
+
+                    Visibility(
+                      visible: widget.video.newWordsList!.isNotEmpty,
+                      child: Align(
+                        alignment: AlignmentDirectional.topStart,
+                        child: Text(
+                          widget.video.newWordsList!.join(', '),
+                          style: ordinaryTextStyle,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 40,),
+
                     Align(
                       alignment: AlignmentDirectional.topStart,
                       child: Text(
@@ -385,6 +414,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver
                         style: ordinaryTextStyle,
                       ),
                     ),
+
                   ],
                 ),
               ),

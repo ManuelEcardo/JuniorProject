@@ -25,7 +25,7 @@ class CurvePainter extends CustomPainter {
 
     //--------------------
 
-    var startVideos = Offset(size.width /2, size.height /2);
+    var startVideos = Offset(size.width /2, size.height /2.1);
     var middleLessons = Offset(size.width /4 , size.height / 1.78);
 
 

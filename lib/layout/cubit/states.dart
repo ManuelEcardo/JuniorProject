@@ -221,6 +221,15 @@ class AppUserLangUnitsSuccessState extends AppStates{}
 class AppUserLangUnitsErrorState extends AppStates{}
 
 
+// SUBMIT A PARAGRAPH
+
+class AppSubmitParagraphLoadingState extends AppStates{}
+
+class AppSubmitParagraphSuccessState extends AppStates{}
+
+class AppSubmitParagraphErrorState extends AppStates{}
+
+
 
 //USER LOGOUT:
 

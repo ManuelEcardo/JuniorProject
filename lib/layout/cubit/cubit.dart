@@ -749,7 +749,35 @@ class AppCubit extends Cubit<AppStates>
     });
   }
 
+  //Submit Paragraph
 
+  void submitParagraph(String text, int unitId)
+  {
+    emit(AppSubmitParagraphLoadingState());
+
+    MainDioHelper.patchData(
+        url: '$putParagraph/$unitId',
+        data: {
+          'content':text,
+        },
+        token: token,
+    ).then((value)
+    {
+      print('Got Paragraph Result, ${value.data}');
+      userData();
+      emit(AppSubmitParagraphSuccessState());
+
+    }).catchError((error)
+    {
+      print('ERROR WHILE SUBMITTING PARAGRAPH, ${error.toString()}');
+      emit(AppSubmitParagraphErrorState());
+    });
+  }
+
+
+  //-------------------------
+
+  //Likes and Favourites.
 
   bool isWordFav=false;
 

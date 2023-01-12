@@ -97,7 +97,7 @@ class MainDioHelper
     {
       'Accept':'application/json',
       'Connection' : 'keep-alive',
-      'token': 'Bearer $token',
+      'Authorization': 'Bearer $token',
     };
     print('in Main Dio putData');
     return await dio!.put(
@@ -115,7 +115,7 @@ class MainDioHelper
     {
       'Accept':'application/json',
       'Connection' : 'keep-alive',
-      // 'Authorization': 'Bearer $token',
+      'Authorization': 'Bearer $token',
     };
     print('in Main Dio patchData');
     return await dio!.patch(

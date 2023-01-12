@@ -100,6 +100,8 @@ class Videos {
   String? videoDescription;
   String? videoSubtitle;
   int? unitId;
+  List<VideosWords>? newWords=[];
+  List<String>? newWordsList=[];
 
   Videos({this.videoTitle,this.videoLink,this.videoSubtitle,this.videoDescription});
 
@@ -111,6 +113,30 @@ class Videos {
     videoDescription = json['video_description'];
     videoSubtitle = json['video_subtitle'];
     unitId = json['unit_id'];
+
+    if(json['new_words']!=null)
+      {
+        json['new_words'].forEach((element)
+        {
+          newWords?.add(VideosWords.fromJson(element));
+          newWordsList?.add(element['word']); //List just having the words.
+        });
+      }
   }
 
+}
+
+
+class VideosWords
+{
+  int? id;
+  String? word;
+  int? videoId;
+
+  VideosWords.fromJson(Map<String,dynamic>json)
+  {
+    id= json['id'];
+    word= json['word'];
+    videoId=json['video_id'];
+  }
 }

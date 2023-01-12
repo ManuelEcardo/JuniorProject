@@ -207,6 +207,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       Row(
                         children: [
 
+                          const Spacer(),
+
                           ShowCaseView(
                             globalKey: likesGlobalKey,
                             title: 'Favourite Words',
@@ -242,7 +244,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                       context,
                                       ShowCaseWidget(builder: Builder(builder: (context)=>const Settings(),)));
                                 }),
-                          )
+                          ),
+
+                          const Spacer(),
                         ],
                       ),
 
