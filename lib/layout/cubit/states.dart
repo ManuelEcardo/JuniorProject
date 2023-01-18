@@ -230,7 +230,6 @@ class AppSubmitParagraphSuccessState extends AppStates{}
 class AppSubmitParagraphErrorState extends AppStates{}
 
 
-
 //USER LOGOUT:
 
 class AppUserSignOutLoadingState extends AppStates{}
