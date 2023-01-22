@@ -83,12 +83,20 @@ class Lessons
   late int unitId;
   late int id;
 
+  String? question;
+  String? answer;
+  String? choice1;
+
   Lessons.fromJson(Map<String, dynamic> json)
   {
     lessonTitle=json['lesson_title'];
     lessonContent=json['lesson_content'];
     unitId=json['unit_id'];
     id=json['id'];
+
+    question=json['question'];
+    answer=json['answer'];
+    choice1=json['choice1'];
   }
 
 }

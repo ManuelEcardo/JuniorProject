@@ -5,9 +5,9 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/models/MainModel/content_model.dart';
+import 'package:juniorproj/modules/Exam/exam.dart';
 import 'package:juniorproj/modules/Lessons/UnitLessons.dart';
 // import 'package:juniorproj/modules/Lessons/lesson.dart';
-import 'package:juniorproj/modules/Quiz/quiz.dart';
 import 'package:juniorproj/modules/Units/unitOverview.dart';
 import 'package:juniorproj/modules/Videos/UnitsVideos.dart';
 // import 'package:juniorproj/modules/Videos/VideoPlayer/videoPlayer.dart';
@@ -141,7 +141,7 @@ class _UnitState extends State<Unit> {
                                     child: defaultButtonItem(
                                       function: ()
                                       {
-                                        navigateTo(context, UnitLessons(widget.unitId));
+                                        navigateTo(context, UnitLessons(widget.unitId, model!.lessons!));
                                       },
                                       mainText: 'Lessons',
                                       iconColor: HexColor('2a7f62'),
@@ -171,19 +171,12 @@ class _UnitState extends State<Unit> {
                                     child: defaultButtonItem(
                                       function: ()
                                       {
-                                        if(model!.questions!.isNotEmpty)
-                                        {
-                                          navigateAndSaveRouteSettings(context, QuizPage(model!.questions!), 'quiz');
-                                        }
-                                        else if (model!.questions!.isEmpty)
-                                        {
-                                          defaultToast(msg: 'Quiz is in development');
-                                        }
+                                        navigateTo(context,  Exam(model: model!, unitId: widget.unitId,));
                                       },
-                                      mainText: 'Quiz',
+                                      mainText: 'Exam',
                                       backgroundColor: Colors.grey,
                                       iconColor: Colors.grey,
-                                      icon: Icons.quiz_outlined,),
+                                      icon: Icons.question_mark_outlined,),
                                   ),
                                 ],
                               ),
