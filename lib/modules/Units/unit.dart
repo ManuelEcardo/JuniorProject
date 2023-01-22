@@ -94,7 +94,7 @@ class _UnitState extends State<Unit> {
                 {
                   return SingleChildScrollView(
                     child: CustomPaint(
-                      painter: CurvePainter(),
+                      painter: CurvePainter(context),
                       child: Padding(
                         padding: const EdgeInsets.all(24.0),
                         child: Column(
@@ -148,7 +148,6 @@ class _UnitState extends State<Unit> {
                                       backgroundColor: HexColor('2a7f62'),
                                       icon: Icons.play_lesson_outlined,),
                                   ),
-
 
                                   const SizedBox(height: 10,),
 

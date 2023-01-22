@@ -14,8 +14,9 @@ import '../../models/MainModel/content_model.dart';
 class Lesson extends StatefulWidget {
 
   Lessons model;
+  final int id;  //Id for the lesson, NOT THE LESSON ID FROM THE SERVER
 
-  Lesson(this.model, {Key? key}) : super(key: key);
+  Lesson(this.model, this.id, {Key? key}) : super(key: key);
 
   @override
   State<Lesson> createState() => _LessonState();
@@ -57,11 +58,11 @@ class _LessonState extends State<Lesson> {
               IconButton(onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny)),
             ],
           ),
+
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(24.0),
-              child: SizedBox( //was Container
-                //height: MediaQuery.of(context).size.height,
+              child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: itemBuilder(context, widget.model),
               ),
@@ -80,7 +81,7 @@ class _LessonState extends State<Lesson> {
       [
         Center(
           child:Text(
-            'Lesson ${widget.model.id}:',
+            'Lesson ${widget.id}:',
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -117,8 +118,9 @@ class _LessonState extends State<Lesson> {
 
         const SizedBox(height: 20,),
 
+        if(model.answer !=null && model.choice1 !=null && model.question !=null)
         Visibility(
-          visible: isQuestionShown==true && model.answer !=null,
+          visible: isQuestionShown==true,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children:

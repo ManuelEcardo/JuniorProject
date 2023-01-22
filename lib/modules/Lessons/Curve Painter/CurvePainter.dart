@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:juniorproj/layout/cubit/cubit.dart';
+import 'package:juniorproj/shared/styles/colors.dart';
 import 'package:path_drawing/path_drawing.dart';
 
 
 class CurvePainter extends CustomPainter {
+  final BuildContext context;
+
+  CurvePainter(this.context);
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint();
 
-    paint.color = Colors.lightBlue;
+    paint.color = AppCubit.get(context).isDarkTheme ? defaultDarkColor : Colors.lightBlue;
     paint.style = PaintingStyle.stroke;
     paint.strokeWidth = 3.2;
 
