@@ -36,7 +36,7 @@ class UnitLessons extends StatelessWidget {
                   TextButton(
                     onPressed: ()
                     {
-                      navigateTo(context,Lesson(model[0]));
+                      navigateTo(context,Lesson(model[7]));
                     },
                       child: Text('item'),
                   )

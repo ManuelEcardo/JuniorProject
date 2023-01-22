@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
@@ -10,11 +11,36 @@ import 'package:string_extensions/string_extensions.dart';
 import '../../models/MainModel/content_model.dart';
 
 //ignore: must_be_immutable
-class Lesson extends StatelessWidget {
+class Lesson extends StatefulWidget {
 
   Lessons model;
 
   Lesson(this.model, {Key? key}) : super(key: key);
+
+  @override
+  State<Lesson> createState() => _LessonState();
+}
+
+class _LessonState extends State<Lesson> {
+
+  bool isQuestionShown=false;
+  bool isAnswersShown=false;
+
+  @override
+  void initState()
+  {
+    isQuestionShown=false;
+    isAnswersShown=false;
+    super.initState();
+  }
+
+  @override
+  void dispose()
+  {
+    isQuestionShown=false;
+    isAnswersShown=false;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +63,7 @@ class Lesson extends StatelessWidget {
               child: SizedBox( //was Container
                 //height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
-                child: itemBuilder(context),
+                child: itemBuilder(context, widget.model),
               ),
             ),
           ),
@@ -46,7 +72,7 @@ class Lesson extends StatelessWidget {
     );
   }
 
-  Widget itemBuilder(BuildContext context)
+  Widget itemBuilder(BuildContext context, Lessons model)
   {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +80,7 @@ class Lesson extends StatelessWidget {
       [
         Center(
           child:Text(
-            'Lesson ${model.id}:',
+            'Lesson ${widget.model.id}:',
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -81,7 +107,7 @@ class Lesson extends StatelessWidget {
         const SizedBox(height: 10,),
 
         Text(
-          model.lessonContent,
+          widget.model.lessonContent,
           textAlign: TextAlign.start,
           style:const TextStyle(
             fontSize: 20,
@@ -91,100 +117,102 @@ class Lesson extends StatelessWidget {
 
         const SizedBox(height: 20,),
 
-        Column(
-          children:
-          [
-            Text(
-              'Answer the Following: ',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.grey
+        Visibility(
+          visible: isQuestionShown==true && model.answer !=null,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children:
+            [
+               Text(
+                'Answer the Following: ',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: AppCubit.get(context).isDarkTheme ? goldenColor : Colors.grey
+                ),
               ),
-            ),
 
-            const SizedBox(height: 10,),
+              const SizedBox(height: 10,),
 
-            Text(
-              'What is my Name?',
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  model.question!,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
-            ),
 
-            const SizedBox(height: 10,),
+              const SizedBox(height: 15,),
 
-            Row(
-              children:
-              [
-                const SizedBox(width: 5,),
+              Row(
+                children:
+                [
+                  const SizedBox(width: 5,),
 
-                boxBuilder('Choice1'),
+                  boxBuilder(model.answer,HexColor('8AA76C') ),
 
-                boxBuilder('Choice2'),
+                  boxBuilder(model.choice1, Colors.redAccent),
 
-                const SizedBox(width: 5,),
-              ],
-            ),
-          ],
+                  const SizedBox(width: 5,),
+                ],
+              ),
+            ],
+          ),
         ),
 
-        // Center(
-        //   child: TextButton(
-        //     onPressed: ()
-        //     {
-        //
-        //     },
-        //     child: Text(
-        //       'Test yourself ?',
-        //       style: TextStyle(
-        //         fontSize: 24,
-        //         fontWeight: FontWeight.w500,
-        //         color: AppCubit.get(context).isDarkTheme? defaultColor : defaultDarkColor,
-        //       ),
-        //     ),
-        //   ),
-        // ),
+        Visibility(
+          visible: isQuestionShown==false,
+          child: Center(
+            child: TextButton(
+              onPressed: ()
+              {
+                if(model.answer ==null)
+                  {
+                    defaultToast(msg: 'No Current Questions', length: Toast.LENGTH_LONG);
+                  }
+
+                else
+                  {
+                    setState(()
+                    {
+                      isQuestionShown=true;
+                    });
+                  }
+              },
+              child: Text(
+                'Test yourself ?',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                  color: AppCubit.get(context).isDarkTheme? defaultColor : defaultDarkColor,
+                ),
+              ),
+            ),
+          ),
+        ),
 
       ],
     );
   }
 
-  Widget boxBuilder(String text,)
+  Widget boxBuilder(String? text, Color color)
   {
     return Expanded(
       child: GestureDetector(
 
         onTap: ()
         {
-          // if(cubit.isBoxTappedQuiz==false)
-          // {
-          //   print('Box Tapped');
-          //   cubit.changeIsBoxTappedQuiz(true);  //Set that the box has been tapped so the user won't be able to change his answer.
-          //   cubit.changeIsAnimation(true);
-          //   if(answerId == 1)
-          //   {
-          //     cubit.changeIsCorrectQuiz(true);
-          //     correctFalseBuilder(cubit);
-          //   }
-          //   else
-          //   {
-          //     cubit.changeIsCorrectQuiz(false);
-          //     correctFalseBuilder(cubit);
-          //   }
-          // }
-          // else
-          // {
-          //   defaultToast(msg: 'You\'ve already chosen an answer');
-          // }
+          setState(()
+          {
+            isAnswersShown=true;
+          });
         },
-        onLongPress: ()
-        {
-          defaultToast(msg: 'Just Press it :)');
-        },
-
         child: Stack(
           alignment: Alignment.center,
           children:
@@ -192,14 +220,14 @@ class Lesson extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
-                color: Colors.grey, //HexColor('8AA76C'),
+                color: isAnswersShown ? color : Colors.grey, //HexColor('8AA76C'),
               ),
               width: 120,
               height: 75,
             ),
 
             Text(
-              text.capitalize!,
+              '$text',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
