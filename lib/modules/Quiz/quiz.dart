@@ -835,42 +835,44 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                   color: Colors.black,
                 ),
               ),
-              content:  Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children:
-                [
-                  Text(
-                    '${messageBuilder(AppCubit.finalMark)}, You\'ve scored: ${AppCubit.finalMark.toString().substring(0,3)}',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                    ) ,
-                  ),
-
-                  Center(
-                    child: TextButton(
-                      child:const Text(
-                        'NEXT',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-
-                      onPressed: ()
-                      {
-                        cubit.setFinalMarkToZero();
-                        cubit.changeIsBoxTappedQuiz(false);
-                        cubit.changeQuizIsVisible(false);
-                        Navigator.of(context).popUntil((route){
-                          return route.settings.name == 'unit';
-                        });  //Go Back to the previous screen.
-                      },
-
+              content:  SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children:
+                  [
+                    Text(
+                      '${messageBuilder(AppCubit.finalMark)}, You\'ve scored: ${AppCubit.finalMark.toString().substring(0,3)}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                      ) ,
                     ),
-                  ),
-                ]
+
+                    Center(
+                      child: TextButton(
+                        child:const Text(
+                          'NEXT',
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+
+                        onPressed: ()
+                        {
+                          cubit.setFinalMarkToZero();
+                          cubit.changeIsBoxTappedQuiz(false);
+                          cubit.changeQuizIsVisible(false);
+                          Navigator.of(context).popUntil((route){
+                            return route.settings.name == 'unit';
+                          });  //Go Back to the previous screen.
+                        },
+
+                      ),
+                    ),
+                  ]
+                ),
               ),
             ),
 

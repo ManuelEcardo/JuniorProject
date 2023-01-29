@@ -205,18 +205,20 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver
                           return defaultAlertDialog(
                               context: context,
                               title: 'Video Section',
-                              content: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children:
-                                const[
-                                  Text('Videos can be stopped either through pressing the stop button, or pressing the box which contains the subtitles',),
+                              content: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children:
+                                  const[
+                                    Text('Videos can be stopped either through pressing the stop button, or pressing the box which contains the subtitles',),
 
-                                  Text('-Select a word after pausing the video then press translate to check the translation of this word.',),
+                                    Text('-Select a word after pausing the video then press translate to check the translation of this word.',),
 
-                                  Text('- Press the three dots in the video frame to change Playback Speed',),
-                                ],
+                                    Text('- Press the three dots in the video frame to change Playback Speed',),
+                                  ],
+                                ),
                               ),
                           );
                         }

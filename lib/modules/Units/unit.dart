@@ -43,7 +43,7 @@ class _UnitState extends State<Unit> {
       {},
       builder: (context,state)
       {
-        var cubit=AppCubit.get(context);
+        //var cubit=AppCubit.get(context);
         ContentModel? model=AppCubit.contentModel; //Get the content of this unit, UnitOverview, Lessons, Questions and videos
         return WillPopScope(
           child: Scaffold(
@@ -62,20 +62,22 @@ class _UnitState extends State<Unit> {
                           return defaultAlertDialog(
                               context: context,
                               title: 'Content of each Unit',
-                              content: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children:
-                                const[
-                                  Text('Each Unit contains 2 Lessons and 4 Videos and a Quiz to test your abilities',),
+                              content: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children:
+                                  const[
+                                    Text('-Each Unit contains Lessons, Videos, a Quiz to test your abilities, a Paragraph to summarize what you have learnt.\n',),
 
-                                  Text('-Each Lesson will contain mandatory information to pass the unit',),
+                                    Text('-Each Lesson will contain mandatory information to pass the unit\n',),
 
-                                  Text('- The video will improve your listening as well as your vocabularies.',),
+                                    Text('- The video will improve your listening as well as your vocabularies.\n',),
 
-                                  Text('- Quiz will contain a variety of questions, bypass them to get to the next unit.',),
-                                ],
+                                    Text('- Quiz will contain a variety of questions, bypass them to get to the next unit.',),
+                                  ],
+                                ),
                               ),
                           );
                         }

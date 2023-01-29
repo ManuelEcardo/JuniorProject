@@ -33,7 +33,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   [
     OnBoardingModel(
         image: 'assets/json/on_board_1.json',
-        title: 'Feeling Bored with Classic Learning?',
+        title: 'Bored from Classic old Learning?',
         body: 'Reading grammar books and listening to teachers lecture can be quiet a drag.'
     ),
 

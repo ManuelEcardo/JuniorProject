@@ -235,25 +235,27 @@ class _SettingsState extends State<Settings> {
                                         return defaultAlertDialog(
                                             context: context,
                                             title: 'Thanks for Using our App!',
-                                            content: Column(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const [
-                                                Text('A work of sincere people',),
+                                            content: SingleChildScrollView(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: const [
+                                                  Text('A work of sincere people',),
 
-                                                Text('-Mobile Application: Mohammad Bali',),
+                                                  Text('-Mobile Application: Mohammad Bali',),
 
-                                                Text('-Website: Ayhem Khatib',),
+                                                  Text('-Website: Ayhem Khatib',),
 
-                                                Text('-Back End: Mostafa Hamwi',),
+                                                  Text('-Back End: Mostafa Hamwi',),
 
-                                                Text('-Structure: Yazan Abd Alkarem',),
+                                                  Text('-Structure: Yazan Abd Alkarem',),
 
-                                                Text('-Reports: Ibaa Safieh',),
-                                              ],
+                                                  Text('-Reports: Ibaa Safieh',),
+                                                ],
+                                              ),
                                             )
                                         );
                                       });

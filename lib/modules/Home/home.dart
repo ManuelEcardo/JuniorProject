@@ -215,7 +215,12 @@ class _HomePageState extends State<HomePage> {
                                     title: 'Challenges',
                                     description: 'Daily Challenges to increase your points',
                                     child: defaultButton(
-                                        function: () {}, text: 'Go Now !'),
+                                        function: ()
+                                        {
+                                          defaultToast(msg: 'Under Development...');
+                                        },
+                                        text: 'Go Now !'
+                                    ),
                                   )),
                             ],
                           ),

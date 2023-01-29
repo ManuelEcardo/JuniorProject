@@ -87,20 +87,22 @@ class _HomeLayoutState extends State<HomeLayout> {
                             return defaultAlertDialog(
                               context: context,
                               title: 'Ready to learn a new language?',
-                              content: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children:
-                                const[
-                                   Text('-This is your home page, we will show you a recap here.',),
+                              content: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children:
+                                  const[
+                                     Text('-This is your home page, we will show you a recap here.',),
 
-                                   Text('-If you would like to proceed then press Let\'s Go'),
+                                     Text('-If you would like to proceed then press Let\'s Go'),
 
-                                   Text('-Check for challenges, each time you complete one you will earn points.',),
+                                     Text('-Check for challenges, each time you complete one you will earn points.',),
 
-                                   Text('-Your Progress in the current active course will show here.',),
-                                ],
+                                     Text('-Your Progress in the current active course will show here.',),
+                                  ],
+                                ),
                               ),
                             );
                           }
@@ -124,17 +126,19 @@ class _HomeLayoutState extends State<HomeLayout> {
                             return defaultAlertDialog(
                                 context: context,
                                 title: 'Here You Can add new languages to learn !',
-                                content: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children:
-                                  const[
-                                    Text('-Press on a language to proceed.',),
+                                content: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children:
+                                    const[
+                                      Text('-Press on a language to proceed.',),
 
-                                    Text('-Feeling up to it?\nPress + to take on a new course.',),
+                                      Text('-Feeling up to it?\nPress + to take on a new course.',),
 
-                                  ],
+                                    ],
+                                  ),
                                 ),
                             );
                           }
@@ -158,16 +162,18 @@ class _HomeLayoutState extends State<HomeLayout> {
                             return defaultAlertDialog(
                                 context: context,
                                 title: 'Play and Earn !',
-                                content: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children:
-                                  const[
-                                    Text('-Work hard and get paid !\nFor every achievement you get right you will score points.',),
+                                content: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children:
+                                    const[
+                                      Text('-Work hard and get paid !\nFor every achievement you get right you will score points.',),
 
-                                    Text('-You can check the Leaderboards for the rivals with the highest points.',),
-                                  ],
+                                      Text('-You can check the Leaderboards for the rivals with the highest points.',),
+                                    ],
+                                  ),
                                 ),
                             );
                           }
@@ -191,16 +197,18 @@ class _HomeLayoutState extends State<HomeLayout> {
                         return defaultAlertDialog(
                             context: context,
                             title: 'You can change your personal info too !',
-                            content: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children:
-                              const[
-                                Text('If you\'d like to change your name, change the name box here, then click UPDATE.',),
+                            content: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children:
+                                const[
+                                  Text('If you\'d like to change your name, change the name box here, then click UPDATE.',),
 
-                                Text('Same applies for all the other choices.',),
-                              ],
+                                  Text('Same applies for all the other choices.',),
+                                ],
+                              ),
                             ),
                         );
                       }

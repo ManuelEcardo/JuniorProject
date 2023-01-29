@@ -191,7 +191,6 @@ Future<bool?> defaultToast({
   int time = 1,
 }) =>
     Fluttertoast.showToast(
-
       msg: msg,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: time,
@@ -429,8 +428,15 @@ class ShowCaseView extends StatelessWidget {
       disableScaleAnimation: false,
       tooltipPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
       descriptionAlignment: TextAlign.left,
-      titleTextStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-      descTextStyle: const TextStyle(fontSize: 14,),
+      titleTextStyle: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+          color: Colors.black
+      ),
+      descTextStyle: const TextStyle(
+        fontSize: 14,
+        color: Colors.black
+      ),
       child: child,
     );
   }

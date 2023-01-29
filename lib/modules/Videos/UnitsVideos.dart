@@ -1,4 +1,4 @@
-import 'package:cached_video_preview/cached_video_preview.dart';
+//import 'package:cached_video_preview/cached_video_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:juniorproj/layout/cubit/cubit.dart';
@@ -112,18 +112,25 @@ class UnitVideos extends StatelessWidget {
                        child: ClipRRect(
                          borderRadius: BorderRadius.circular(8),
                          clipBehavior:Clip.antiAliasWithSaveLayer,
-                         child: CachedVideoPreviewWidget(
-                           path: model.videoLink!,
-                           type: SourceType.remote,
-                           httpHeaders: const <String, String>{},
-                           placeHolder: const Center(child: CircularProgressIndicator(),),
-                           remoteImageBuilder: (BuildContext context, url) => Image.network(
-                             url,
-                             width: 150,
-                             height: 150,
-                             errorBuilder: (context,error,stack)=>Image.asset('assets/images/defaultFlag.png'),
-                           ),
+                         child: const Image(
+                           image: AssetImage('assets/images/defaultVideoImage.png'),
+                           width: 150,
+                           height: 150,
+                           fit: BoxFit.contain,
+
                          ),
+                         // child: CachedVideoPreviewWidget(
+                         //   path: model.videoLink!,
+                         //   type: SourceType.remote,
+                         //   httpHeaders: const <String, String>{},
+                         //   placeHolder: const Center(child: CircularProgressIndicator(),),
+                         //   remoteImageBuilder: (BuildContext context, url) => Image.network(
+                         //     url,
+                         //     width: 150,
+                         //     height: 150,
+                         //     errorBuilder: (context,error,stack)=>Image.asset('assets/images/defaultFlag.png'),
+                         //   ),
+                         // ),
                        ),
                      ),
                    ),
