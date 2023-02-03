@@ -253,7 +253,7 @@ class _SettingsState extends State<Settings> {
 
                                                   Text('-Structure: Yazan Abd Alkarem',),
 
-                                                  Text('-Reports: Ibaa Safieh',),
+                                                  Text('-Reports: Ebaa Safieh',),
                                                 ],
                                               ),
                                             )
@@ -262,17 +262,39 @@ class _SettingsState extends State<Settings> {
                                 },
                               ),
 
-                              // const Spacer(),
-                              // TextButton(
-                              //   child: const Text(
-                              //     'Logout',
-                              //     style: TextStyle(fontSize: 20),
-                              //   ),
-                              //   onPressed: () {
-                              //     cubit.logoutUserOut(context);
-                              //     //signOut(context);
-                              //   },
-                              // ),
+                              const Spacer(),
+                              TextButton(
+                                child: const Text(
+                                  'Contact Us',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                onPressed: () async {
+                                  await showDialog(
+                                      context: context,
+                                      builder: (context) {
+
+                                        return defaultAlertDialog(
+                                            context: context,
+                                            title: 'Contact Us Anytime!',
+                                            content: SingleChildScrollView(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: const [
+                                                  Text('Get in touch with us through email.',),
+
+                                                  Text('LearnWithVideosNow@gmail.com',),
+
+                                                ],
+                                              ),
+                                            )
+                                        );
+                                      });
+                                },
+                              ),
                             ],
                           ),
 

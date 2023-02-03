@@ -69,7 +69,6 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver
       zoomAndPan: true,
       placeholder: const Center(child: CircularProgressIndicator(),),  //While loading, show Circular Progress
       showControlsOnInitialize: false,  //Won't show options while loading
-
       errorBuilder: (context,errorMessage)  //Error Message to show.
       {
         return Center(
@@ -80,12 +79,9 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver
         );
       },
 
-
     );
 
   }
-
-
   // void updateSubtitleUrl({
   //   ExampleSubtitleLanguage? subtitleLanguage,
   // }) {

@@ -8,7 +8,7 @@ import 'package:juniorproj/shared/styles/colors.dart';
 //ignore: must_be_immutable
 class UnitOverview extends StatelessWidget {
 
-  List<String> model;
+  String model;
 
   UnitOverview(this.model, {Key? key}) : super(key: key);
 
@@ -79,22 +79,13 @@ class UnitOverview extends StatelessWidget {
 
         const SizedBox(height: 10,),
 
-        ListView.builder(
-            itemCount: model.length,
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context,index)
-            {
-              return Text(
-                model[index],
-                textAlign: TextAlign.start,
-                style:const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w100,
-                ),
-              );
-            },
-        ),
+        Text(
+        model,
+        textAlign: TextAlign.start,
+        style:const TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w100,),
+          ),
 
         const SizedBox(height: 20,),
 

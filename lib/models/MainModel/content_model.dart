@@ -1,17 +1,14 @@
 class ContentModel {
 
-  List<String>? unitOverview=[];
+  String? unitOverview;
   List<Questions>? questions=[];
   List<Lessons>? lessons=[];
   List<Videos>? videos=[];
 
   ContentModel.fromJson(Map<String, dynamic> json)
   {
-    json['unit_overview'].forEach((element)
-    {
-      unitOverview?.add(element);
-    }
-    );
+
+    unitOverview= json['unit_overview'];
 
     json['questions'].forEach((element)   //It is a list, so we need to add each element, can be achieved by using forEach to get each element then add it using .add
     {
