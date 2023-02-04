@@ -11,8 +11,8 @@ import 'package:juniorproj/shared/styles/styles.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:string_extensions/string_extensions.dart';
-
 import '../../shared/network/local/cache_helper.dart';
+import '../Weekly_Tip/weekly_tip.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -184,26 +184,30 @@ class _HomePageState extends State<HomePage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'Daily Challenge',
+                            'Daily Tips',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: defaultHeadlineTextStyle,
                           ),
+
                           const SizedBox(
                             height: 10,
                           ),
+
                           Padding(
                             padding: const EdgeInsetsDirectional.only(start: 5),
                             child: Text(
-                              'Learn Five New Words',
+                              'Feel Lucky?',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: ordinaryTextStyle,
                             ),
                           ),
+
                           const SizedBox(
                             height: 15,
                           ),
+
                           Row(
                             children: [
                               const Spacer(),
@@ -212,13 +216,38 @@ class _HomePageState extends State<HomePage> {
                                   child: ShowCaseView(
                                     shapeBorder: const Border(),
                                     globalKey: challengeKey,
-                                    title: 'Challenges',
-                                    description: 'Daily Challenges to increase your points',
+                                    title: 'Tips',
+                                    description: 'Daily Tips to help you out!',
                                     child: defaultButton(
                                         function: ()
-                                        {
-                                          defaultToast(msg: 'Under Development...');
+                                        async {
+                                          // navigateTo(context, const WeeklyTip());
+                                          await showDialog(
+                                              context: context,
+                                              builder: (context)
+                                          {
+                                            return defaultAlertDialog(
+                                              context: context,
+                                              title: "Today's Tip:",
+                                              content: SingleChildScrollView(
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children:
+                                                  const[
+                                                    Text('-Headline',),
+
+                                                    Text('-Data'),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+
+                                          );
                                         },
+
                                         text: 'Go Now !'
                                     ),
                                   )),
@@ -235,12 +264,7 @@ class _HomePageState extends State<HomePage> {
                     myDivider(c: goldenColor),
 
                     SizedBox(
-                      // decoration: BoxDecoration(
-                      //   border: Border.all(color: Colors.black),
-                      //   borderRadius: BorderRadius.circular(5),
-                      // ),
                       height: 125,
-
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Row(
@@ -299,42 +323,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    // const SizedBox(
-                    //   height: 15,
-                    // ),
-                    //
-                    // Container(
-                    //   height: 160,
-                    //   width: 500,
-                    //   color: Colors.blue,
-                    //
-                    //   child: Row(
-                    //     mainAxisSize: MainAxisSize.max,
-                    //     mainAxisAlignment: MainAxisAlignment.start,
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     children:
-                    //     [
-                    //       Stack(
-                    //
-                    //         children:
-                    //         [
-                    //           const Image(image: AssetImage('assets/images/fire-ring.gif')),
-                    //
-                    //            Container(
-                    //              width:250,
-                    //              child: const Image(
-                    //                image: AssetImage('assets/images/fire.gif'),
-                    //                height: 50,
-                    //                width: 50,
-                    //                alignment: Alignment.center,
-                    //              ),
-                    //            ),
-                    //
-                    //         ],
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -401,7 +389,7 @@ class _HomePageState extends State<HomePage> {
           langId= AppCubit.userModel!.user!.userLanguages[0]; //Take the first one
           AppCubit.userModel!.userProgress?.forEach((element) //Loop Through User's Languages
           {
-            print(element.languageId);
+            //print(element.languageId);
             if(element.languageId == langId)
             {
               myLangProgress = element.progress!;
@@ -461,7 +449,7 @@ class _HomePageState extends State<HomePage> {
 
       catch (error)
       {
-        print('Getting Double Non-Cached Progress Bar, ${error.toString()}');
+        print('Getting Double Non-Cached Progress Bar.');  //Getting Double Non-Cached Progress Bar, ${error.toString()}
 
         if(AppCubit.userModel!.user!.userLanguages.isNotEmpty) //There are languages in his list
             {

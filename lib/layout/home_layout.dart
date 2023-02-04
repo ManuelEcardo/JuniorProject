@@ -217,7 +217,7 @@ class _HomeLayoutState extends State<HomeLayout> {
                   ),
                 ),
 
-                IconButton(onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny))
+                IconButton(onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny)),
 
               ],
             ),
