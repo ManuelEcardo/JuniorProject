@@ -57,6 +57,12 @@ class _SettingsState extends State<Settings> {
   }
 
   @override
+  void dispose()
+  {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(
         listener: (context,state)

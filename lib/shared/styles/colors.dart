@@ -17,3 +17,5 @@ import 'package:hexcolor/hexcolor.dart';
 // Color defaultHomeDarkColor=Colors.black38;
 
 Color defaultHomeDarkColor = HexColor('0c0c0d');
+
+Color defaultAlertDarkColor= HexColor('222223');

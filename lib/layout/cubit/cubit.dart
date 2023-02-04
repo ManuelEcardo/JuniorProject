@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:juniorproj/models/MainModel/dailyTip_model.dart';
 import 'package:juniorproj/models/MainModel/favourites_model.dart';
 import 'package:juniorproj/models/MainModel/languages_model.dart';
 import 'package:juniorproj/models/MainModel/leaderboards_model.dart';
@@ -809,6 +810,29 @@ class AppCubit extends Cubit<AppStates>
     return false;
   }
 
+  //-------------------------
+
+  DailyTipModel? dailyTipModel;
+
+  //Get Daily Tip.
+  void getTips()
+  {
+    print('Getting Tips');
+    emit(AppUserGetTipsLoadingState());
+
+    MainDioHelper.getData(
+        url: getTip,
+    ).then((value)
+    {
+      print('Got Tip, ${value.data}');
+      dailyTipModel=DailyTipModel.fromJson(value.data);
+      emit(AppUserGetTipsSuccessState());
+    }).catchError((error)
+    {
+      print('ERROR WHILE GETTING TIPS, ${error.toString()}');
+      emit(AppUserGetTipsErrorState());
+    });
+  }
 
 
   //-----------------

@@ -76,7 +76,12 @@ class ChangeProfilePicture extends StatelessWidget {
           ];
 
           return Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(
+              actions:
+              [
+                IconButton(onPressed: (){AppCubit.get(context).changeTheme();}, icon: const Icon(Icons.sunny)),
+              ],
+            ),
             body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsetsDirectional.all(24.0),

@@ -237,3 +237,11 @@ class AppUserSignOutLoadingState extends AppStates{}
 class AppUserSignOutSuccessState extends AppStates{}
 
 class AppUserSignOutErrorState extends AppStates{}
+
+// GET TIPS:
+
+class AppUserGetTipsLoadingState extends AppStates{}
+
+class AppUserGetTipsSuccessState extends AppStates{}
+
+class AppUserGetTipsErrorState extends AppStates{}

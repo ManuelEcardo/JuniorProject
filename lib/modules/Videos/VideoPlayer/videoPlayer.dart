@@ -82,6 +82,7 @@ class _VideoGetterState extends State<VideoGetter> with WidgetsBindingObserver
     );
 
   }
+
   // void updateSubtitleUrl({
   //   ExampleSubtitleLanguage? subtitleLanguage,
   // }) {

@@ -12,7 +12,6 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:string_extensions/string_extensions.dart';
 import '../../shared/network/local/cache_helper.dart';
-import '../Weekly_Tip/weekly_tip.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -53,6 +52,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose()
+  {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},
@@ -61,7 +66,7 @@ class _HomePageState extends State<HomePage> {
           var model=AppCubit.userModel;
           var cubit= AppCubit.get(context);
           return ConditionalBuilder(
-            condition: AppCubit.userModel !=null, //was AppCubit.userModel != null
+            condition: AppCubit.userModel !=null, // && cubit.dailyTipModel !=null,
             fallback: (context)=>const Center(child: CircularProgressIndicator(),),
             builder: (context)=>SingleChildScrollView(
               child: Padding(
@@ -75,23 +80,32 @@ class _HomePageState extends State<HomePage> {
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+
                           Row(
                             children: [
-                              GestureDetector(
-                                child: CircleAvatar(
-                                 backgroundColor: Colors.black12,
-                                 radius: 50,
-                                 backgroundImage: AssetImage(
-                                     'assets/images/${model!.user!.userPhoto}'), //assets/images/profile.jpg
-                              ),
-                                onTap: ()
-                                {
-                                  cubit.changeBottom(3);
-                                },
+                              Padding(
+                                padding: const EdgeInsetsDirectional.only(start: 4.0),
+                                child: GestureDetector(
+                                  child: CircleAvatar(
+                                   backgroundColor: Colors.black12,
+                                   radius: 50,
+                                   backgroundImage: AssetImage(
+                                       'assets/images/${model!.user!.userPhoto}',),
+
+                                   onBackgroundImageError: (object, strace)
+                                   {
+                                     print('Error while loading main photo in main page, ${object.toString()}');
+                                   },
+                                ),
+                                  onTap: ()
+                                  {
+                                    cubit.changeBottom(3);
+                                  },
+                                ),
                               ),
 
                               const SizedBox(
-                                width: 50,
+                                width: 40,
                               ),
 
                               Expanded(
@@ -110,11 +124,11 @@ class _HomePageState extends State<HomePage> {
                           ),
 
                           const SizedBox(
-                            height: 20,
+                            height: 15,
                           ),
 
                           Padding(
-                            padding: const EdgeInsetsDirectional.only(start:5 ),
+                            padding: const EdgeInsetsDirectional.only(start:4),
                             child: Text(
                               'Continue Where You Left Off?',
                               style: ordinaryTextStyle,
@@ -184,7 +198,7 @@ class _HomePageState extends State<HomePage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'Daily Tips',
+                            'Daily Tip  ${cubit.dailyTipModel!=null ? '- ${cubit.dailyTipModel!.category.capitalize}' : ''}',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: defaultHeadlineTextStyle,
@@ -197,7 +211,7 @@ class _HomePageState extends State<HomePage> {
                           Padding(
                             padding: const EdgeInsetsDirectional.only(start: 5),
                             child: Text(
-                              'Feel Lucky?',
+                              'Feeling Lucky Today?',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: ordinaryTextStyle,
@@ -217,38 +231,41 @@ class _HomePageState extends State<HomePage> {
                                     shapeBorder: const Border(),
                                     globalKey: challengeKey,
                                     title: 'Tips',
-                                    description: 'Daily Tips to help you out!',
+                                    description: 'Daily Tips to help you out and to enrich your knowledge!',
                                     child: defaultButton(
-                                        function: ()
-                                        async {
-                                          // navigateTo(context, const WeeklyTip());
-                                          await showDialog(
-                                              context: context,
-                                              builder: (context)
-                                          {
-                                            return defaultAlertDialog(
-                                              context: context,
-                                              title: "Today's Tip:",
-                                              content: SingleChildScrollView(
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children:
-                                                  const[
-                                                    Text('-Headline',),
-
-                                                    Text('-Data'),
-                                                  ],
-                                                ),
-                                              ),
+                                        function: ()async
+                                         {
+                                           if(cubit.dailyTipModel !=null)
+                                           {
+                                             await showDialog(
+                                                context: context,
+                                                builder: (context)
+                                                {
+                                                  return defaultAlertDialog(
+                                                    context: context,
+                                                    title: "${cubit.dailyTipModel!.category!.capitalize}",
+                                                    content: SingleChildScrollView(
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        children:
+                                                        [
+                                                          Text('-${cubit.dailyTipModel!.content}'),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
                                             );
-                                          },
-
-                                          );
+                                           }
+                                           else
+                                             {
+                                               defaultToast(msg: 'No Available Tips');
+                                             }
                                         },
 
-                                        text: 'Go Now !'
+                                        text: 'Check Your Tip'
                                     ),
                                   )),
                             ],
@@ -258,10 +275,12 @@ class _HomePageState extends State<HomePage> {
                     ),
 
                     const SizedBox(
-                      height: 20,
+                      height: 15,
                     ),
 
                     myDivider(c: goldenColor),
+
+                    const SizedBox(height: 4,),
 
                     SizedBox(
                       height: 125,
@@ -276,7 +295,9 @@ class _HomePageState extends State<HomePage> {
                               maxLines: 1,
                               style: defaultHeadlineTextStyle,
                             ),
+
                             const Spacer(),
+
                             Padding(
                                 padding: const EdgeInsetsDirectional.only(start: 10, top: 5),
                                 child: ShowCaseView(
@@ -300,24 +321,6 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                 )
-                              // Container(
-                              //   height: 80,
-                              //   width: 80,
-                              //   decoration: BoxDecoration(
-                              //       border: Border.all(
-                              //         color: Colors.grey,
-                              //       ),
-                              //       borderRadius:
-                              //           const BorderRadius.all(Radius.circular(40))),
-                              //   child: Center(
-                              //       child: Text(
-                              //     '75%',
-                              //     style: TextStyle(
-                              //       fontSize: 20,
-                              //       color: defaultFontColor,
-                              //     ),
-                              //   )),
-                              // ),
                             ),
                           ],
                         ),

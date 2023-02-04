@@ -286,9 +286,12 @@ Widget defaultAlertDialog(
   return AlertDialog(
     title: Text(
       title,
-      textAlign: TextAlign.center,),
+      textAlign: TextAlign.center,
+    ),
 
     content: content,
+
+    elevation: 50,
 
     contentTextStyle: TextStyle(
       fontSize: 18,
@@ -303,7 +306,8 @@ Widget defaultAlertDialog(
       fontFamily: 'Jannah',
     ),
 
-    backgroundColor: AppCubit.get(context).isDarkTheme? defaultHomeDarkColor : defaultHomeColor,
+    backgroundColor: AppCubit.get(context).isDarkTheme? defaultAlertDarkColor: defaultHomeColor,
+
 
   );
 }

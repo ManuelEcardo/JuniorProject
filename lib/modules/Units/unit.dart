@@ -7,15 +7,11 @@ import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/models/MainModel/content_model.dart';
 import 'package:juniorproj/modules/Exam/exam.dart';
 import 'package:juniorproj/modules/Lessons/UnitLessons.dart';
-// import 'package:juniorproj/modules/Lessons/lesson.dart';
 import 'package:juniorproj/modules/Units/unitOverview.dart';
 import 'package:juniorproj/modules/Videos/UnitsVideos.dart';
-// import 'package:juniorproj/modules/Videos/VideoPlayer/videoPlayer.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
-
 import '../Lessons/Curve Painter/CurvePainter.dart';
-// import 'package:showcaseview/showcaseview.dart';
 
 class Unit extends StatefulWidget {
 
@@ -34,6 +30,12 @@ class _UnitState extends State<Unit> {
   void initState()
   {
     super.initState();
+  }
+
+  @override
+  void dispose()
+  {
+    super.dispose();
   }
 
   @override

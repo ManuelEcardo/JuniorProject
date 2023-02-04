@@ -52,6 +52,12 @@ class _YoutubeHomePageState extends State<YoutubeHomePage> {
   }
 
   @override
+  void dispose()
+  {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<YoutubeCubit,YoutubeStates>(
         listener: (context,state)
