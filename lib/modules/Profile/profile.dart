@@ -24,11 +24,11 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   var formKey = GlobalKey<FormState>();
 
-  var emailController = TextEditingController();
-
-  var lastNameController = TextEditingController();
-
-  var firstNameController = TextEditingController();
+  // var emailController = TextEditingController();
+  //
+  // var lastNameController = TextEditingController();
+  //
+  // var firstNameController = TextEditingController();
 
   //Four Global keys for ShowCaseView
   final GlobalKey settingsGlobalKey = GlobalKey();

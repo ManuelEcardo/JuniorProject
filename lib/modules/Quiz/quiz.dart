@@ -665,7 +665,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
             Center(
               child: CachedNetworkImage(
                 imageUrl: questionModel.link!=null ? questionModel.link! : '',
-                width: 250,
+                width: 350,
                 height: 250,
                 fit: BoxFit.contain,
                 placeholder: (context,url)=>const Center(child: CircularProgressIndicator()),

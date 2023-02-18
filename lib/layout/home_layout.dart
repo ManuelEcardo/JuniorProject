@@ -61,7 +61,7 @@ class _HomeLayoutState extends State<HomeLayout> {
 
                 onLongPress: ()  //TBD, for developing now
                 {
-                  signOut(context);
+                  // signOut(context);
                 },
                   child: SvgPicture.asset(
                     'assets/images/logo.svg',

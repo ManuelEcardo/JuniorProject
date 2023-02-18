@@ -93,7 +93,7 @@ class Lessons
 
     question=json['question'];
     answer=json['answer'];
-    choice1=json['choice1'];
+    choice1=json['choice'];
   }
 
 }

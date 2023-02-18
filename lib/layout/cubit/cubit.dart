@@ -26,6 +26,9 @@ import '../../shared/components/components.dart';
 import '../../shared/components/constants.dart';
 import '../../shared/network/end_points.dart';
 
+
+// SOMEHOW ALL REQUESTS NOW NEEDS TO HAVE A BEARER TOKEN ADDED; AFTER AN UPDATE IN THE BACK-END.
+
 class AppCubit extends Cubit<AppStates>
 {
   AppCubit(): super(AppInitialState());
@@ -485,7 +488,7 @@ class AppCubit extends Cubit<AppStates>
     {
       print('ERROR IN GETTING UNIT $unitId CONTENT, ${error.toString()}');
 
-      emit(AppGetLanguagesErrorState());
+      emit(AppGetUnitContentErrorState());
     });
   }
 
@@ -588,7 +591,7 @@ class AppCubit extends Cubit<AppStates>
     userPhoto ==null ? photo=userModel!.user!.userPhoto : photo=userPhoto;
 
     MainDioHelper.patchData(
-        url: '$profile/${userModel!.user!.id}',
+        url: '$profile/update', //'$profile/${userModel!.user!.id}',
         data:
         {
           'first_name':fname,
@@ -597,6 +600,7 @@ class AppCubit extends Cubit<AppStates>
           'birth_date': userModel!.user!.birthDate,
           'user_photo': photo,
         },
+      token: token,
     ).then((value)
     {
       userData(); //To Update the current values.
