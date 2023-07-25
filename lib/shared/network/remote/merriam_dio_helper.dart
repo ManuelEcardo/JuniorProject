@@ -11,8 +11,8 @@ class MerriamDioHelper
       BaseOptions(
         baseUrl: 'https://www.dictionaryapi.com/api/',   // Merriam Webster default url.
         receiveDataWhenStatusError: true,
-        receiveTimeout:50000,
-        connectTimeout: 30000,
+        // receiveTimeout: Duration.zero,
+        // connectTimeout: Duration.zero,
       ),
     );
   }

@@ -138,7 +138,7 @@ class _SettingsState extends State<Settings> {
                             alignment: AlignmentDirectional.topStart,
                             child: Text(
                               'Change your first and last name',
-                              style: Theme.of(context).textTheme.subtitle1?.copyWith
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith
                                 (color: Colors.grey),
                             ),
                           ),

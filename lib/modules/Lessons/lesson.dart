@@ -6,8 +6,6 @@ import 'package:juniorproj/layout/cubit/cubit.dart';
 import 'package:juniorproj/layout/cubit/states.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
-import 'package:string_extensions/string_extensions.dart';
-
 import '../../models/MainModel/content_model.dart';
 
 //ignore: must_be_immutable

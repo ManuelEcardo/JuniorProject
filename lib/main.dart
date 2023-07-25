@@ -28,7 +28,6 @@ import 'package:swipedetector_nullsafety/swipedetector_nullsafety.dart';
 import 'layout/cubit/states.dart';
 import 'layout/home_layout.dart';
 import 'models/MainModel/userAchievements_model.dart';
-import 'modules/Videos/VideoPlayer/cubit/cubit.dart';
 
 
 void main() async {

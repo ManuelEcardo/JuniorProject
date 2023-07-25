@@ -4,7 +4,7 @@ import 'package:juniorproj/modules/Login/login_screen.dart';
 import 'package:juniorproj/shared/components/components.dart';
 import 'package:juniorproj/shared/network/local/cache_helper.dart';
 import 'package:juniorproj/shared/styles/colors.dart';
-import 'package:material_dialogs/material_dialogs.dart';
+import 'package:lottie/lottie.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingModel

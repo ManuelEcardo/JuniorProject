@@ -10,9 +10,9 @@ class YoutubeDioHelper
     dio=Dio(
       BaseOptions(
         baseUrl: 'https://www.googleapis.com/youtube/v3/',   // Youtube API default url.
-        receiveDataWhenStatusError: true,
-        receiveTimeout:50000,
-        connectTimeout: 30000,
+        // receiveDataWhenStatusError: true,
+        // receiveTimeout: Duration.zero,
+        // connectTimeout: Duration.zero,
         validateStatus: (_)=>true,
       ),
     );

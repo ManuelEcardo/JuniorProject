@@ -111,14 +111,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       [
                         Text(
                           'LOGIN',
-                          style: Theme.of(context).textTheme.headline5,
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
 
                         const SizedBox(height: 5,),
 
                         Text(
                           'It\'s Time To Learn a New Language!',
-                          style: Theme.of(context).textTheme.subtitle1?.copyWith
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith
                             (color: Colors.grey),
                         ),
 

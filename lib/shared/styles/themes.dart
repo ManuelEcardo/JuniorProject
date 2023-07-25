@@ -48,9 +48,6 @@ ThemeData lightTheme(context) => ThemeData(
 
 
 ThemeData darkTheme(context)=> ThemeData(
-
-    backgroundColor: defaultHomeDarkColor,
-    primarySwatch: defaultDarkColor,
     scaffoldBackgroundColor: defaultHomeDarkColor,
     appBarTheme:  AppBarTheme(
       titleSpacing: 16.0,
@@ -136,6 +133,6 @@ ThemeData darkTheme(context)=> ThemeData(
       fontFamily: 'Jannah',
       displayColor: Colors.white,
 
-    )
+    ), colorScheme: ColorScheme.fromSwatch(primarySwatch: defaultDarkColor).copyWith(background: defaultHomeDarkColor)
 
 );

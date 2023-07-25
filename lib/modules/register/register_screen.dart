@@ -108,14 +108,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       [
                         Text(
                           'REGISTER',
-                          style: Theme.of(context).textTheme.headline5,
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
 
                         const SizedBox(height: 5,),
 
                         Text(
                           'Register NOW to stay ahead of everyone in every language!',
-                          style: Theme.of(context).textTheme.subtitle1?.copyWith
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith
                             (color: Colors.grey),
                         ),
 

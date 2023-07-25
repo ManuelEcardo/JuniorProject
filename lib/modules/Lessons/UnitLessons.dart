@@ -21,7 +21,7 @@ class UnitLessons extends StatelessWidget {
         listener: (context,state){},
         builder: (context,state)
         {
-          var userModel= AppCubit.userModel;
+          // var userModel= AppCubit.userModel;
           return Scaffold(
             appBar: AppBar(
               actions:

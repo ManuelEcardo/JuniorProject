@@ -11,7 +11,6 @@ import 'package:juniorproj/shared/styles/styles.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:string_extensions/string_extensions.dart';
-import '../../shared/network/local/cache_helper.dart';
 
 class HomePage extends StatefulWidget {
 

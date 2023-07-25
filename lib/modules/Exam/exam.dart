@@ -24,7 +24,7 @@ class Exam extends StatelessWidget {
         listener: (context,state){},
         builder: (context,state)
         {
-          var cubit= AppCubit.get(context);
+          // var cubit= AppCubit.get(context);
           var userModel= AppCubit.userModel;
           return Scaffold(
             appBar: AppBar(
